@@ -3,19 +3,56 @@
 import globalConfig from './global-config.js';
 import SystemState from './state-machine.js';
 
-game.pyshics.startSystem(Phaser.Physics.ARCADE);
-
 class MainScene extends Phaser.Scene {
     init() {
         console.log("Main Scene Init");
     }
     create() {
         // What to create?
-        this.map = this.game.add.tilemap('testLevel');
-        this.map.addTilesetImage('White Tiles', 'gameTiles')
+        var map = this.make.tilemap({key: 'map'});
+
+        var tiles = map.addTilesetImage('White Tiles', 'tiles');
+        var slimeBlock = map.addTilesetImage('Player', 'slimeBlock');
+        var floor = map.createStaticLayer('Tile Layer 1', tiles, 0,0);
+        var obstacles = map.createStaticLayer('Tile Layer 2', slimeBlock, 0,0);
+        obstacles.setCollisionByExclusion([-1]);
+
+        this.player = this.physics.add.sprite(50,100, 'player', 0);
+
+        this.physics.world.bounds.width = map.widthInPixels;
+        this.physics.world.bounds.height = map.heightInPixels;
+        this.player.setCollideWorldBounds(true);
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.roundPixels=true;
+
+        this.physics.add.collider(this.player, obstacles);
     }
     update(time, delta) {
-        
+        this.player.body.setVelocity(0);
+
+        // Horizontal movement
+        if (this.cursors.left.isDown)
+        {
+            this.player.body.setVelocityX(-160);
+        }
+        else if (this.cursors.right.isDown)
+        {
+            this.player.body.setVelocityX(160);
+        }
+
+        // Vertical movement
+        if (this.cursors.up.isDown)
+        {
+            this.player.body.setVelocityY(-160);
+        }
+        else if(this.cursors.down.isDown)
+        {
+            this.player.body.setVelocityY(160);
+        }
     }
 }
 
