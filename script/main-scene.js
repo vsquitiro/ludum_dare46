@@ -25,10 +25,9 @@ class MainScene extends Phaser.Scene {
         });
 
         var testObj = map.createFromObjects('Object Layer 1',59,{key:'player'});
+       // testObj.setCollisionByExclusion([-1]);
 
         this.anims.play('blop', testObj);
-//        testObj.callAll('animations.add','animations','blop',[2,3],10,true);
- //       testObj.callAll('animations.play','animations','spin');
 
         this.player = this.physics.add.sprite(50,100, 'player', 0);
 
@@ -37,6 +36,12 @@ class MainScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.cursors = this.input.keyboard.addKeys(
+            {up:Phaser.Input.Keyboard.KeyCodes.W,
+            down:Phaser.Input.Keyboard.KeyCodes.S,
+            left:Phaser.Input.Keyboard.KeyCodes.A,
+            right:Phaser.Input.Keyboard.KeyCodes.D}
+            );
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player);
