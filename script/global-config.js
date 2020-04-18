@@ -1,12 +1,15 @@
 const screenWidth = 800;
 const screenHeight = 600;
 
+const vatLevels = [
+    {
+        maxUnits: 100,
+        drainRate: 5,
+    }
+];
+
 const godLevels = [
     {
-        vat: {
-            maxUnits: 100,
-            drainRate: 5,
-        },
         maxHunger: 100,
     }
 ];
@@ -32,6 +35,7 @@ const minionLevels = [
 export default {
     screenWidth,
     screenHeight,
+    vatLevels,
     godLevels,
     farmLevels,
     inventoryLevels,
@@ -41,6 +45,7 @@ export default {
 export {
     screenWidth,
     screenHeight,
+    vatLevels,
     godLevels,
     farmLevels,
     inventoryLevels,

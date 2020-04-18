@@ -27,7 +27,6 @@ class OverlayScene extends Phaser.Scene {
             this.vatBarBG.visible = true;
             this.vatBarInner.visible = true;
         }
-        SystemState.updateVatLevel(delta);
         const vatState = SystemState.getCurrentVatState();
         this.vatBarInner.width = (width - 4) * vatState.percentage;
     }

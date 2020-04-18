@@ -50,6 +50,8 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, obstacles);
     }
     update(time, delta) {
+        SystemState.simulation.updateSimulation(delta);
+
         this.player.body.setVelocity(0);
 
         // Horizontal movement
