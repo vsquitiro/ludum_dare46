@@ -9,6 +9,7 @@ export class Simulation {
             delta = delta/1000;
             this.updateVatLevel(delta);
             this.updateGod(delta);
+            this.updateFarms(delta);
         }
     }
 
@@ -50,5 +51,10 @@ export class Simulation {
         console.log("winState: win: " + SystemState.winState.win);
         console.log("winState lose: " + SystemState.winState.lose);
         console.log("God Level: " + SystemState.god.level);
+    }
+
+    updateFarms(delta) {
+        const farmsState = SystemState.getCurrentFarmsStates();
+        farmState.plots.
     }
 }
