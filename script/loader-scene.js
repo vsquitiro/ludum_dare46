@@ -28,6 +28,10 @@ class Loader extends Phaser.Scene {
     preload() {
         console.log("Loader Preload");
         // Add all assets to be loaded here.
+        this.load.tilemap('testLevel', 'assets/testMap.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.image('gameTiles', 'assets/whiteTiles.png');
+        this.load.image('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
+
         this.load.spritesheet('mass','assets/SlimeTiles.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('border','assets/bordertileset.png', {frameWidth: 32, frameHeight: 32});
 
