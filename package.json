@@ -1,19 +1,19 @@
 {
-  "name": "ludum_dare45",
+  "name": "ludum_dare46",
   "version": "1.0.0",
-  "description": "Ludum Dare 45 Project",
+  "description": "Ludum Dare 46 Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vsquitiro/ludum_dare45.git"
+    "url": "git+https://github.com/vsquitiro/ludum_dare46.git"
   },
-  "author": "Vinnie Squitiro, Chris Rock, Rory",
+  "author": "Vinnie Squitiro, Chris Rock, Rory, Erin Rock",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vsquitiro/ludum_dare45/issues"
+    "url": "https://github.com/vsquitiro/ludum_dare46/issues"
   },
-  "homepage": "https://github.com/vsquitiro/ludum_dare45#readme"
+  "homepage": "https://github.com/vsquitiro/ludum_dare46#readme"
 }
