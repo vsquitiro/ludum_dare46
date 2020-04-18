@@ -30,6 +30,7 @@ const SystemState = new StateMachine({
             level: 0,
             exp: 0,
             hunger: 0,
+            tantrum: false,
         },
         minions: {
             count: 0,
@@ -57,6 +58,13 @@ const SystemState = new StateMachine({
             vatState.percentage = vatState.currentUnits / vatState.maxUnits;
             return vatState;
         },
+
+        getCurrentGodState: function() {
+            const godState = {...this.god};
+            Object.assign(godState, globalConfig.godLevels[this.god.level]);
+            godState.hungerPercentage = godState.hunger/godState.maxHunger;
+            return godState;
+        }
 
         // Transition handlers
         onLeaveMenu: function() {

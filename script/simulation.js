@@ -8,6 +8,7 @@ export class Simulation {
         if (SystemState.runSimulation) {
             delta = delta/1000;
             this.updateVatLevel(delta);
+            this.updateGod(delta);
         }
     }
 
@@ -15,5 +16,16 @@ export class Simulation {
         const vatState = SystemState.getCurrentVatState();
         const updatedUnits = vatState.currentUnits - (vatState.drainRate * delta);
         SystemState.vat.currentUnits = Math.max(0, updatedUnits);
+    }
+
+    updateGod(delta) {
+        const godState = SystemState.getCurrentGotState();
+        const updatedHunger = godState.hunger + (godState.hungerRate * delta);
+        SystemState.god.hunger = Math.max(0, updatedHunger);
+        if(updatedHunger>godState.tantrumThreshold) {
+            SystemState.god.tantrum = true;
+        }
+        console.log("God Hunger: " + SystemState.god.hunger);
+        console.log("Tantrum: " + SystemState.god.tantrum);
     }
 }

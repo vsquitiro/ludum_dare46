@@ -4,13 +4,17 @@ const screenHeight = 600;
 const vatLevels = [
     {
         maxUnits: 100,
-        drainRate: 5,
+        drainRate: 0.5,
     }
 ];
 
 const godLevels = [
     {
+        tnl: 30,
         maxHunger: 100,
+        hungerRate: 1,
+        tantrumThreshold: 50,
+        tantrum: false,
     }
 ];
 
