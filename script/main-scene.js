@@ -45,28 +45,40 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, obstacles);
     }
     update(time, delta) {
+        const { playerVelocity } = globalConfig;
+        const gamepad = this.input.gamepad.getPad(0);
         SystemState.simulation.updateSimulation(delta);
 
         this.player.body.setVelocity(0);
 
         // Horizontal movement
-        if (this.cursors.left.isDown)
+        if (this.cursors.left.isDown || (gamepad && gamepad.left))
         {
-            this.player.body.setVelocityX(-160);
+            this.player.body.setVelocityX(-playerVelocity);
         }
-        else if (this.cursors.right.isDown)
+        else if (this.cursors.right.isDown || (gamepad && gamepad.right))
         {
-            this.player.body.setVelocityX(160);
+            this.player.body.setVelocityX(playerVelocity);
         }
 
         // Vertical movement
-        if (this.cursors.up.isDown)
+        if (this.cursors.up.isDown || (gamepad && gamepad.up))
         {
-            this.player.body.setVelocityY(-160);
+            this.player.body.setVelocityY(-playerVelocity);
         }
-        else if(this.cursors.down.isDown)
+        else if(this.cursors.down.isDown || (gamepad && gamepad.down))
         {
-            this.player.body.setVelocityY(160);
+            this.player.body.setVelocityY(playerVelocity);
+        }
+
+        if (gamepad) {
+            const stickPos = gamepad.leftStick;
+            if (Math.abs(stickPos.x) > .1) {
+                this.player.body.setVelocityX(stickPos.x * playerVelocity);
+            }
+            if (Math.abs(stickPos.y) > .1) {
+                this.player.body.setVelocityY(stickPos.y * playerVelocity);
+            }
         }
     }
 }
