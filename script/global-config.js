@@ -1,6 +1,8 @@
 const screenWidth = 800;
 const screenHeight = 600;
 
+const playerVelocity = 160;
+
 const vatLevels = [
     {
         //change for final game
@@ -66,6 +68,7 @@ const minionLevels = [
 export default {
     screenWidth,
     screenHeight,
+    playerVelocity,
     vatLevels,
     godLevels,
     farmLevels,
@@ -76,6 +79,7 @@ export default {
 export {
     screenWidth,
     screenHeight,
+    playerVelocity,
     vatLevels,
     godLevels,
     farmLevels,

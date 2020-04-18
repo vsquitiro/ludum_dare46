@@ -15,6 +15,9 @@ const gameConfig = {
         arcadE: {
             gravity: {y:0}
         }
+    },
+    input: {
+        gamepad: true,
     }
 };
 
