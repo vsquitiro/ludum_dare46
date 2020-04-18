@@ -43,6 +43,10 @@ class MainScene extends Phaser.Scene {
             right:Phaser.Input.Keyboard.KeyCodes.D}
             );
 
+        this.debugKey = this.input.keyboard.addKeys(
+            {feed:Phaser.Input.Keyboard.KeyCodes.F}
+            );
+
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.roundPixels=true;
@@ -72,6 +76,12 @@ class MainScene extends Phaser.Scene {
         else if(this.cursors.down.isDown)
         {
             this.player.body.setVelocityY(160);
+        }
+
+        if (this.debugKey.feed.isDown)
+        {
+            SystemState.god.hunger = Math.max(0, SystemState.god.hunger - 1);
+            SystemState.god.exp += .5;
         }
     }
 }

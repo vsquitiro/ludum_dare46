@@ -23,8 +23,12 @@ const SystemState = new StateMachine({
         game: null,
         showBar: true,
         runSimulation: true,
+        winState: {
+            win: false,
+            lose: false,
+        },
         vat: {
-            currentUnits: 100,
+            currentUnits: 1000,
         },
         god: {
             level: 0,
@@ -34,6 +38,9 @@ const SystemState = new StateMachine({
         },
         minions: {
             count: 0,
+            level: 0,
+        },
+        pod: {
             level: 0,
         },
         farm: {
@@ -64,7 +71,7 @@ const SystemState = new StateMachine({
             Object.assign(godState, globalConfig.godLevels[this.god.level]);
             godState.hungerPercentage = godState.hunger/godState.maxHunger;
             return godState;
-        }
+        },
 
         // Transition handlers
         onLeaveMenu: function() {
