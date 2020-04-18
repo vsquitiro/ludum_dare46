@@ -159,9 +159,15 @@ class MainScene extends Phaser.Scene {
         };
 
         if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {
-            console.log("ACCEPT!");
-            if (this.nearest) {
-                
+            if (SystemState.message.current) {
+                if (SystemState.message.playing) {
+                    SystemState.skipMessage();
+                } else {
+                    SystemState.dismissMessage();
+                }
+            }
+            else if (this.nearest) {
+                SystemState.displayMessage("You don't have a seed, dipshit")
             }
         }
 

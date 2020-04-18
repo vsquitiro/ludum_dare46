@@ -33,6 +33,7 @@ class Loader extends Phaser.Scene {
         this.load.spritesheet('sprites', 'assets/placeholdersprite.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('slimeBlock', 'assets/Characterslimes.png');
         this.load.spritesheet('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
+        this.load.image('textBox', 'assets/text-box.png');
 
         //Sounds
         this.load.audio('error1', 'assets/Error1.mp3');

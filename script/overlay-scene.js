@@ -11,6 +11,8 @@ const height = 40;
 class OverlayScene extends Phaser.Scene {
     init() {
         console.log("Overlay Scene Init");
+        this.timeSinceLastLetter = 0;
+        this.timePerLetter = 50;
     }
     create() {
         this.vatBarBG = this.add.rectangle(center, border, width, height, 0x000000);
@@ -23,7 +25,21 @@ class OverlayScene extends Phaser.Scene {
         this.vatBarInner.setOrigin(0, 0);
         this.vatBarInner.visible = false;
         this.vatBarInner.depth = 100;
+
+        this.messageBox = this.add.sprite(border, 400, 'textBox');
+        this.messageBox.setOrigin(0, 0);
+        this.messageBox.displayWidth = globalConfig.screenWidth - border * 2;
+        this.messageBox.displayHeight = this.messageBox.displayWidth * .22;
+        this.messageBox.visible = false;
+        
+        this.message = this.add.text(250, 425, '');
+        this.message.setOrigin(0, 0);
+        this.message.setFontSize(25);
+        this.message.setColor('black');
+        this.message.width = 550;
+        this.message.height = 150;
     }
+
     update(time, delta) {
         if (SystemState.showBar) {
             this.vatBarBG.visible = true;
@@ -38,6 +54,34 @@ class OverlayScene extends Phaser.Scene {
             this.vatBarBG.depth = 90;
         }
         this.vatBarInner.width = (this.vatBarBG.width - 4) * vatState.percentage;
+
+        this.showMessage(delta);
+    }
+
+    showMessage(delta) {
+        if (SystemState.message.current) {
+            this.messageBox.visible = true;
+            this.message.visible = true;
+
+            this.message.text = SystemState.message.current.slice(0, SystemState.message.shown);
+
+            if (SystemState.message.playing && !SystemState.isPaused) {
+                // make sure beeps are playing
+                this.timeSinceLastLetter += delta;
+                if (this.timeSinceLastLetter >= this.timePerLetter) {
+                    this.timeSinceLastLetter -= this.timePerLetter;
+                    SystemState.message.shown += 1;
+
+                    if (SystemState.message.shown >= SystemState.message.current.length) {
+                        SystemState.message.playing = false;
+                    }
+                }
+            }
+        } else {
+            this.timeSinceLastLetter = 0;
+            this.messageBox.visible = false;
+            this.message.visible = false;
+        }
     }
 }
 

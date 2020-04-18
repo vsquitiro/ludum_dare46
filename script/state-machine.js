@@ -78,6 +78,11 @@ const SystemState = new StateMachine({
             item1: 0,
             item2: 0,
         },
+        message: {
+            current: null,
+            shown: 0,
+            playing: false,
+        },
         simulation: new Simulation(),
     },
     methods: {
@@ -90,14 +95,12 @@ const SystemState = new StateMachine({
             vatState.percentage = vatState.currentUnits / vatState.maxUnits;
             return vatState;
         },
-
         getCurrentGodState: function() {
             const godState = {...this.god};
             Object.assign(godState, globalConfig.godLevels[this.god.level]);
             godState.hungerPercentage = godState.hunger/godState.maxHunger;
             return godState;
         },
-
         getCurrentFarmState: function() {
             const farmState = {...this.farm};
             farmState.plots.forEach((value,idx) => {
@@ -106,6 +109,23 @@ const SystemState = new StateMachine({
             });
             Object.assign(farmState, globalConfig.farmLevels[this.farm.level])
             return farmState;
+        },
+
+        displayMessage: function(message) {
+            this.message.current = message;
+            this.message.shown = 0;
+            this.message.playing = true;
+        },
+        skipMessage: function() {
+            if (this.message.current) {
+                this.message.shown = this.message.current.length;
+                this.message.playing = false;
+            }
+        },
+        dismissMessage: function() {
+            this.message.current = null;
+            this.message.shown = 0;
+            this.message.playing = false;
         },
 
         // Transition handlers
