@@ -51,17 +51,6 @@ const SystemState = new StateMachine({
         farm: {
             plots: [
             //{exp:0,planted:false,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
-            {
-                exp:0,
-                planted:false,
-                harvest:false,
-                progress:0,
-                currentUnits:0,
-                fert:false,
-                fertTimeRemain:0,
-                farmLevel:0,
-                irrigationLevel:0,
-            }
             ]
         },
         fountain: {
@@ -126,6 +115,20 @@ const SystemState = new StateMachine({
             this.message.current = null;
             this.message.shown = 0;
             this.message.playing = false;
+        },
+
+        addPlot() {
+            this.farm.plots.push({
+                exp:0,
+                planted:false,
+                harvest:false,
+                progress:0,
+                currentUnits:0,
+                fert:false,
+                fertTimeRemain:0,
+                farmLevel:0,
+                irrigationLevel:0,
+            });
         },
 
         // Transition handlers

@@ -9,14 +9,17 @@ class MainScene extends Phaser.Scene {
     }
     create() {
         // What to create?
-        var map = this.make.tilemap({key: 'map'});
+        const map = this.make.tilemap({key: 'map'});
 
-        var tiles = map.addTilesetImage('White Tiles', 'tiles');
-        var sprites = map.addTilesetImage('placeholder', 'sprites');
-        var slimeBlock = map.addTilesetImage('Player', 'slimeBlock');
-        var floor = map.createStaticLayer('Floor Layer', tiles, 0,0);
-        var walls = map.createStaticLayer('Wall Layer', tiles, 0,0);
+        const tiles = map.addTilesetImage('White Tiles', 'tiles');
+        const sprites = map.addTilesetImage('placeholder', 'sprites');
+        const slimeBlock = map.addTilesetImage('Player', 'slimeBlock');
+        const floor = map.createStaticLayer('Floor Layer', tiles, 0,0);
+        const walls = map.createStaticLayer('Wall Layer', tiles, 0,0);
         walls.setCollisionByExclusion([-1]);
+
+        const vatLevel0 = map.createStaticLayer('Vat Level 0', sprites, 0, 0);
+        vatLevel0.setCollisionByExclusion([-1]);
 
         this.anims.create({
             key:'blop',
@@ -27,6 +30,10 @@ class MainScene extends Phaser.Scene {
 
         this.plots = map.createFromObjects('Plots', 63, {key: 'sprites', frame: 2});
         this.physics.world.enable(this.plots);
+        this.plots.forEach((plot, index) => {
+            SystemState.addPlot();
+            plot.plotIndex = index;
+        });
 
         this.target = this.add.rectangle(0, 0, 32, 32);
         this.target.setStrokeStyle(4, 0xffffff);
@@ -44,6 +51,7 @@ class MainScene extends Phaser.Scene {
         this.cameras.main.roundPixels=true;
 
         this.physics.add.collider(this.player, walls);
+        this.physics.add.collider(this.player, vatLevel0);
         this.physics.add.overlap(this.player, this.plots);
 
         this.createInput();
@@ -77,8 +85,10 @@ class MainScene extends Phaser.Scene {
             accept: false,
         };
     }
+
     update(time, delta) {
         SystemState.simulation.updateSimulation(delta);
+
         this.handleMovementInput();
         this.handleUIInput();
         this.handleInteractionInput();
@@ -86,38 +96,40 @@ class MainScene extends Phaser.Scene {
     }
 
     handleMovementInput() {
-        const { playerVelocity } = globalConfig;
-        const gamepad = this.input.gamepad.getPad(0);
-
         this.player.body.setVelocity(0);
 
-        // Horizontal movement
-        if (this.cursors.left.isDown || this.wasd.left.isDown || (gamepad && gamepad.left))
-        {
-            this.player.body.setVelocityX(-playerVelocity);
-        }
-        else if (this.cursors.right.isDown || this.wasd.right.isDown || (gamepad && gamepad.right))
-        {
-            this.player.body.setVelocityX(playerVelocity);
-        }
+        if (SystemState.allowMovement) {
+            const { playerVelocity } = globalConfig;
+            const gamepad = this.input.gamepad.getPad(0);
 
-        // Vertical movement
-        if (this.cursors.up.isDown || this.wasd.up.isDown || (gamepad && gamepad.up))
-        {
-            this.player.body.setVelocityY(-playerVelocity);
-        }
-        else if(this.cursors.down.isDown || this.wasd.down.isDown || (gamepad && gamepad.down))
-        {
-            this.player.body.setVelocityY(playerVelocity);
-        }
-
-        if (gamepad) {
-            const stickPos = gamepad.leftStick;
-            if (Math.abs(stickPos.x) > .1) {
-                this.player.body.setVelocityX(stickPos.x * playerVelocity);
+            // Horizontal movement
+            if (this.cursors.left.isDown || this.wasd.left.isDown || (gamepad && gamepad.left))
+            {
+                this.player.body.setVelocityX(-playerVelocity);
             }
-            if (Math.abs(stickPos.y) > .1) {
-                this.player.body.setVelocityY(stickPos.y * playerVelocity);
+            else if (this.cursors.right.isDown || this.wasd.right.isDown || (gamepad && gamepad.right))
+            {
+                this.player.body.setVelocityX(playerVelocity);
+            }
+
+            // Vertical movement
+            if (this.cursors.up.isDown || this.wasd.up.isDown || (gamepad && gamepad.up))
+            {
+                this.player.body.setVelocityY(-playerVelocity);
+            }
+            else if(this.cursors.down.isDown || this.wasd.down.isDown || (gamepad && gamepad.down))
+            {
+                this.player.body.setVelocityY(playerVelocity);
+            }
+
+            if (gamepad) {
+                const stickPos = gamepad.leftStick;
+                if (Math.abs(stickPos.x) > .2) {
+                    this.player.body.setVelocityX(stickPos.x * playerVelocity);
+                }
+                if (Math.abs(stickPos.y) > .2) {
+                    this.player.body.setVelocityY(stickPos.y * playerVelocity);
+                }
             }
         }
     }
@@ -150,35 +162,46 @@ class MainScene extends Phaser.Scene {
     }
 
     handleInteractionInput() {
-        const gamepad = this.input.gamepad.getPad(0);
-        const curPadState = {
-            accept: gamepad && gamepad.buttons[0].value === 1,
-        };
-        const curKeyState = {
-            accept: this.interaction.accept.isDown
-        };
+        if (SystemState.allowInteraction) {
+            const gamepad = this.input.gamepad.getPad(0);
+            const curPadState = {
+                accept: gamepad && gamepad.buttons[0].value === 1,
+            };
+            const curKeyState = {
+                accept: this.interaction.accept.isDown
+            };
 
-        if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {
-            if (SystemState.message.current) {
-                if (SystemState.message.playing) {
-                    SystemState.skipMessage();
-                } else {
-                    SystemState.dismissMessage();
+            if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {
+                if (SystemState.message.current) {
+                    if (SystemState.message.playing) {
+                        SystemState.skipMessage();
+                    } else {
+                        SystemState.dismissMessage();
+                    }
+                }
+                else if (this.nearest) {
+                    SystemState.displayMessage("You don't have a seed, dipshit")
                 }
             }
-            else if (this.nearest) {
-                SystemState.displayMessage("You don't have a seed, dipshit")
-            }
-        }
 
-        this.previousPadState = {
-            ...this.previousPadState,
-            ...curPadState,
-        };
-        this.previousKeyState = {
-            ...this.previousKeyState,
-            ...curKeyState,
-        };
+            this.previousPadState = {
+                ...this.previousPadState,
+                ...curPadState,
+            };
+            this.previousKeyState = {
+                ...this.previousKeyState,
+                ...curKeyState,
+            };
+        } else {
+            this.previousPadState = {
+                ...this.previousPadState,
+                accept: false,
+            };
+            this.previousKeyState = {
+                ...this.previousKeyState,
+                accept: false,
+            };
+        }
     }
 
     detectOverlap() {
