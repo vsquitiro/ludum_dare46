@@ -12,10 +12,11 @@ class MainScene extends Phaser.Scene {
         var map = this.make.tilemap({key: 'map'});
 
         var tiles = map.addTilesetImage('White Tiles', 'tiles');
+        var sprites = map.addTilesetImage('placeholder', 'sprites');
         var slimeBlock = map.addTilesetImage('Player', 'slimeBlock');
-        var floor = map.createStaticLayer('Tile Layer 1', tiles, 0,0);
-        var obstacles = map.createStaticLayer('Tile Layer 2', slimeBlock, 0,0);
-        obstacles.setCollisionByExclusion([-1]);
+        var floor = map.createStaticLayer('Floor Layer', tiles, 0,0);
+        var walls = map.createStaticLayer('Wall Layer', tiles, 0,0);
+        walls.setCollisionByExclusion([-1]);
 
         this.anims.create({
             key:'blop',
@@ -24,10 +25,13 @@ class MainScene extends Phaser.Scene {
             repeat: -1
         });
 
-        var testObj = map.createFromObjects('Object Layer 1',59,{key:'player'});
-       // testObj.setCollisionByExclusion([-1]);
+        this.plots = map.createFromObjects('Plots', 63, {key: 'sprites', frame: 2});
+        this.physics.world.enable(this.plots);
 
-        this.anims.play('blop', testObj);
+        this.target = this.add.rectangle(0, 0, 32, 32);
+        this.target.setStrokeStyle(4, 0xffffff);
+        this.target.visible = false;
+        this.target.isFilled = false;
 
         this.player = this.physics.add.sprite(50,100, 'player', 0);
 
@@ -35,6 +39,16 @@ class MainScene extends Phaser.Scene {
         this.physics.world.bounds.height = map.heightInPixels;
         this.player.setCollideWorldBounds(true);
 
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.roundPixels=true;
+
+        this.physics.add.collider(this.player, walls);
+        this.physics.add.overlap(this.player, this.plots);
+
+        this.createInput();
+    }
+    createInput() {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.wasd = this.input.keyboard.addKeys(
             {up:Phaser.Input.Keyboard.KeyCodes.W,
@@ -57,17 +71,13 @@ class MainScene extends Phaser.Scene {
             pause: false,
             accept: false,
         };
-
-        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-        this.cameras.main.startFollow(this.player);
-        this.cameras.main.roundPixels=true;
-
-        this.physics.add.collider(this.player, obstacles);
     }
     update(time, delta) {
         SystemState.simulation.updateSimulation(delta);
         this.handleMovementInput();
         this.handleUIInput();
+        this.handleInteractionInput();
+        this.detectOverlap();
     }
 
     handleMovementInput() {
@@ -135,7 +145,40 @@ class MainScene extends Phaser.Scene {
     }
 
     handleInteractionInput() {
+        const gamepad = this.input.gamepad.getPad(0);
+        const curPadState = {
+            accept: gamepad && gamepad.buttons[0].value === 1,
+        };
+        const curKeyState = {
+            accept: this.interaction.accept.isDown
+        };
 
+        if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {
+            console.log("ACCEPT!");
+            if (this.nearest) {
+                
+            }
+        }
+
+        this.previousPadState = {
+            ...this.previousPadState,
+            ...curPadState,
+        };
+        this.previousKeyState = {
+            ...this.previousKeyState,
+            ...curKeyState,
+        };
+    }
+
+    detectOverlap() {
+        if (!this.player.body.touching.none || this.player.body.embedded) {
+            this.nearest = this.physics.closest(this.player, this.plots);
+            this.target.visible = true;
+            this.target.setPosition(this.nearest.x, this.nearest.y);
+        } else {
+            this.nearest = null;
+            this.target.visible = false;
+        }
     }
 }
 
