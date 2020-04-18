@@ -7,6 +7,9 @@ import MainScene from './main-scene.js';
 const menu = "menu",
       main = "main";
 
+/**
+ * @property {Phaser.Game} game
+ */
 const SystemState = new StateMachine({
     init: menu,
     transitions: [
@@ -23,6 +26,7 @@ const SystemState = new StateMachine({
 
         onGameStart: function() {
             this.game.scene.add('mainScene', MainScene, true);
+            this.game.scene.remove('menu');
         },
     }
 });
