@@ -5,10 +5,12 @@ import MainScene from './main-scene.js';
 import OverlayScene from './overlay-scene.js';
 import globalConfig from './global-config.js';
 import { Simulation } from './simulation.js';
+import PauseScene from './pause-scene.js';
 
 //States
 const menu = "menu",
-      main = "main";
+      main = "main",
+      pause = "pause";
 
 /**
  * @property {Phaser.Game} game
@@ -16,13 +18,18 @@ const menu = "menu",
 const SystemState = new StateMachine({
     init: menu,
     transitions: [
-        { name: 'gameStart', from: menu, to: main }
+        { name: 'gameStart', from: menu, to: main },
+        { name: 'pause', from: main, to: pause },
+        { name: 'unpause', from: pause, to: main },
     ],
     data: {
         /** @type {Phaser.Game} */
         game: null,
         showBar: true,
+        isPaused: false,
         runSimulation: true,
+        allowMovement: true,
+        allowInteraction: true,
         vat: {
             currentUnits: 100,
         },
@@ -61,6 +68,24 @@ const SystemState = new StateMachine({
         // Transition handlers
         onLeaveMenu: function() {
             this.game.scene.remove('menu');
+        },
+
+        onEnterPause: function() {
+            console.log("Paused");
+            this.isPaused = true;
+            this.runSimulation = false;
+            this.allowInteraction = false;
+            this.allowMovement = false;
+            this.game.scene.add('pauseScene', PauseScene, true);
+        },
+
+        onLeavePause: function() {
+            console.log('Unpaused');
+            this.isPaused = false;
+            this.runSimulation = true;
+            this.allowInteraction = true;
+            this.allowMovement = true;
+            this.game.scene.remove('pauseScene');
         },
 
         onGameStart: function() {

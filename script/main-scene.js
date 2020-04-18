@@ -36,12 +36,27 @@ class MainScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.cursors = this.input.keyboard.addKeys(
+        this.wasd = this.input.keyboard.addKeys(
             {up:Phaser.Input.Keyboard.KeyCodes.W,
             down:Phaser.Input.Keyboard.KeyCodes.S,
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D}
             );
+        this.interaction = this.input.keyboard.addKeys({
+            accept: Phaser.Input.Keyboard.KeyCodes.E,
+        });
+        this.ui = this.input.keyboard.addKeys({
+            pause: Phaser.Input.Keyboard.KeyCodes.ESC,
+        });
+
+        this.previousPadState = {
+            pause: false,
+            accept: false,
+        };
+        this.previousKeyState = {
+            pause: false,
+            accept: false,
+        };
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player);
@@ -50,28 +65,33 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, obstacles);
     }
     update(time, delta) {
+        SystemState.simulation.updateSimulation(delta);
+        this.handleMovementInput();
+        this.handleUIInput();
+    }
+
+    handleMovementInput() {
         const { playerVelocity } = globalConfig;
         const gamepad = this.input.gamepad.getPad(0);
-        SystemState.simulation.updateSimulation(delta);
 
         this.player.body.setVelocity(0);
 
         // Horizontal movement
-        if (this.cursors.left.isDown || (gamepad && gamepad.left))
+        if (this.cursors.left.isDown || this.wasd.left.isDown || (gamepad && gamepad.left))
         {
             this.player.body.setVelocityX(-playerVelocity);
         }
-        else if (this.cursors.right.isDown || (gamepad && gamepad.right))
+        else if (this.cursors.right.isDown || this.wasd.right.isDown || (gamepad && gamepad.right))
         {
             this.player.body.setVelocityX(playerVelocity);
         }
 
         // Vertical movement
-        if (this.cursors.up.isDown || (gamepad && gamepad.up))
+        if (this.cursors.up.isDown || this.wasd.up.isDown || (gamepad && gamepad.up))
         {
             this.player.body.setVelocityY(-playerVelocity);
         }
-        else if(this.cursors.down.isDown || (gamepad && gamepad.down))
+        else if(this.cursors.down.isDown || this.wasd.down.isDown || (gamepad && gamepad.down))
         {
             this.player.body.setVelocityY(playerVelocity);
         }
@@ -85,6 +105,37 @@ class MainScene extends Phaser.Scene {
                 this.player.body.setVelocityY(stickPos.y * playerVelocity);
             }
         }
+    }
+
+    handleUIInput() {
+        const gamepad = this.input.gamepad.getPad(0);
+        const curPadState = {
+            pause: gamepad && gamepad.buttons[9].value === 1,
+        };
+        const curKeyState = {
+            pause: this.ui.pause.isDown
+        };
+
+        if ((!this.previousKeyState.pause && curKeyState.pause) || (!this.previousPadState.pause && curPadState.pause)) {
+            if (SystemState.isPaused) {
+                SystemState.unpause();
+            } else {
+                SystemState.pause();
+            }
+        }
+
+        this.previousPadState = {
+            ...this.previousPadState,
+            ...curPadState,
+        };
+        this.previousKeyState = {
+            ...this.previousKeyState,
+            ...curKeyState,
+        };
+    }
+
+    handleInteractionInput() {
+
     }
 }
 
