@@ -13,10 +13,12 @@ const SystemState = new StateMachine({
         { name: 'gameStart', from: menu, to: main }
     ],
     data: {
+        /** @type {Phaser.Game} */
         game: null,
     },
     methods: {
         // Game state management
+        /** @param {Phaser.Game} game */
         setGame: function(game) { this.game = game; },
 
         onGameStart: function() {
