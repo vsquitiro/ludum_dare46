@@ -10,6 +10,12 @@ const gameConfig = {
     parent: "game-container",
     width: config.screenWidth,
     height: config.screenHeight,
+    physics: {
+        default: 'arcade',
+        arcadE: {
+            gravity: {y:0}
+        }
+    }
 };
 
 const game = new Phaser.Game(gameConfig);
