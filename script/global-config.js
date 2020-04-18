@@ -1,31 +1,48 @@
 const screenWidth = 800;
 const screenHeight = 600;
-const blankScreenTime = 10000;
-const cursorTime = 15000;
-const lightOffTime = 30000;
-const frameWidth = 96;
-const correctUsername = "phaboodus";
-const correctPassword = "strongdoor004";
 
+const godLevels = [
+    {
+        vat: {
+            maxUnits: 100,
+            drainRate: 5,
+        },
+        maxHunger: 100,
+    }
+];
+
+const farmLevels = [
+    {
+
+    }
+];
+
+const inventoryLevels = [
+    {
+
+    }
+];
+
+const minionLevels = [
+    {
+
+    }
+];
 
 export default {
     screenWidth,
     screenHeight,
-    blankScreenTime,
-    cursorTime,
-    lightOffTime,
-    frameWidth,
-    correctUsername,
-    correctPassword,
+    godLevels,
+    farmLevels,
+    inventoryLevels,
+    minionLevels,
 };
 
 export {
     screenWidth,
     screenHeight,
-    blankScreenTime,
-    cursorTime,
-    lightOffTime,
-    frameWidth,
-    correctUsername,
-    correctPassword,
+    godLevels,
+    farmLevels,
+    inventoryLevels,
+    minionLevels,
 };
