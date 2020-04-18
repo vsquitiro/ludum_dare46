@@ -41,12 +41,13 @@ const SystemState = new StateMachine({
             count: 0,
             level: 0,
         },
-        farms: {
+        farm: {
             plots: [
             //{exp:0,planted:false,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
             {
                 exp:0,
                 planted:false,
+                harvest:false,
                 progress:0,
                 currentUnits:0,
                 fert:false,
@@ -90,15 +91,15 @@ const SystemState = new StateMachine({
             return godState;
         },
 
-        getCurrentFarmsState: function() {
-            const farmsState = {...this.farms};
-            farmsState.plots.forEach((value,idx) => {
+        getCurrentFarmState: function() {
+            const farmState = {...this.farm};
+            farmState.plots.forEach((value,idx) => {
                 Object.assign(value, globalConfig.farmLevels[value.farmLevel]);
                 Object.assign(value, globalConfig.irrigationLevels[value.irrigationLevel]);
             });
-            Object.assign(farmsState, globalConfig.farmLevels[this.farms.level])
-            return farmsState;
-        }
+            Object.assign(farmState, globalConfig.farmLevels[this.farm.level])
+            return farmState;
+        },
 
         // Transition handlers
         onLeaveMenu: function() {

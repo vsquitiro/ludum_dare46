@@ -167,6 +167,10 @@ export default {
     vatLevels,
     godLevels,
     farmLevels,
+    irrigationLevels,
+    capacityLevels,
+    rateLevels,
+    toolLevels,
     inventoryLevels,
     minionLevels,
 };
@@ -177,6 +181,10 @@ export {
     vatLevels,
     godLevels,
     farmLevels,
+    irrigationLevels,
+    capacityLevels,
+    rateLevels,
+    toolLevels,
     inventoryLevels,
     minionLevels,
 };
