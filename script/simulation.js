@@ -9,6 +9,7 @@ export class Simulation {
             delta = delta/1000;
             this.updateVatLevel(delta);
             this.updateGod(delta);
+            this.updateFarm(delta);
         }
     }
 
@@ -50,5 +51,29 @@ export class Simulation {
         console.log("winState: win: " + SystemState.winState.win);
         console.log("winState lose: " + SystemState.winState.lose);
         console.log("God Level: " + SystemState.god.level);
+    }
+
+    updateFarm(delta) {
+        const farmState = SystemState.getCurrentFarmState();
+        farmState.plots.forEach((value,idx)=>{
+            if (value.planted) {
+                if (value.fert) {
+                    SystemState.farm.plots[idx].progress += delta*2;
+                    SystemState.farm.plots[idx].fertTimeRemain -= delta;
+                 } else {   
+                    SystemState.farm.plots[idx].progress += delta;
+                }
+                if(SystemState.farm.plots[idx].progress > value.harvestAt) {
+                    SystemState.farm.plots[idx].harvest = true;
+                    SystemState.farm.plots[idx].currentUnits += value.produce;
+                    SystemState.farm.plots[idx].planted = false;
+                    SystemState.farm.plots[idx].progress = 0;
+                }
+            }
+        })
+        console.log("Planted: " + SystemState.farm.plots[0].planted);
+        console.log("Progress: " + SystemState.farm.plots[0].progress);
+        console.log("Harvest: " + SystemState.farm.plots[0].harvest);
+        console.log("CurrentUnits: " + SystemState.farm.plots[0].currentUnits);
     }
 }

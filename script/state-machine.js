@@ -36,6 +36,7 @@ const SystemState = new StateMachine({
         allowInteraction: true,
         vat: {
             currentUnits: 1000,
+            taped: false,
         },
         god: {
             level: 0,
@@ -47,12 +48,29 @@ const SystemState = new StateMachine({
             count: 0,
             level: 0,
         },
-        pod: {
-            level: 0,
-        },
         farm: {
-            level: 0,
-            plots: [],
+            plots: [
+            //{exp:0,planted:false,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
+            {
+                exp:0,
+                planted:false,
+                harvest:false,
+                progress:0,
+                currentUnits:0,
+                fert:false,
+                fertTimeRemain:0,
+                farmLevel:0,
+                irrigationLevel:0,
+            }
+            ]
+        },
+        fountain: {
+            springs: [
+            //{exp:0,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
+            ]
+        },
+        tools: {
+            level:0,
         },
         inventory: {
             level: 0,
@@ -78,6 +96,16 @@ const SystemState = new StateMachine({
             Object.assign(godState, globalConfig.godLevels[this.god.level]);
             godState.hungerPercentage = godState.hunger/godState.maxHunger;
             return godState;
+        },
+
+        getCurrentFarmState: function() {
+            const farmState = {...this.farm};
+            farmState.plots.forEach((value,idx) => {
+                Object.assign(value, globalConfig.farmLevels[value.farmLevel]);
+                Object.assign(value, globalConfig.irrigationLevels[value.irrigationLevel]);
+            });
+            Object.assign(farmState, globalConfig.farmLevels[this.farm.level])
+            return farmState;
         },
 
         // Transition handlers

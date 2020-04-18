@@ -64,8 +64,9 @@ class MainScene extends Phaser.Scene {
         });
 
         this.debugKey = this.input.keyboard.addKeys(
-            {feed:Phaser.Input.Keyboard.KeyCodes.F}
-        );
+            {feed:Phaser.Input.Keyboard.KeyCodes.F,
+            plant:Phaser.Input.Keyboard.KeyCodes.P}
+            );
 
         this.previousPadState = {
             pause: false,
@@ -188,6 +189,10 @@ class MainScene extends Phaser.Scene {
         {
             SystemState.god.hunger = Math.max(0, SystemState.god.hunger - 1);
             SystemState.god.exp += .5;
+        }
+        if (this.debugKey.plant.isDown)
+        {
+            SystemState.farm.plots[0].planted = true;
         }
     }
 }
