@@ -17,6 +17,19 @@ class MainScene extends Phaser.Scene {
         var obstacles = map.createStaticLayer('Tile Layer 2', slimeBlock, 0,0);
         obstacles.setCollisionByExclusion([-1]);
 
+        this.anims.create({
+            key:'blop',
+            frames:this.anims.generateFrameNumbers('player', {start:2, end:3}),
+            frameRate: 16,
+            repeat: -1
+        });
+
+        var testObj = map.createFromObjects('Object Layer 1',59,{key:'player'});
+
+        this.anims.play('blop', testObj);
+//        testObj.callAll('animations.add','animations','blop',[2,3],10,true);
+ //       testObj.callAll('animations.play','animations','spin');
+
         this.player = this.physics.add.sprite(50,100, 'player', 0);
 
         this.physics.world.bounds.width = map.widthInPixels;

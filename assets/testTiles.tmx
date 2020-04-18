@@ -6,6 +6,9 @@
  <tileset firstgid="57" name="Player" tilewidth="32" tileheight="32" tilecount="4" columns="2">
   <image source="Characterslimes.png" width="64" height="64"/>
  </tileset>
+ <tileset firstgid="61" name="placeholder" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+  <image source="placeholdersprite.png" width="160" height="96"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="csv">
 1,2,2,2,2,2,2,2,2,2,2,2,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
