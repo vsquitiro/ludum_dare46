@@ -4,6 +4,7 @@
 import MainScene from './main-scene.js';
 import OverlayScene from './overlay-scene.js';
 import globalConfig from './global-config.js';
+import { Simulation } from './simulation.js';
 
 //States
 const menu = "menu",
@@ -43,24 +44,17 @@ const SystemState = new StateMachine({
             item0: 0,
             item1: 0,
             item2: 0,
-        }
+        },
+        simulation: new Simulation(),
     },
     methods: {
         // Game state management
         /** @param {Phaser.Game} game */
         setGame: function(game) { this.game = game; },
-        updateVatLevel: function(deltaTime) {
-            if (this.runSimulation) {
-                const vatState = this.getCurrentVatState();
-                const updatedUnits = vatState.currentUnits - (vatState.drainRate * (deltaTime / 1000));
-                this.vat.currentUnits = Math.max(0, updatedUnits);
-            }
-        },
         getCurrentVatState: function() {
             const vatState = { ...this.vat };
-            Object.assign(vatState, globalConfig.godLevels[this.god.level].vat);
+            Object.assign(vatState, globalConfig.vatLevels[this.god.level]);
             vatState.percentage = vatState.currentUnits / vatState.maxUnits;
-
             return vatState;
         },
 
