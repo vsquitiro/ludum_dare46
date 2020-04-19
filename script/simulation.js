@@ -82,9 +82,9 @@ export class Simulation {
                 }
             }
 
-            if(value.farmExp>value.farmUpgradeCost) {
+            if(value.farmExp>=value.farmUpgradeCost) {
                 SystemState.farm[idx].farmLevel++;
-                SystemState.farm[idx].exp = 0;
+                SystemState.farm[idx].farmExp = 0;
             }
         })
 
@@ -106,7 +106,7 @@ export class Simulation {
                 }
             }
 
-            if(value.rateExp>value.rateUpgradeCost) {
+            if(value.rateExp>=value.rateUpgradeCost) {
                 SystemState.fountain[idx].rateLevel++;
                 SystemState.fountain[idx].exp = 0;
             }

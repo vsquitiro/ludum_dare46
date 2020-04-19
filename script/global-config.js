@@ -62,19 +62,24 @@ const godLevels = [
 const farmLevels = [
     {
         produce: 3,
-        farmUpgradeCost: 5,
+        //TODO change back
+        farmUpgradeCost: 1,
+        // farmUpgradeCost: 5,
     },
     {
         produce: 8,
-        farmUpgradeCost: 15,
+        farmUpgradeCost: 1,
+        // farmUpgradeCost: 15,
     },
     {
         produce: 20,
-        farmUpgradeCost: 45,
+        farmUpgradeCost: 1,
+        // farmUpgradeCost: 45,
     },
     {
         produce: 45,
-        farmUpgradeCost: 135,
+        farmUpgradeCost: 1,
+        // farmUpgradeCost: 135,
     },
     {
         produce: 100,
@@ -85,7 +90,7 @@ const farmLevels = [
 const irrigationLevels = [
     {   
         //TODO set back to real value
-        harvestAt: 10, //debugging
+        harvestAt: 1, //debugging
         //harvestAt: 50,
         irrigationUpgradeCost: 10,
     },
@@ -124,7 +129,9 @@ const capacityLevels = [
 
 const rateLevels = [
     {
-        rate: 15,
+        //TODO revert
+        rate: 1,
+        // rate: 15,
         rateUpgradeCost: 15,
     },
     {

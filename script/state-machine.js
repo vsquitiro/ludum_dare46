@@ -117,7 +117,7 @@ const SystemState = new StateMachine({
 
         addPlot() {
             this.farm.push({
-                exp:0,
+                farmExp:0,
                 planted:false,
                 growing:false,
                 harvestable:false,
@@ -134,6 +134,7 @@ const SystemState = new StateMachine({
             this.fountain.push({
                 rateExp: 0,
                 rateLevel: 0,
+                fountainLevel: 0,
                 planted: false,
                 progress: 0,
                 currentUnits: 0,

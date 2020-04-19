@@ -340,6 +340,16 @@ class MainScene extends Phaser.Scene {
             if(SystemState.farm[plot.plotIndex].harvestable) {
                 plot.setFrame(2);
             }
+            var farmLevel = SystemState.farm[plot.plotIndex].farmLevel;
+            if(farmLevel == 1) {
+                plot.tint = 0xf9e79f;
+            } else if(farmLevel == 2) {
+                plot.tint = 0xf7dc6f;
+            } else if(farmLevel == 3) {
+                plot.tint = 0xf4d03f;
+            } else if(farmLevel == 4) {
+                plot.tint = 0xf1c40f;
+            }
         });        
     }
 
@@ -374,6 +384,16 @@ class MainScene extends Phaser.Scene {
                 } else {
                     spring.setFrame(0);
                 }
+            }
+            var rateLevel = SystemState.fountain[spring.springIndex].rateLevel;
+            if(rateLevel == 1) {
+                spring.tint = 0xf9e79f;
+            } else if(rateLevel == 2) {
+                spring.tint = 0xf7dc6f;
+            } else if(rateLevel == 3) {
+                spring.tint = 0xf4d03f;
+            } else if(rateLevel == 4) {
+                spring.tint = 0xf1c40f;
             }
         });
     }
