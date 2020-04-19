@@ -70,7 +70,13 @@ class OverlayScene extends Phaser.Scene {
             strokeThickness: 3,
             align: 'right',
         };
-        const rightAlignPos = screenWidth - border - 40;
+
+        this.invBackground = this.add.image(screenWidth, 0, 'invBG');
+        this.invBackground.scale = 0.7;
+        this.invBackground.setOrigin(1, 0);
+        this.invBackground.visible = false;
+
+        const rightAlignPos = screenWidth - border - 30;
         this.invFoodText = this.add.text(rightAlignPos, border, 'Food', this.inventoryStyle);
         this.invFoodText.setOrigin(1, 0);
         this.invFoodText.visible = false;
@@ -81,13 +87,13 @@ class OverlayScene extends Phaser.Scene {
         this.invBuildingText.setOrigin(1, 0);
         this.invBuildingText.visible = false;
 
-        this.invFoodCount = this.add.text(rightAlignPos + 40, border, '', this.inventoryStyle);
+        this.invFoodCount = this.add.text(rightAlignPos + 30, border, '', this.inventoryStyle);
         this.invFoodCount.setOrigin(1, 0);
         this.invFoodCount.visible = false;
-        this.invFuelCount = this.add.text(rightAlignPos + 40, border + 24, '', this.inventoryStyle);
+        this.invFuelCount = this.add.text(rightAlignPos + 30, border + 24, '', this.inventoryStyle);
         this.invFuelCount.setOrigin(1, 0);
         this.invFuelCount.visible = false;
-        this.invBuildingCount = this.add.text(rightAlignPos + 40, border + 48, '', this.inventoryStyle);
+        this.invBuildingCount = this.add.text(rightAlignPos + 30, border + 48, '', this.inventoryStyle);
         this.invBuildingCount.setOrigin(1, 0);
         this.invBuildingCount.visible = false;
     }
@@ -119,6 +125,10 @@ class OverlayScene extends Phaser.Scene {
 
     updateInventory() {
         const inv = SystemState.inventory;
+
+        if (inv.showFood || inv.showFuel || inv.showBuilding) {
+            this.invBackground.visible = true;
+        }
 
         if (!inv.showFood && inv.food) inv.showFood = true;
         if (!inv.showFuel && inv.fuel) inv.showFuel = true;
