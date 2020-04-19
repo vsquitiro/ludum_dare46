@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="25" height="37" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="13">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="25" height="37" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="15">
  <editorsettings>
   <export target="main.json" format="json"/>
  </editorsettings>
@@ -519,6 +519,9 @@
  <tileset firstgid="1148" name="basin" tilewidth="192" tileheight="192" tilecount="4" columns="2">
   <image source="basin.png" width="384" height="384"/>
  </tileset>
+ <tileset firstgid="1152" name="placeholdersprite" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+  <image source="placeholdersprite.png" width="160" height="96"/>
+ </tileset>
  <layer id="1" name="Floor Layer" width="25" height="37">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -564,6 +567,12 @@
   <object id="7" gid="929" x="577.068" y="959.233" width="192" height="192"/>
   <object id="11" gid="929" x="577" y="449" width="192" height="192"/>
   <object id="12" gid="929" x="576" y="704" width="192" height="192"/>
+ </objectgroup>
+ <objectgroup id="8" name="Food Terminal">
+  <object id="13" gid="1161" x="325" y="257" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Fuel Terminal">
+  <object id="14" gid="1156" x="481" y="257" width="32" height="32"/>
  </objectgroup>
  <layer id="2" name="Wall Layer" width="25" height="37">
   <data encoding="csv">

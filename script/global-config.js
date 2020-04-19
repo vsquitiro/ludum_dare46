@@ -27,8 +27,8 @@ const vatLevels = [
 ];
 
 const godLevels = [
-    {   //change for final game
-        tnl: 30,
+    {   //TODO change for final game
+        tnl: 1,
         maxHunger: 10000,
         hungerRate: 1,
         tantrumThreshold: 10000
@@ -74,7 +74,8 @@ const farmLevels = [
 ];
 
 const irrigationLevels = [
-    {
+    {   
+        //TODO set back to real value
         harvestAt: 10, //debugging
         //harvestAt: 50,
         irrigationUpgradeCost: 10,

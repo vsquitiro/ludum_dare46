@@ -53,9 +53,19 @@ class MainScene extends Phaser.Scene {
             spring.type = "spring";
         })
 
+        this.foodTerminal = map.createFromObjects('Food Terminal',1161, {key: 'placeholder', frame: 9});
+        this.physics.world.enable(this.foodTerminal);
+        this.foodTerminal[0].type = "foodTerminal";
+
+        this.fuelTerminal = map.createFromObjects('Fuel Terminal',1156, {key: 'placeholder', frame: 4});
+        this.physics.world.enable(this.fuelTerminal);
+        this.fuelTerminal[0].type = "fuelTerminal";
+
         this.interactTests = [
             ...this.plots,
             ...this.springs,
+            ...this.foodTerminal,
+            ...this.fuelTerminal,
         ];
 
         this.target = null;
@@ -209,6 +219,10 @@ class MainScene extends Phaser.Scene {
                         this.interactWithPlot(this.nearest);
                     } else if(this.nearest.type == 'spring') {
                         this.interactWithSpring(this.nearest);
+                    } else if(this.nearest.type == 'foodTerminal') {
+                        this.interactWithFoodTerminal();
+                    } else if(this.nearest.type == 'fuelTerminal') {
+                        this.interactWithFuelTerminal();
                     }
                 }
             }
@@ -287,6 +301,10 @@ class MainScene extends Phaser.Scene {
             } else {
                 SystemState.currentInstruction = 'upgrade spring with fuel';
             }
+        } else if(focus.type == 'foodTerminal') {
+            SystemState.currentInstruction = 'feed god';
+        } else if(focus.type == 'fuelTerminal') {
+            SystemState.currentInstruction = 'fill vat';
         }
     }
 
@@ -354,8 +372,28 @@ class MainScene extends Phaser.Scene {
                     spring.setFrame(0);
                 }
             }
-        })
+        });
     }
+
+    interactWithFoodTerminal() {
+        if(SystemState.inventory.food < 1) {
+            SystemState.displayMessage("Are YOU the food!?");
+        } else {
+            SystemState.inventory.food--;
+            SystemState.god.hunger -= 10;
+            SystemState.god.exp++;
+        }
+    }
+
+    interactWithFuelTerminal() {
+        if(SystemState.inventory.fuel < 1) {
+            SystemState.displayMessage("Aren't you forgetting something?");
+        } else {
+            SystemState.inventory.fuel--;
+            SystemState.vat.currentUnits += 10;
+        }
+    }
+
 }
 
 export default MainScene;

@@ -36,7 +36,7 @@ export class Simulation {
             console.log("Setting lose to true");
             SystemState.winState.lose = true;
         }
-        if(SystemState.god.exp > godState.tnl) {
+        if(SystemState.god.exp >= godState.tnl) {
             console.log("God Level Up");
             SystemState.god.exp = 0;
             if(SystemState.god.level < 3) {
