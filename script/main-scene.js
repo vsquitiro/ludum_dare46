@@ -3,9 +3,12 @@
 import globalConfig from './global-config.js';
 import SystemState from './state-machine.js';
 
+import { Chaos } from './chaos.js';
+
 class MainScene extends Phaser.Scene {
     init() {
         console.log("Main Scene Init");
+        this.chaos = new Chaos();
     }
     create() {
         // What to create?
@@ -93,6 +96,7 @@ class MainScene extends Phaser.Scene {
         this.handleUIInput();
         this.handleInteractionInput();
         this.detectOverlap();
+        this.chaos.checkForMessage(time);
     }
 
     handleMovementInput() {

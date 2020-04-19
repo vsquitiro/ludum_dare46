@@ -2,6 +2,9 @@ const screenWidth = 800;
 const screenHeight = 600;
 
 const playerVelocity = 160;
+const messageOpportunityTime = 5000;
+const messageChance = 0.05;
+const tantrumMessageChance = 0.2;
 
 const vatLevels = [
     {
@@ -167,6 +170,9 @@ export default {
     screenWidth,
     screenHeight,
     playerVelocity,
+    messageOpportunityTime,
+    messageChance,
+    tantrumMessageChance,
     vatLevels,
     godLevels,
     farmLevels,
@@ -182,6 +188,9 @@ export {
     screenWidth,
     screenHeight,
     playerVelocity,
+    messageOpportunityTime,
+    messageChance,
+    tantrumMessageChance,
     vatLevels,
     godLevels,
     farmLevels,

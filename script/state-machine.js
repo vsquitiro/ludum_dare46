@@ -34,6 +34,7 @@ const SystemState = new StateMachine({
         },
         allowMovement: true,
         allowInteraction: true,
+        lastMessageCheckTime: 0,
         vat: {
             currentUnits: 1000,
             taped: false,
@@ -88,6 +89,7 @@ const SystemState = new StateMachine({
             const godState = {...this.god};
             Object.assign(godState, globalConfig.godLevels[this.god.level]);
             godState.hungerPercentage = godState.hunger/godState.maxHunger;
+            godState.inTantrum = godState.hunger > godState.tantrumThreshold;
             return godState;
         },
         getCurrentFarmState: function() {
