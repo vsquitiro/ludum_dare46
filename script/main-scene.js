@@ -149,8 +149,8 @@ class MainScene extends Phaser.Scene {
         this.cameras.main.roundPixels=true;
 
         this.physics.add.collider(this.player, walls);
-        this.physics.add.collider(this.player, this.vatLevel0);
-        this.physics.add.overlap(this.player, this.interactTests);
+        this.physics.add.collider(this.player, this.interactables);
+        this.physics.add.overlap(this.player, this.targetZones);
 
         this.createInput();
     }
@@ -469,7 +469,7 @@ class MainScene extends Phaser.Scene {
                     spring.setFrame(0);
                 }
             }
-            var rateLevel = SystemState.fountain[spring.springIndex].rateLevel;
+            var rateLevel = fountain.rateLevel;
             if(rateLevel == 1) {
                 spring.tint = 0xf9e79f;
             } else if(rateLevel == 2) {
