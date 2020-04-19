@@ -12,9 +12,10 @@ const gameConfig = {
     height: config.screenHeight,
     physics: {
         default: 'arcade',
-        arcadE: {
+        arcade: {
+            // debug: true,
             gravity: {y:0}
-        }
+        },
     },
     input: {
         gamepad: true,
