@@ -35,36 +35,104 @@ class MainScene extends Phaser.Scene {
         //     repeat: -1
         // });
 
-        this.plots = map.createFromObjects('Plots', 1148, {key: 'basin', frame: 0});
-        this.physics.world.enable(this.plots);
-        this.plots.forEach((plot, index) => {
-            SystemState.addPlot();
-            plot.plotIndex = index;
-            plot.type = "plot";
-        });
+        this.interactables = [];
 
-        //TODO change GID for springs when we have fountain
-        this.springs = map.createFromObjects('Springs', 929, {key: 'plots', frame: 3});
-        this.physics.world.enable(this.springs);
-        this.springs.forEach((spring, index) => {
-            SystemState.addSpring();
-            spring.springIndex = index;
-            spring.type = "spring";
-        })
+        const transformObject = (obj) => {
+            const updatedObj = { ...obj };
+            updatedObj.customProperties = obj.properties.reduce((acc, prop) => {
+                acc[prop.name] = prop.value;
+                return acc;
+            }, {});
+            updatedObj.customProperties = {
+                ...updatedObj.customProperties,
+                gid: updatedObj.gid,
+                id: updatedObj.id,
+            };
+            updatedObj.get = (name) => updatedObj.customProperties[name];
+            return updatedObj;
+        };
+        const createZone = (interactor) => {
+            const x = interactor.x + (interactor.width / 2);
+            const y = interactor.y + (interactor.height / 2);
+            const zone = this.add.zone(x, y, interactor.width, interactor.height);
+            zone.customProperties = {
+                ...interactor.customProperties
+            };
+            zone.get = (name) => zone.customProperties[name];
+            zone.set = (name, value) => zone.customProperties[name] = value;
+            zone.getTarget = () => this.interactables.find((sprite) => {
+                return sprite.get('id') == zone.get('forObject');
+            });
+            this.physics.world.enable(zone);
+            zone.body.moves = false;
+            return zone;
+        };
+        const createSprite = (sheet, frame) => (obj) => {
+            const x = obj.x + (obj.width / 2);
+            const y = obj.y - (obj.height / 2);
+            const sprite = this.physics.add.sprite(x, y, sheet, frame);
+            sprite.customProperties = {
+                ...obj.customProperties
+            };
+            sprite.get = (name) => sprite.customProperties[name];
+            sprite.set = (name, value) => sprite.customProperties[name] = value;
 
-        this.foodTerminal = map.createFromObjects('Food Terminal',1161, {key: 'placeholder', frame: 9});
-        this.physics.world.enable(this.foodTerminal);
-        this.foodTerminal[0].type = "foodTerminal";
+            sprite.setImmovable(true);
+            return sprite;
+        };
 
-        this.fuelTerminal = map.createFromObjects('Fuel Terminal',1156, {key: 'placeholder', frame: 4});
-        this.physics.world.enable(this.fuelTerminal);
-        this.fuelTerminal[0].type = "fuelTerminal";
+        const plotLayer = map.getObjectLayer('Plots');
+        const plotObjects = plotLayer.objects.map(transformObject);
+        this.plots = plotObjects
+            .filter((obj) => obj.get('objectType') == 'plot')
+            .map(createSprite('basin', 0))
+            .map((plot, index) => {
+                plot.set('plotIndex', index);
+                SystemState.addPlot(plot.get('id'));
+                plot.getPlotDef = () => SystemState.farm[index];
+                return plot;
+            });
+        this.plotInteractions = plotObjects
+            .filter((obj) => obj.get('objectType') == 'interactor')
+            .map(createZone);
 
-        this.interactTests = [
+        const springLayer = map.getObjectLayer('Springs');
+        const springObjects = springLayer.objects.map(transformObject);
+        this.springs = springObjects
+            .filter((obj) => obj.get('objectType') == 'spring')
+            .map(createSprite('plots', 3))
+            .map((spring, index) => {
+                spring.set('springIndex', index);
+                SystemState.addSpring(spring.get('id'));
+                spring.getSpringDef = () => SystemState.fountain[index];
+                return spring;
+            });
+        this.springInteractions = springObjects
+            .filter((obj) => obj.get('objectType') == 'interactor')
+            .map(createZone);
+
+        const godControlLayer = map.getObjectLayer('GodControls');
+        const godControlObjects = godControlLayer.objects.map(transformObject);
+        this.foodTerminal = godControlObjects
+            .filter((obj) => obj.get('objectType') == 'foodTerminal')
+            .map(createSprite('placeholder', 9));
+        this.fuelTerminal = godControlObjects
+            .filter((obj) => obj.get('objectType') == 'fuelTerminal')
+            .map(createSprite('placeholder', 4));
+        this.godControlInteractions = godControlObjects
+            .filter((obj) => obj.get('objectType') == 'interactor')
+            .map(createZone);
+
+        this.interactables = [
             ...this.plots,
             ...this.springs,
-            ...this.foodTerminal,
             ...this.fuelTerminal,
+            ...this.foodTerminal,
+        ];
+        this.targetZones = [
+            ...this.plotInteractions,
+            ...this.springInteractions,
+            ...this.godControlInteractions,
         ];
 
         this.target = null;
@@ -215,14 +283,16 @@ class MainScene extends Phaser.Scene {
                     }
                 }
                 else if (this.nearest) {
-                    if(this.nearest.type == 'plot') {
-                        this.interactWithPlot(this.nearest);
-                    } else if(this.nearest.type == 'spring') {
-                        this.interactWithSpring(this.nearest);
-                    } else if(this.nearest.type == 'foodTerminal') {
-                        this.interactWithFoodTerminal();
-                    } else if(this.nearest.type == 'fuelTerminal') {
-                        this.interactWithFuelTerminal();
+                    const type = this.nearest.get && this.nearest.get('objectType');
+                    switch (type) {
+                    case 'plot':
+                        this.interactWithPlot(this.nearest); break;
+                    case 'spring':
+                        this.interactWithSpring(this.nearest); break;
+                    case 'foodTerminal':
+                        this.interactWithFoodTerminal(); break;
+                    case 'fuelTerminal':
+                        this.interactWithFuelTerminal(); break;
                     }
                 }
             }
@@ -249,8 +319,21 @@ class MainScene extends Phaser.Scene {
 
     detectOverlap() {
         if (!this.player.body.touching.none || this.player.body.embedded) {
-            this.nearest = this.physics.closest(this.player, this.interactTests);
-            
+            const overlaps = [];
+            this.physics.overlap(this.player, this.targetZones, (player, interactor) => overlaps.push(interactor));
+            if (!overlaps.length) return;
+
+            const mainOverlap = this.physics.closest(this.player, overlaps);
+
+            const nearest = mainOverlap.getTarget ? mainOverlap.getTarget() : mainOverlap;
+
+            if (nearest != this.nearest) {
+                this.nearest = nearest;
+                if (this.target) {
+                    this.target.destroy();
+                    this.target = null;
+                }
+            }
             if (!this.target) {
                 this.target = this.add.rectangle(this.nearest.x, this.nearest.y, this.nearest.width, this.nearest.height);
                 this.target.isFilled = false;
@@ -262,7 +345,6 @@ class MainScene extends Phaser.Scene {
         } else {
             this.nearest = null;
             if (this.target) {
-                this.target.visible = false;
                 this.target.destroy();
                 this.target = null;
             }
@@ -282,9 +364,9 @@ class MainScene extends Phaser.Scene {
     }
 
     displayInteractAction(focus) {
-        //TODO revise messages with item names
-        if(focus.type == 'plot') {
-            var idx = focus.plotIndex;
+        const type = focus.get && focus.get('objectType');
+        if (type === 'plot') {
+            var idx = focus.get('plotIndex');
             if(!SystemState.farm[idx].planted) {
                 SystemState.currentInstruction = 'plant a piece of food';
             } else if (SystemState.farm[idx].harvestable) {
@@ -292,8 +374,8 @@ class MainScene extends Phaser.Scene {
             } else {
                 SystemState.currentInstruction = 'upgrade plot with fuel';
             }
-        } else if(focus.type == 'spring') {
-            var idx = focus.springIndex;
+        } else if(type === 'spring') {
+            var idx = focus.get('springIndex');
             if(!SystemState.fountain[idx].planted) {
                 SystemState.currentInstruction = 'plant a unit of fuel';
             } else if (SystemState.fountain[idx].currentUnits > 0) {
@@ -301,46 +383,47 @@ class MainScene extends Phaser.Scene {
             } else {
                 SystemState.currentInstruction = 'upgrade spring with fuel';
             }
-        } else if(focus.type == 'foodTerminal') {
+        } else if(type === 'foodTerminal') {
             SystemState.currentInstruction = 'feed god';
-        } else if(focus.type == 'fuelTerminal') {
+        } else if(type === 'fuelTerminal') {
             SystemState.currentInstruction = 'fill vat';
         }
     }
 
     interactWithPlot(plot) {
-        var idx = plot.plotIndex;
-        if(!SystemState.farm[idx].planted) {
+        const farm = plot.getPlotDef();
+        if(!farm.planted) {
             if (SystemState.inventory.food < 1) {
                 SystemState.displayMessage("You don't have a seed, dipshit");
             } else if(SystemState.god.level != 0 || SystemState.god.teaching == true) {
                 SystemState.god.teaching = false;
-                SystemState.farm[idx].planted = true;
-                SystemState.farm[idx].growing = true;
+                farm.planted = true;
+                farm.growing = true;
                 SystemState.inventory.food--;
                 plot.setFrame(1);
             } else {
                 SystemState.displayMessage("Farm later, feed now!");        
             }
-        } else if(SystemState.farm[idx].harvestable) {
-            SystemState.inventory.food += SystemState.farm[idx].currentUnits;
-            SystemState.farm[idx].currentUnits = 0;
-            SystemState.farm[idx].planted = false;
-            SystemState.farm[idx].harvestable = false;
+        } else if(farm.harvestable) {
+            SystemState.inventory.food += farm.currentUnits;
+            farm.currentUnits = 0;
+            farm.planted = false;
+            farm.harvestable = false;
             plot.setFrame(0);
 
         } else if(SystemState.inventory.fuel > 0) {
-            SystemState.farm[idx].farmExp++;
+            farm.farmExp++;
             SystemState.inventory.fuel--;
         }
     }
 
     checkGrowthSprite() {
-        this.plots.forEach((plot, index) => {
-            if(SystemState.farm[plot.plotIndex].harvestable) {
+        this.plots.forEach((plot) => {
+            const farm = plot.getPlotDef();
+            if(farm.harvestable) {
                 plot.setFrame(2);
             }
-            var farmLevel = SystemState.farm[plot.plotIndex].farmLevel;
+            var farmLevel = farm.farmLevel;
             if(farmLevel == 1) {
                 plot.tint = 0xf9e79f;
             } else if(farmLevel == 2) {
@@ -350,33 +433,34 @@ class MainScene extends Phaser.Scene {
             } else if(farmLevel == 4) {
                 plot.tint = 0xf1c40f;
             }
-        });        
+        });
     }
 
     interactWithSpring(spring) {
-        var idx = spring.springIndex;
-        if(!SystemState.fountain[idx].planted) {
+        const fountain = spring.getSpringDef();
+        if(!fountain.planted) {
             if (SystemState.inventory.fuel < 1) {
                 SystemState.displayMessage("Where's the fuel, moron?");
             } else {
-                SystemState.fountain[idx].planted = true;
+                fountain.planted = true;
                 SystemState.inventory.fuel--;
                 spring.setFrame(1);
             }
-        } else if(SystemState.fountain[idx].currentUnits > 0) {
-            SystemState.inventory.fuel += SystemState.fountain[idx].currentUnits;
-            SystemState.fountain[idx].currentUnits = 0;
+        } else if(fountain.currentUnits > 0) {
+            SystemState.inventory.fuel += fountain.currentUnits;
+            fountain.currentUnits = 0;
             spring.setFrame(1);
         } else if(SystemState.inventory.fuel > 0) {
             SystemState.inventory.fuel--;
-            SystemState.fountain[idx].rateExp++;
+            fountain.rateExp++;
         }
     }
 
     checkFillSprite() {
         this.springs.forEach((spring, index)=> {
-            var unitCount = SystemState.fountain[spring.springIndex].currentUnits;
-            var capacityLevel = SystemState.fountain[spring.springIndex].capacityLevel;
+            const fountain = spring.getSpringDef();
+            var unitCount = fountain.currentUnits;
+            var capacityLevel = fountain.capacityLevel;
             var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
             if(unitCount > 0) {
                 if(unitCount == fuelCapacity) {

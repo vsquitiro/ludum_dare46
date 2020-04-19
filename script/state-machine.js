@@ -115,8 +115,9 @@ const SystemState = new StateMachine({
             this.message.playing = false;
         },
 
-        addPlot() {
+        addPlot(id) {
             this.farm.push({
+                id: id,
                 farmExp:0,
                 planted:false,
                 growing:false,
@@ -130,8 +131,9 @@ const SystemState = new StateMachine({
             });
         },
 
-        addSpring() {
+        addSpring(id) {
             this.fountain.push({
+                id: id,
                 rateExp: 0,
                 rateLevel: 0,
                 planted: false,
