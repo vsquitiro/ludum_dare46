@@ -20,12 +20,11 @@ class MainScene extends Phaser.Scene {
         const walls = map.createStaticLayer('Wall Layer', tiles, 0,0);
         walls.setCollisionByExclusion([-1]);
 
-        const vatLevel0 = map.createDynamicLayer('Vat Level 0', vat, 0, 0);
-        const vatLevel1 = map.createDynamicLayer('Vat Level 1', vat, 0, 0);
-        vatLevel1.visible = false;
-        const vatLevel2 = map.createDynamicLayer('Vat Level 2', vat, 0, 0);
-        vatLevel2.visible = false;
-
+        this.vatLevel0 = map.createDynamicLayer('Vat Level 0', vat, 0, 0);
+        this.vatLevel1 = map.createDynamicLayer('Vat Level 1', vat, 0, 0);
+        this.vatLevel1.visible = false;
+        this.vatLevel2 = map.createDynamicLayer('Vat Level 2', vat, 0, 0);
+        this.vatLevel2.visible = false;
         this.sys.animatedTiles.init(map);
         this.sys.animatedTiles.setRate(0.5);
 
@@ -82,7 +81,7 @@ class MainScene extends Phaser.Scene {
         this.cameras.main.roundPixels=true;
 
         this.physics.add.collider(this.player, walls);
-        this.physics.add.collider(this.player, vatLevel0);
+        this.physics.add.collider(this.player, this.vatLevel0);
         this.physics.add.overlap(this.player, this.interactTests);
 
         this.createInput();
@@ -128,6 +127,7 @@ class MainScene extends Phaser.Scene {
         this.chaos.checkForMessage(time);
         this.checkGrowthSprite();
         this.checkFillSprite();
+        this.checkGodLevel();
     }
 
     handleMovementInput() {
@@ -408,6 +408,16 @@ class MainScene extends Phaser.Scene {
                 SystemState.god.teaching = false;
             }
         } 
+    }
+
+    checkGodLevel() {
+        if (SystemState.god.level == 2) {
+            this.vatLevel0.visible = false;
+            this.vatLevel1.visible = true;
+        } else if (SystemState.god.level == 3) {
+            this.vatLevel1.visible = false;
+            this.vatLevel2.visible = true;
+        }
     }
 
 }
