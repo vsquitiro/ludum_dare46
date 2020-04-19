@@ -53,80 +53,80 @@ const godLevels = [
 const farmLevels = [
     {
         produce: 3,
-        upgradeCost: 5,
+        farmUpgradeCost: 5,
     },
     {
         produce: 8,
-        upgradeCost: 15,
+        farmUpgradeCost: 15,
     },
     {
         produce: 20,
-        upgradeCost: 45,
+        farmUpgradeCost: 45,
     },
     {
         produce: 45,
-        upgradeCost: 135,
+        farmUpgradeCost: 135,
     },
     {
         produce: 100,
-        upgradeCost: Infinity,
+        farmUpgradeCost: Infinity,
     }
 ];
 
 const irrigationLevels = [
     {
         harvestAt: 50,
-        upgradeCost: 10,
+        irrigationUpgradeCost: 10,
     },
     {
         harvestAt: 40,
-        upgradeCost: 25,
+        irrigationUpgradeCost: 25,
     },
     {
         harvestAt: 30,
-        upgradeCost: 50,
+        irrigationUpgradeCost: 50,
     },
     {
         harvestAt: 20,
-        upgradeCost: Infinity,
+        irrigationUpgradeCost: Infinity,
     }
 ];
 
 const capacityLevels = [
     {
         capacity: 5,
-        upgradeCost: 25,
+        capacityUpgradeCost: 25,
     },
     {
         capacity: 10,
-        upgradeCost: 75,
+        capacityUpgradeCost: 75,
     },
     {
         capacity: 25,
-        upgradeCost: 250,
+        capacityUpgradeCost: 250,
     },
     {
         capacity: 100,
-        upgradeCost: Infinity,
+        capacityUpgradeCost: Infinity,
     }
 ];
 
 const rateLevels = [
     {
         rate: 15,
-        upgradeCost: 15,
+        rateUpgradeCost: 15,
     },
     {
         rate: 10,
-        upgradeCost: 40,
+        rateUpgradeCost: 40,
     },
     {
         rate: 5,
-        upgradeCost: 100,
+        rateUpgradeCost: 100,
     },
     {
         rate: 1,
-        upgradeCost: Infinity,
+        rateUpgradeCost: Infinity,
     }
 ];
 
@@ -134,22 +134,22 @@ const toolLevels = [
     {
         gatherReduction: 10,
         gatherYield: 1,
-        upgradeCost: 50,
+        toolUpgradeCost: 50,
     },
     {
         gatherReduction: 5,
         gatherTield: 2,
-        upgradeCost: 200,
+        toolUpgradeCost: 200,
     },
     {
         gatherReduction: 2,
         gatherYield: 3,
-        upgradeCost: 1000,
+        toolUpgradeCost: 1000,
     },
     {
         gatherReduction: 1,
         gatherYield: 5,
-        upgradeCost: Infinity,
+        toolUpgradeCost: Infinity,
     }
 ]
 
