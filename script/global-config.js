@@ -14,15 +14,15 @@ const vatLevels = [
     },
     {
         maxUnits: 1000,
-        drainRate: 5,
-    },
-    {
-        maxUnits: 1500,
         drainRate: 10,
     },
     {
+        maxUnits: 1500,
+        drainRate: 15,
+    },
+    {
         maxUnits: 2000,
-        drainRate: 30
+        drainRate: 25,
     }
 ];
 
@@ -31,30 +31,23 @@ const godLevels = [
         tnl: 1,
         maxHunger: 1000,
         hungerRate: 1,
-        //TODO switch back
-        // hungerRate: 1,
         tantrumThreshold: 1000
     },
     {   
-        //TODO change back
-        tnl: 1,
-        //tnl: 30,
+        tnl: 45,
         maxHunger: 1000,
         hungerRate: 5,
         tantrumThreshold: 750,
     },
     {   
-        //TODO change back
-        tnl: 1,
-        //tnl: 300,
+        tnl: 150,
         maxHunger: 1000,
         hungerRate: 10,
         tantrumThreshold: 500,
     },
     {   
         //TODO change back
-        tnl: 1,
-        // tnl: 3000,
+        tnl: 500,
         maxHunger: 1000,
         hungerRate: 20,
         tantrumThreshold: 250,
@@ -64,90 +57,126 @@ const godLevels = [
 const farmLevels = [
     {
         produce: 3,
-        //TODO change back
-        farmUpgradeCost: 1,
-        // farmUpgradeCost: 5,
-    },
-    {
-        produce: 8,
-        farmUpgradeCost: 1,
-        // farmUpgradeCost: 15,
-    },
-    {
-        produce: 20,
-        farmUpgradeCost: 1,
-        // farmUpgradeCost: 45,
-    },
-    {
-        produce: 45,
-        farmUpgradeCost: 1,
-        // farmUpgradeCost: 135,
-    },
-    {
-        produce: 100,
-        farmUpgradeCost: Infinity,
-    }
-];
+        farmUpgradeCost: 10,
 
-const irrigationLevels = [
-    {   
-        //TODO set back to real value
-        harvestAt: 1, //debugging
-        //harvestAt: 50,
-        irrigationUpgradeCost: 10,
-    },
-    {
-        harvestAt: 40,
-        irrigationUpgradeCost: 25,
-    },
-    {
+        //return to irrigation when implemented
         harvestAt: 30,
-        irrigationUpgradeCost: 50,
     },
     {
+        produce: 5,
+        farmUpgradeCost: 30,
+
+        //return to irrigation when implemented
+        harvestAt: 25,  
+    },
+    {
+        produce: 9,
+        farmUpgradeCost: 90,
+        
+        //return to irrigation when implemented
         harvestAt: 20,
-        irrigationUpgradeCost: Infinity,
+    },
+    {
+        produce: 15,
+        farmUpgradeCost: 270,
+        
+        //return to irrigation when implemented
+        harvestAt: 15,
+    },
+    {
+        produce: 25,
+        farmUpgradeCost: Infinity,
+
+        //return to irrigation when implemented
+        harvestAt: 10,
     }
 ];
 
-const capacityLevels = [
-    {
-        capacity: 5,
-        capacityUpgradeCost: 25,
-    },
-    {
-        capacity: 10,
-        capacityUpgradeCost: 75,
-    },
-    {
-        capacity: 25,
-        capacityUpgradeCost: 250,
-    },
-    {
-        capacity: 100,
-        capacityUpgradeCost: Infinity,
-    }
-];
+// const irrigationLevels = [
+//     {   
+//         //Integrating into FarmLevel until building is implemented
+//         harvestAt: 60,
+//         irrigationUpgradeCost: 10,
+//     },
+//     {   
+//         //Integrating into FarmLevel until building is implemented
+//         harvestAt: 50,
+//         irrigationUpgradeCost: 10,
+//     },
+//     {
+//         harvestAt: 40,
+//         irrigationUpgradeCost: 25,
+//     },
+//     {
+//         harvestAt: 30,
+//         irrigationUpgradeCost: 50,
+//     },
+//     {
+//         harvestAt: 20,
+//         irrigationUpgradeCost: Infinity,
+//     }
+// ];
+
+// const capacityLevels = [
+//     {
+//         capacity: 5,
+//         capacityUpgradeCost: 10,
+//     },
+//     {
+//         capacity: 8,
+//         capacityUpgradeCost: 30,
+//     },
+//     {
+//         capacity: 12,
+//         capacityUpgradeCost: 90,
+//     },
+//     {
+//         capacity: 18,
+//         capacityUpgradeCost: 270,
+//     },
+//     {
+//         capacity: 30,
+//         capacityUpgradeCost: Infinity,
+//     },
+// ];
 
 const rateLevels = [
     {
-        //TODO revert
-        rate: 1,
-        // rate: 15,
-        rateUpgradeCost: 15,
+        //integrating capacity levels until building is implemented
+        rate: 10,
+        rateUpgradeCost: 10,
+
+        //return to capacity when implemented
+        capacity: 5,
     },
     {
-        rate: 10,
-        rateUpgradeCost: 40,
+        rate: 7.5,
+        rateUpgradeCost: 30,
+
+        //return to capacity when implemented
+        capacity: 8,
     },
     {
         rate: 5,
-        rateUpgradeCost: 100,
+        rateUpgradeCost: 90,
+
+        //return to capacity when implemented
+        capacity: 12,  
     },
     {
-        rate: 1,
+        rate: 2.5,
+        rateUpgradeCost: 270,
+
+        //return to capacity when implemented
+        capacity: 18,
+    },
+        {
+        rate: 0.5,
         rateUpgradeCost: Infinity,
-    }
+
+        //return to capacity when implemented
+        capacity: 30,
+    },
 ];
 
 const toolLevels = [
@@ -196,8 +225,8 @@ export default {
     vatLevels,
     godLevels,
     farmLevels,
-    irrigationLevels,
-    capacityLevels,
+    // irrigationLevels,
+    // capacityLevels,
     rateLevels,
     toolLevels,
     inventoryLevels,
@@ -214,8 +243,8 @@ export {
     vatLevels,
     godLevels,
     farmLevels,
-    irrigationLevels,
-    capacityLevels,
+    // irrigationLevels,
+    // capacityLevels,
     rateLevels,
     toolLevels,
     inventoryLevels,

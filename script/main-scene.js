@@ -460,8 +460,11 @@ class MainScene extends Phaser.Scene {
         this.springs.forEach((spring, index)=> {
             const fountain = spring.getSpringDef();
             var unitCount = fountain.currentUnits;
-            var capacityLevel = fountain.capacityLevel;
-            var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
+            //TODO change back when building is implimented
+            var capacityLevel = fountain.rateLevel;
+            // var capacityLevel = fountain.capacityLevel;
+            var fuelCapacity = globalConfig.rateLevels[capacityLevel].capacity;
+            // var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
             if(unitCount > 0) {
                 if(unitCount == fuelCapacity) {
                     spring.setFrame(5);

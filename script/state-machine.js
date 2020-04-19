@@ -98,7 +98,8 @@ const SystemState = new StateMachine({
             const farmState = this.farm.map((value,idx)=>{
                 const plot = {...value};
                 Object.assign(plot, globalConfig.farmLevels[value.farmLevel]);
-                Object.assign(plot, globalConfig.irrigationLevels[value.irrigationLevel]);
+                //Return when building is implemented
+                // Object.assign(plot, globalConfig.irrigationLevels[value.irrigationLevel]);
                 return plot;
             });
             return farmState;
@@ -152,7 +153,8 @@ const SystemState = new StateMachine({
         getCurrentFountainState: function() {
             const fountainState = this.fountain.map((value,idx)=>{
                 const spring = {...value};
-                Object.assign(spring, globalConfig.capacityLevels[value.capacityLevel]);
+                //Return when building is implemented
+                // Object.assign(spring, globalConfig.capacityLevels[value.capacityLevel]);
                 Object.assign(spring, globalConfig.rateLevels[value.rateLevel]);
                 return spring;
             });
