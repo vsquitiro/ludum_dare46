@@ -55,7 +55,9 @@ const SystemState = new StateMachine({
             level:0,
         },
         inventory: {
-            level: 0,
+            showFood: false,
+            showFuel: false,
+            showBuilding: false,
             food: 3,
             fuel: 4,
             building: 0,
