@@ -49,31 +49,8 @@ const SystemState = new StateMachine({
             count: 0,
             level: 0,
         },
-        farm: [  
-            //{farmExp:0,planted:false,harvestLfalse,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
-            // {
-            //     farmExp: 0,
-            //     farmLevel: 0,
-            //     planted: false,
-            //     harvest: false,
-            //     progress: 0,
-            //     currentUnits: 0,
-            //     fert: false,
-            //     fertTimeRemain: 0,
-            //     irrigationLevel: 0,
-            // }
-        ],
-        fountain: [
-            //{rateExp:0,planted:false,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
-            // {
-            //     rateExp: 0,
-            //     rateLevel: 0,
-            //     planted: false,
-            //     progress: 0,
-            //     currentUnits: 0,
-            //     capacityLevel: 0,
-            // }  
-        ],
+        farm: [],
+        fountain: [],
         tools: {
             level:0,
         },

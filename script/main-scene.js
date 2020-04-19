@@ -205,9 +205,9 @@ class MainScene extends Phaser.Scene {
                     }
                 }
                 else if (this.nearest) {
-                    if(this.nearest.type == "plot") {
+                    if(this.nearest.type == 'plot') {
                         this.interactWithPlot(this.nearest);
-                    } else if(this.nearest.type == "spring") {
+                    } else if(this.nearest.type == 'spring') {
                         this.interactWithSpring(this.nearest);
                     }
                 }
@@ -245,6 +245,7 @@ class MainScene extends Phaser.Scene {
             }
 
             // TODO: Make instruction much more complex
+            displayInteractAction(this.nearest);
             SystemState.currentInstruction = 'plant a seed';
         } else {
             this.nearest = null;
@@ -267,6 +268,21 @@ class MainScene extends Phaser.Scene {
         }
     }
 
+    displayInteractAction(focus) {
+        if(focus.type == 'plot') {
+            var idx = focus.plotIndex;
+            if(!SystemState.farm[idx].planted) {
+                SystemState.currentInstruction = 'plant a piece of food';
+            } else if (SystemState.farm[idx].harvestable) {
+                SystemState.currentInstruction = 'harvest food';
+            } else {
+                SystemState.currentInstruction = 'upgrade plot with fuel';
+            }
+        } else if(focus.type == 'spring') {
+
+        }
+    }
+
     interactWithPlot(plot) {
         var idx = plot.plotIndex;
         if(!SystemState.farm[idx].planted) {
@@ -285,6 +301,9 @@ class MainScene extends Phaser.Scene {
             SystemState.farm[idx].harvestable = false;
             plot.setFrame(2);
 
+        } else if(SystemState.inventory.fuel > 1) {
+            SystemState.farm[idx].farmExp++;
+            SystemState.inventory.fuel--;
         }
     }
 
@@ -300,7 +319,7 @@ class MainScene extends Phaser.Scene {
         var idx = spring.springIndex;
         if(!SystemState.fountain[idx].planted) {
             if (SystemState.inventory.fuel < 1) {
-                SystemState.displayMessage("Are you out of brains, as well as fuel?");
+                SystemState.displayMessage("Where's the fuel, moron?");
             } else {
                 SystemState.fountain[idx].planted = true;
                 SystemState.inventory.fuel--;
