@@ -36,7 +36,7 @@ class MainScene extends Phaser.Scene {
         //     repeat: -1
         // });
 
-        this.plots = map.createFromObjects('Plots', 929, {key: 'plots', frame: 3});
+        this.plots = map.createFromObjects('Plots', 1148, {key: 'basin', frame: 0});
         this.physics.world.enable(this.plots);
         this.plots.forEach((plot, index) => {
             SystemState.addPlot();
@@ -45,7 +45,7 @@ class MainScene extends Phaser.Scene {
         });
 
         //TODO change GID for springs when we have fountain
-        this.springs = map.createFromObjects('Springs', 929, {key: 'sprites', frame: 4});
+        this.springs = map.createFromObjects('Springs', 929, {key: 'plots', frame: 3});
         this.physics.world.enable(this.springs);
         this.springs.forEach((spring, index) => {
             SystemState.addSpring();
@@ -291,14 +291,14 @@ class MainScene extends Phaser.Scene {
                 SystemState.farm[idx].planted = true;
                 SystemState.farm[idx].growing = true;
                 SystemState.inventory.food--;
-                plot.setFrame(13);
+                plot.setFrame(1);
             }
         } else if(SystemState.farm[idx].harvestable) {
             SystemState.inventory.food += SystemState.farm[idx].currentUnits;
             SystemState.farm[idx].currentUnits = 0;
             SystemState.farm[idx].planted = false;
             SystemState.farm[idx].harvestable = false;
-            plot.setFrame(2);
+            plot.setFrame(0);
 
         } else if(SystemState.inventory.fuel > 1) {
             SystemState.farm[idx].farmExp++;
@@ -309,7 +309,7 @@ class MainScene extends Phaser.Scene {
     checkGrowthSprite() {
         this.plots.forEach((plot, index) => {
             if(SystemState.farm[plot.plotIndex].harvestable) {
-                plot.setFrame(9);
+                plot.setFrame(2);
             }
         });        
     }
