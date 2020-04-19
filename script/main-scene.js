@@ -14,15 +14,20 @@ class MainScene extends Phaser.Scene {
         // What to create?
         const map = this.make.tilemap({key: 'map'});
 
-        const tiles = map.addTilesetImage('White Tiles', 'tiles');
-        const sprites = map.addTilesetImage('placeholder', 'sprites');
-        const slimeBlock = map.addTilesetImage('Player', 'slimeBlock');
+        const tiles = map.addTilesetImage('room', 'mainRoom');
+        const vat = map.addTilesetImage('vat small', 'vat');
         const floor = map.createStaticLayer('Floor Layer', tiles, 0,0);
         const walls = map.createStaticLayer('Wall Layer', tiles, 0,0);
         walls.setCollisionByExclusion([-1]);
 
-        const vatLevel0 = map.createStaticLayer('Vat Level 0', sprites, 0, 0);
-        vatLevel0.setCollisionByExclusion([-1]);
+        const vatLevel0 = map.createDynamicLayer('Vat Level 0', vat, 0, 0);
+        const vatLevel1 = map.createDynamicLayer('Vat Level 1', vat, 0, 0);
+        vatLevel1.visible = false;
+        const vatLevel2 = map.createDynamicLayer('Vat Level 2', vat, 0, 0);
+        vatLevel2.visible = false;
+
+        this.sys.animatedTiles.init(map);
+        this.sys.animatedTiles.setRate(0.5);
 
         // this.anims.create({
         //     key:'blop',
@@ -31,7 +36,7 @@ class MainScene extends Phaser.Scene {
         //     repeat: -1
         // });
 
-        this.plots = map.createFromObjects('Plots', 63, {key: 'sprites', frame: 2});
+        this.plots = map.createFromObjects('Plots', 929, {key: 'plots', frame: 3});
         this.physics.world.enable(this.plots);
         this.plots.forEach((plot, index) => {
             SystemState.addPlot();
@@ -39,7 +44,8 @@ class MainScene extends Phaser.Scene {
             plot.type = "plot";
         });
 
-        this.springs = map.createFromObjects('Springs', 65, {key: 'sprites', frame: 4});
+        //TODO change GID for springs when we have fountain
+        this.springs = map.createFromObjects('Springs', 929, {key: 'sprites', frame: 4});
         this.physics.world.enable(this.springs);
         this.springs.forEach((spring, index) => {
             SystemState.addSpring();
@@ -52,12 +58,10 @@ class MainScene extends Phaser.Scene {
             ...this.springs,
         ];
 
-        this.target = this.add.rectangle(0, 0, 32, 32);
-        this.target.setStrokeStyle(4, 0xffffff);
-        this.target.visible = false;
-        this.target.isFilled = false;
+        this.target = null;
 
-        this.player = this.physics.add.sprite(50,100, 'player', 0);
+        this.player = this.physics.add.sprite(400,300, 'player', 0);
+        this.player.setDepth(100);
 
         this.physics.world.bounds.width = map.widthInPixels;
         this.physics.world.bounds.height = map.heightInPixels;
@@ -69,8 +73,7 @@ class MainScene extends Phaser.Scene {
 
         this.physics.add.collider(this.player, walls);
         this.physics.add.collider(this.player, vatLevel0);
-        this.physics.add.overlap(this.player, this.plots);
-        this.physics.add.overlap(this.player, this.springs);
+        this.physics.add.overlap(this.player, this.interactTests);
 
         this.createInput();
     }
@@ -106,6 +109,7 @@ class MainScene extends Phaser.Scene {
 
     update(time, delta) {
         SystemState.simulation.updateSimulation(delta);
+        this.animatedTiles.updateAnimatedTiles();
 
         this.handleMovementInput();
         this.handleUIInput();
@@ -233,15 +237,22 @@ class MainScene extends Phaser.Scene {
         if (!this.player.body.touching.none || this.player.body.embedded) {
             this.nearest = this.physics.closest(this.player, this.interactTests);
             
-            this.target.visible = true;
-            this.target.setPosition(this.nearest.x, this.nearest.y);
-            this.target.setSize(this.nearest.width, this.nearest.height);
+            if (!this.target) {
+                this.target = this.add.rectangle(this.nearest.x, this.nearest.y, this.nearest.width, this.nearest.height);
+                this.target.isFilled = false;
+                this.target.setStrokeStyle(4, 0x6495ed);
+                this.target.setDepth(99);
+            }
 
             // TODO: Make instruction much more complex
             SystemState.currentInstruction = 'plant a seed';
         } else {
             this.nearest = null;
-            this.target.visible = false;
+            if (this.target) {
+                this.target.visible = false;
+                this.target.destroy();
+                this.target = null;
+            }
             SystemState.currentInstruction = null;
         }
 

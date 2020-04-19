@@ -106,8 +106,8 @@ export class Simulation {
             }
         })
 
-        console.log("Fountain Planted: " + SystemState.fountain[0].planted);
-        console.log("Fountain Progress: " + SystemState.fountain[0].progress);
-        console.log("Fountain CurrentUnits: " + SystemState.fountain[0].currentUnits);
+        // console.log("Fountain Planted: " + SystemState.fountain[0].planted);
+        // console.log("Fountain Progress: " + SystemState.fountain[0].progress);
+        // console.log("Fountain CurrentUnits: " + SystemState.fountain[0].currentUnits);
     }
 }
