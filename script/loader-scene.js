@@ -42,6 +42,7 @@ class Loader extends Phaser.Scene {
         this.load.spritesheet('vat', 'assets/trex.png', {frameWidth: 128, frameHeight: 224, spacing: 32});
         this.load.spritesheet('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('textBox', 'assets/text-box.png');
+        this.load.image('invBG', 'assets/Inv BG.png');
 
         //Sounds
         this.load.audio('error1', 'assets/Error1.mp3');
