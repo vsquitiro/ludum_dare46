@@ -6,11 +6,15 @@ import OverlayScene from './overlay-scene.js';
 import globalConfig from './global-config.js';
 import { Simulation } from './simulation.js';
 import PauseScene from './pause-scene.js';
+import WinScene from './win-scene.js';
+import LoseScene from './lose-scene.js';
 
 //States
 const menu = "menu",
       main = "main",
-      pause = "pause";
+      pause = "pause",
+      win = "win",
+      lose = "lose";
 
 /**
  * @property {Phaser.Game} game
@@ -21,6 +25,8 @@ const SystemState = new StateMachine({
         { name: 'gameStart', from: menu, to: main },
         { name: 'pause', from: main, to: pause },
         { name: 'unpause', from: pause, to: main },
+        { name: 'winGame', from: main, to: win},
+        { name: 'loseGame', from: main, to: win},
     ],
     data: {
         /** @type {Phaser.Game} */
@@ -178,6 +184,21 @@ const SystemState = new StateMachine({
             this.game.scene.add('mainScene', MainScene, true);
             this.game.scene.add('overlayScene', OverlayScene, true);
         },
+
+        onWinGame: function() {
+            console.log("win");
+            this.game.scene.add('winScene', WinScene, true);
+            this.game.scene.remove('mainScene');
+            this.game.scene.remove('overlayScene');
+
+        },
+
+        onLoseGame: function() {
+            console.log("lose");
+            this.game.scene.add('loseScene', LoseScene, true);
+            this.game.scene.remove('mainScene');
+            this.game.scene.remove('overlayScene');
+        }
     }
 });
 

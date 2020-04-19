@@ -83,7 +83,9 @@ class OverlayScene extends Phaser.Scene {
         this.invFuelText = this.add.text(rightAlignPos, border + 24, 'Fuel', this.inventoryStyle);
         this.invFuelText.setOrigin(1, 0);
         this.invFuelText.visible = false;
-        this.invBuildingText = this.add.text(rightAlignPos, border + 48, 'Uranium', this.inventoryStyle);
+        //TODO revert when done debugging
+        this.invBuildingText = this.add.text(rightAlignPos, border + 48, 'Hunger', this.inventoryStyle);
+        // this.invBuildingText = this.add.text(rightAlignPos, border + 48, 'Uranium', this.inventoryStyle);
         this.invBuildingText.setOrigin(1, 0);
         this.invBuildingText.visible = false;
 
@@ -142,14 +144,18 @@ class OverlayScene extends Phaser.Scene {
             this.invFuelText.visible = true;
             this.invFuelCount.visible = true;
         }
-        if (inv.showBuilding) {
+        // TODO revert after debugging
+        if (!inv.showBuilding) {
+        // if (inv.showBuilding) {
             this.invBuildingText.visible = true;
             this.invBuildingCount.visible = true;
         }
 
         this.invFoodCount.text = inv.food;
         this.invFuelCount.text = inv.fuel;
-        this.invBuildingCount.text = inv.building;
+        // TODO revert after debugging
+        this.invBuildingCount.text = Math.floor(SystemState.god.hunger);
+        // this.invBuildingCount.text = inv.building;
     }
 
     showMessage(delta) {

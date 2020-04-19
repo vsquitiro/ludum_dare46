@@ -29,33 +29,35 @@ const vatLevels = [
 const godLevels = [
     {   
         tnl: 1,
-        maxHunger: 10000,
+        maxHunger: 1000,
         hungerRate: 1,
-        tantrumThreshold: 10000
+        //TODO switch back
+        // hungerRate: 1,
+        tantrumThreshold: 1000
     },
     {   
         //TODO change back
         tnl: 1,
         //tnl: 30,
-        maxHunger: 10000,
+        maxHunger: 1000,
         hungerRate: 5,
-        tantrumThreshold: 7500,
+        tantrumThreshold: 750,
     },
     {   
         //TODO change back
         tnl: 1,
         //tnl: 300,
-        maxHunger: 10000,
+        maxHunger: 1000,
         hungerRate: 10,
-        tantrumThreshold: 5000,
+        tantrumThreshold: 500,
     },
     {   
         //TODO change back
         tnl: 1,
         // tnl: 3000,
-        maxHunger: 10000,
+        maxHunger: 1000,
         hungerRate: 20,
-        tantrumThreshold: 2500,
+        tantrumThreshold: 250,
     }
 ];
 

@@ -18,6 +18,13 @@ export class Simulation {
         const vatState = SystemState.getCurrentVatState();
         const updatedUnits = vatState.currentUnits - (vatState.drainRate * delta);
         SystemState.vat.currentUnits = Math.max(0, updatedUnits);
+        if(SystemState.vat.currentUnits <= 0) {
+            if(SystemState.winState.lose == false) {
+                console.log("The game is lost!");
+                SystemState.winState.lose = true;
+                SystemState.loseGame();
+            }
+        }
     }
 
     updateGod(delta) {
@@ -33,11 +40,14 @@ export class Simulation {
             SystemState.god.tantrum = false;
         }
         if(updatedHunger>godState.maxHunger) {
-            console.log("Setting lose to true");
-            SystemState.winState.lose = true;
+            if(SystemState.winState.lose == false) {
+                console.log("The game is lost!");
+                SystemState.winState.lose = true;
+                SystemState.loseGame();
+            }
         }
         if(SystemState.god.exp >= godState.tnl) {
-            console.log("God Level Up");
+            // console.log("God Level Up");
             SystemState.god.exp = 0;
             if(SystemState.god.level < 3) {
                 SystemState.god.level++;
@@ -48,8 +58,12 @@ export class Simulation {
                     SystemState.god.teaching = true;
                 }
             } else {
-                console.log("The game is won!")
-                SystemState.winState.win = true;
+                // console.log("The game is won!")
+                if (SystemState.winState.win == false) {
+                    console.log("The game is won!")
+                    SystemState.winState.win = true;
+                    SystemState.winGame();
+                }
             }
         }
 
