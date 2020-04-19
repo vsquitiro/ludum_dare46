@@ -31,6 +31,10 @@ export class Chaos {
                 vatMessageChance = .75;
             }
 
+            if(SystemState.god.level == 0) {
+                vatMessageChance = 0;
+            }
+
             const chance = godState.inTantrum ? tantrumMessageChance : messageChance;
             const sendMessageTest = Math.random();
 

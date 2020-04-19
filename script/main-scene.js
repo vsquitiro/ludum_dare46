@@ -313,11 +313,14 @@ class MainScene extends Phaser.Scene {
         if(!SystemState.farm[idx].planted) {
             if (SystemState.inventory.food < 1) {
                 SystemState.displayMessage("You don't have a seed, dipshit");
-            } else {
+            } else if(SystemState.god.level != 0 || SystemState.god.teaching == true) {
+                SystemState.god.teaching = false;
                 SystemState.farm[idx].planted = true;
                 SystemState.farm[idx].growing = true;
                 SystemState.inventory.food--;
                 plot.setFrame(1);
+            } else {
+                SystemState.displayMessage("Farm later, feed now!");        
             }
         } else if(SystemState.farm[idx].harvestable) {
             SystemState.inventory.food += SystemState.farm[idx].currentUnits;
@@ -379,9 +382,13 @@ class MainScene extends Phaser.Scene {
         if(SystemState.inventory.food < 1) {
             SystemState.displayMessage("Are YOU the food!?");
         } else {
-            SystemState.inventory.food--;
-            SystemState.god.hunger -= 10;
-            SystemState.god.exp++;
+            if(!SystemState.god.teaching) {
+                SystemState.inventory.food--;
+                SystemState.god.hunger -= 10;
+                SystemState.god.exp++;
+            } else {
+                SystemState.displayMessage("You can't plant it if I eat it!");
+            }
         }
     }
 
@@ -389,9 +396,18 @@ class MainScene extends Phaser.Scene {
         if(SystemState.inventory.fuel < 1) {
             SystemState.displayMessage("Aren't you forgetting something?");
         } else {
-            SystemState.inventory.fuel--;
-            SystemState.vat.currentUnits += 10;
-        }
+            if(!SystemState.god.teaching) {
+                SystemState.inventory.fuel--;
+                SystemState.vat.currentUnits += 10;
+            } else {
+                SystemState.inventory.fuel--;
+                SystemState.vat.currentUnits += 10;
+                SystemState.displayMessage("No, put the fuel in the fountain!");
+                SystemState.inventory.fuel++;
+                SystemState.vat.currentUnits -= 10;
+                SystemState.god.teaching = false;
+            }
+        } 
     }
 
 }

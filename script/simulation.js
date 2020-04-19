@@ -41,6 +41,12 @@ export class Simulation {
             SystemState.god.exp = 0;
             if(SystemState.god.level < 3) {
                 SystemState.god.level++;
+                if (SystemState.god.level == 1) {
+                    SystemState.displayMessage("YOU CRACKED THE VAT!");
+                    SystemState.inventory.fuel++;
+                    SystemState.showBar = true;
+                    SystemState.god.teaching = true;
+                }
             } else {
                 console.log("The game is won!")
                 SystemState.winState.win = true;

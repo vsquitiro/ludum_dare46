@@ -25,7 +25,7 @@ const SystemState = new StateMachine({
     data: {
         /** @type {Phaser.Game} */
         game: null,
-        showBar: true,
+        showBar: false,
         isPaused: false,
         runSimulation: true,
         winState: {
@@ -44,6 +44,7 @@ const SystemState = new StateMachine({
             exp: 0,
             hunger: 0,
             tantrum: false,
+            teaching: true,
         },
         minions: {
             count: 0,
@@ -58,8 +59,8 @@ const SystemState = new StateMachine({
             showFood: false,
             showFuel: false,
             showBuilding: false,
-            food: 3,
-            fuel: 4,
+            food: 1,
+            fuel: 0,
             building: 0,
         },
         message: {
