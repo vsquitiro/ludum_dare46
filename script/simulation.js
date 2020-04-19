@@ -10,6 +10,7 @@ export class Simulation {
             this.updateVatLevel(delta);
             this.updateGod(delta);
             this.updateFarm(delta);
+            this.updateFountain(delta);
         }
     }
 
@@ -55,25 +56,58 @@ export class Simulation {
 
     updateFarm(delta) {
         const farmState = SystemState.getCurrentFarmState();
-        farmState.plots.forEach((value,idx)=>{
+        farmState.forEach((value,idx)=>{
             if (value.planted) {
                 if (value.fert) {
-                    SystemState.farm.plots[idx].progress += delta*2;
-                    SystemState.farm.plots[idx].fertTimeRemain -= delta;
+                    SystemState.farm[idx].progress += delta*2;
+                    SystemState.farm[idx].fertTimeRemain -= delta;
+                    if (SystemState.farm[idx].fertTimeRemain <= 0) {
+                        SystemState.farm[idx].fertTimeRemain = 0;
+                        SystemState.farm[idx].fert = false;
+                    }
                  } else {   
-                    SystemState.farm.plots[idx].progress += delta;
+                    SystemState.farm[idx].progress += delta;
                 }
-                if(SystemState.farm.plots[idx].progress > value.harvestAt) {
-                    SystemState.farm.plots[idx].harvest = true;
-                    SystemState.farm.plots[idx].currentUnits += value.produce;
-                    SystemState.farm.plots[idx].planted = false;
-                    SystemState.farm.plots[idx].progress = 0;
+                if(SystemState.farm[idx].progress > value.harvestAt) {
+                    SystemState.farm[idx].harvest = true;
+                    SystemState.farm[idx].currentUnits += value.produce;
+                    SystemState.farm[idx].planted = false;
+                    SystemState.farm[idx].progress = 0;
                 }
             }
+
+            if(value.farmExp>value.farmUpgradeCost) {
+                SystemState.farm[idx].farmLevel++;
+                SystemState.farm[idx].exp = 0;
+            }
         })
-        console.log("Planted: " + SystemState.farm.plots[0].planted);
-        console.log("Progress: " + SystemState.farm.plots[0].progress);
-        console.log("Harvest: " + SystemState.farm.plots[0].harvest);
-        console.log("CurrentUnits: " + SystemState.farm.plots[0].currentUnits);
+
+        console.log("Farm Planted: " + SystemState.farm[0].planted);
+        console.log("Farm Progress: " + SystemState.farm[0].progress);
+        console.log("Farm Harvest: " + SystemState.farm[0].harvest);
+        console.log("Farm CurrentUnits: " + SystemState.farm[0].currentUnits);
+    }
+
+    updateFountain(delta) {
+        const fountainState = SystemState.getCurrentFountainState();
+        fountainState.forEach((value,idx)=>{
+            if (value.planted && SystemState.fountain[idx].currentUnits < value.capacity) {
+                console.log("test")
+                SystemState.fountain[idx].progress += delta;
+                if(SystemState.fountain[idx].progress >= value.rate) {
+                    SystemState.fountain[idx].progress -= value.rate;
+                    SystemState.fountain[idx].currentUnits++;
+                }
+            }
+
+            if(value.rateExp>value.rateUpgradeCost) {
+                SystemState.fountain[idx].rateLevel++;
+                SystemState.fountain[idx].exp = 0;
+            }
+        })
+
+        console.log("Farm Planted: " + SystemState.fountain[0].planted);
+        console.log("Farm Progress: " + SystemState.fountain[0].progress);
+        console.log("Farm CurrentUnits: " + SystemState.fountain[0].currentUnits);
     }
 }

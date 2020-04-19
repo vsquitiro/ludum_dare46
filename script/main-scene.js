@@ -192,7 +192,8 @@ class MainScene extends Phaser.Scene {
         }
         if (this.debugKey.plant.isDown)
         {
-            SystemState.farm.plots[0].planted = true;
+            SystemState.farm[0].planted = true;
+            SystemState.fountain[0].planted = true;
         }
     }
 }
