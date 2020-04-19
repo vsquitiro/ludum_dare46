@@ -9,8 +9,17 @@ class MenuScene extends Phaser.Scene {
     }
     create() {
         console.log("Menu Create");
-        var text = this.add.text(screenWidth/2, screenHeight/2, 'Click Anywhere to Start');
-        text.setOrigin(0.5, 0.5);
+        WebFont.load({
+            custom: {
+                families: ['Audiowide'],
+            },
+            active: () => {
+                var text = this.add.text(screenWidth/2, screenHeight/2, 'WHY BABY?');
+                text.setFontSize(80);
+                text.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
+                text.setOrigin(0.5, 0.5);
+            }
+        });
 
         this.shortcutZone = this.add.zone(24 * 32, 18 * 32, 1 * 32, 1 * 32).setOrigin(0).setName('shortcut');
         this.shortcutZone.setInteractive({cursor: 'pointer'});

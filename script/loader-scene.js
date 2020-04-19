@@ -28,6 +28,7 @@ class Loader extends Phaser.Scene {
     preload() {
         console.log("Loader Preload");
         // Add all assets to be loaded here.
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
         this.load.scenePlugin({
             key: 'AnimatedTiles',
             url: 'lib/AnimatedTiles.js',
