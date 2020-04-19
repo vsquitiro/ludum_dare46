@@ -244,7 +244,6 @@ class MainScene extends Phaser.Scene {
                 this.target.setDepth(99);
             }
 
-            // TODO: Make instruction much more complex
             this.displayInteractAction(this.nearest);
         } else {
             this.nearest = null;
@@ -256,6 +255,7 @@ class MainScene extends Phaser.Scene {
             SystemState.currentInstruction = null;
         }
 
+        //TODO remove when done debugging
         if (this.debugKey.feed.isDown)
         {
             SystemState.god.hunger = Math.max(0, SystemState.god.hunger - 1);
@@ -268,6 +268,7 @@ class MainScene extends Phaser.Scene {
     }
 
     displayInteractAction(focus) {
+        //TODO revise messages with item names
         if(focus.type == 'plot') {
             var idx = focus.plotIndex;
             if(!SystemState.farm[idx].planted) {
@@ -278,7 +279,14 @@ class MainScene extends Phaser.Scene {
                 SystemState.currentInstruction = 'upgrade plot with fuel';
             }
         } else if(focus.type == 'spring') {
-
+            var idx = focus.springIndex;
+            if(!SystemState.fountain[idx].planted) {
+                SystemState.currentInstruction = 'plant a unit of fuel';
+            } else if (SystemState.fountain[idx].currentUnits > 0) {
+                SystemState.currentInstruction = 'harvest fuel';
+            } else {
+                SystemState.currentInstruction = 'upgrade spring with fuel';
+            }
         }
     }
 
