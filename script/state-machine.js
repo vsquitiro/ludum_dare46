@@ -51,17 +51,17 @@ const SystemState = new StateMachine({
         },
         farm: [  
             //{farmExp:0,planted:false,harvestLfalse,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
-            {
-                farmExp: 0,
-                farmLevel: 0,
-                planted: false,
-                harvest: false,
-                progress: 0,
-                currentUnits: 0,
-                fert: false,
-                fertTimeRemain: 0,
-                irrigationLevel: 0,
-            }
+            // {
+            //     farmExp: 0,
+            //     farmLevel: 0,
+            //     planted: false,
+            //     harvest: false,
+            //     progress: 0,
+            //     currentUnits: 0,
+            //     fert: false,
+            //     fertTimeRemain: 0,
+            //     irrigationLevel: 0,
+            // }
         ],
         fountain: [
             //{rateExp:0,planted:false,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
@@ -79,9 +79,9 @@ const SystemState = new StateMachine({
         },
         inventory: {
             level: 0,
-            item0: 0,
-            item1: 0,
-            item2: 0,
+            food: 3,
+            fuel: 0,
+            building: 0,
         },
         message: {
             current: null,
@@ -138,7 +138,8 @@ const SystemState = new StateMachine({
             this.farm.push({
                 exp:0,
                 planted:false,
-                harvest:false,
+                growing:false,
+                harvestable:false,
                 progress:0,
                 currentUnits:0,
                 fert:false,

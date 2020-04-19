@@ -47,17 +47,17 @@ export class Simulation {
             }
         }
 
-        console.log("God Hunger: " + SystemState.god.hunger);
-        console.log("Tantrum: " + SystemState.god.tantrum);
-        console.log("winState: win: " + SystemState.winState.win);
-        console.log("winState lose: " + SystemState.winState.lose);
-        console.log("God Level: " + SystemState.god.level);
+        // console.log("God Hunger: " + SystemState.god.hunger);
+        // console.log("Tantrum: " + SystemState.god.tantrum);
+        // console.log("winState: win: " + SystemState.winState.win);
+        // console.log("winState lose: " + SystemState.winState.lose);
+        // console.log("God Level: " + SystemState.god.level);
     }
 
     updateFarm(delta) {
         const farmState = SystemState.getCurrentFarmState();
         farmState.forEach((value,idx)=>{
-            if (value.planted) {
+            if (value.growing) {
                 if (value.fert) {
                     SystemState.farm[idx].progress += delta*2;
                     SystemState.farm[idx].fertTimeRemain -= delta;
@@ -69,9 +69,9 @@ export class Simulation {
                     SystemState.farm[idx].progress += delta;
                 }
                 if(SystemState.farm[idx].progress > value.harvestAt) {
-                    SystemState.farm[idx].harvest = true;
+                    SystemState.farm[idx].harvestable = true;
                     SystemState.farm[idx].currentUnits += value.produce;
-                    SystemState.farm[idx].planted = false;
+                    SystemState.farm[idx].growing = false;
                     SystemState.farm[idx].progress = 0;
                 }
             }
@@ -82,17 +82,17 @@ export class Simulation {
             }
         })
 
-        console.log("Farm Planted: " + SystemState.farm[0].planted);
-        console.log("Farm Progress: " + SystemState.farm[0].progress);
-        console.log("Farm Harvest: " + SystemState.farm[0].harvest);
-        console.log("Farm CurrentUnits: " + SystemState.farm[0].currentUnits);
+        // console.log("Farm Planted: " + SystemState.farm[0].planted);
+        // console.log("Farm Progress: " + SystemState.farm[0].progress);
+        // console.log("Farm Growing: " + SystemState.farm[0].growing); 
+        // console.log("Farm Harvest: " + SystemState.farm[0].harvestable);
+        // console.log("Farm CurrentUnits: " + SystemState.farm[0].currentUnits);
     }
 
     updateFountain(delta) {
         const fountainState = SystemState.getCurrentFountainState();
         fountainState.forEach((value,idx)=>{
             if (value.planted && SystemState.fountain[idx].currentUnits < value.capacity) {
-                console.log("test")
                 SystemState.fountain[idx].progress += delta;
                 if(SystemState.fountain[idx].progress >= value.rate) {
                     SystemState.fountain[idx].progress -= value.rate;
@@ -106,8 +106,8 @@ export class Simulation {
             }
         })
 
-        console.log("Fountain Planted: " + SystemState.fountain[0].planted);
-        console.log("Fountain Progress: " + SystemState.fountain[0].progress);
-        console.log("Fountain CurrentUnits: " + SystemState.fountain[0].currentUnits);
+        // console.log("Fountain Planted: " + SystemState.fountain[0].planted);
+        // console.log("Fountain Progress: " + SystemState.fountain[0].progress);
+        // console.log("Fountain CurrentUnits: " + SystemState.fountain[0].currentUnits);
     }
 }

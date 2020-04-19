@@ -75,7 +75,8 @@ const farmLevels = [
 
 const irrigationLevels = [
     {
-        harvestAt: 50,
+        harvestAt: 10, //debugging
+        //harvestAt: 50,
         irrigationUpgradeCost: 10,
     },
     {

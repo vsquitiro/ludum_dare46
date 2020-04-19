@@ -97,6 +97,7 @@ class MainScene extends Phaser.Scene {
         this.handleInteractionInput();
         this.detectOverlap();
         this.chaos.checkForMessage(time);
+        this.checkGrowthSprite();
     }
 
     handleMovementInput() {
@@ -184,7 +185,7 @@ class MainScene extends Phaser.Scene {
                     }
                 }
                 else if (this.nearest) {
-                    SystemState.displayMessage("You don't have a seed, dipshit")
+                    this.interactWithPlot(this.nearest);
                 }
             }
 
@@ -228,6 +229,35 @@ class MainScene extends Phaser.Scene {
             SystemState.farm[0].planted = true;
             SystemState.fountain[0].planted = true;
         }
+    }
+
+    interactWithPlot(plot) {
+        var idx = plot.plotIndex;
+        if(!SystemState.farm[idx].planted) {
+            if (SystemState.inventory.food < 1) {
+                SystemState.displayMessage("You don't have a seed, dipshit")
+            } else {
+                SystemState.farm[this.nearest.plotIndex].planted = true;
+                SystemState.farm[this.nearest.plotIndex].growing = true;
+                SystemState.inventory.food--;
+                plot.setFrame(13);
+            }
+        } else if(SystemState.farm[idx].harvestable) {
+            var farmYield = globalConfig.farmLevels[SystemState.farm[idx].farmLevel].produce;
+            SystemState.inventory.food += farmYield;
+            SystemState.farm[idx].planted = false;
+            SystemState.farm[idx].harvestable = false;
+            plot.setFrame(2);
+
+        }
+    }
+
+    checkGrowthSprite() {
+        this.plots.forEach((plot, index) => {
+            if(SystemState.farm[plot.plotIndex].harvestable) {
+                plot.setFrame(9);
+            }
+        });        
     }
 }
 
