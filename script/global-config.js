@@ -1,7 +1,7 @@
 const screenWidth = 800;
 const screenHeight = 600;
 
-const playerVelocity = 160;
+const playerVelocity = 240;
 const messageOpportunityTime = 5000;
 const messageChance = 0.05;
 const tantrumMessageChance = 0.2;

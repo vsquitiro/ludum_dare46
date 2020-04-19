@@ -28,10 +28,15 @@ class Loader extends Phaser.Scene {
     preload() {
         console.log("Loader Preload");
         // Add all assets to be loaded here.
-        this.load.tilemapTiledJSON('map', 'assets/testMap.json');
-        this.load.image('tiles', 'assets/whiteTiles.png');
-        this.load.spritesheet('sprites', 'assets/placeholdersprite.png', {frameWidth: 32, frameHeight: 32});
-        this.load.image('slimeBlock', 'assets/Characterslimes.png');
+        this.load.scenePlugin({
+            key: 'AnimatedTiles',
+            url: 'lib/AnimatedTiles.js',
+            sceneKey: 'animatedTiles'
+        });
+        this.load.tilemapTiledJSON('map', 'assets/main.json');
+        this.load.spritesheet('mainRoom', 'assets/map800.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('plots', 'assets/map800.png', {frameWidth: 192, frameHeight: 192, margin: 64});
+        this.load.spritesheet('vat', 'assets/trex.png', {frameWidth: 128, frameHeight: 224, spacing: 32});
         this.load.spritesheet('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('textBox', 'assets/text-box.png');
 
