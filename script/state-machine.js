@@ -49,16 +49,31 @@ const SystemState = new StateMachine({
             count: 0,
             level: 0,
         },
-        farm: {
-            plots: [
-            //{exp:0,planted:false,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
-            ]
-        },
-        fountain: {
-            springs: [
-            //{exp:0,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
-            ]
-        },
+        farm: [  
+            //{farmExp:0,planted:false,harvestLfalse,progress:0,currentUnits:0,fert:false,fertTimeRemain:0,farmLevel:0,irrigationLevel:0}
+            {
+                farmExp: 0,
+                farmLevel: 0,
+                planted: false,
+                harvest: false,
+                progress: 0,
+                currentUnits: 0,
+                fert: false,
+                fertTimeRemain: 0,
+                irrigationLevel: 0,
+            }
+        ],
+        fountain: [
+            //{rateExp:0,planted:false,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
+            {
+                rateExp: 0,
+                rateLevel: 0,
+                planted: false,
+                progress: 0,
+                currentUnits: 0,
+                capacityLevel: 0,
+            }  
+        ],
         tools: {
             level:0,
         },
@@ -94,12 +109,12 @@ const SystemState = new StateMachine({
             return godState;
         },
         getCurrentFarmState: function() {
-            const farmState = {...this.farm};
-            farmState.plots.forEach((value,idx) => {
-                Object.assign(value, globalConfig.farmLevels[value.farmLevel]);
-                Object.assign(value, globalConfig.irrigationLevels[value.irrigationLevel]);
+            const farmState = this.farm.map((value,idx)=>{
+                const plot = {...value};
+                Object.assign(plot, globalConfig.farmLevels[value.farmLevel]);
+                Object.assign(plot, globalConfig.irrigationLevels[value.irrigationLevel]);
+                return plot;
             });
-            Object.assign(farmState, globalConfig.farmLevels[this.farm.level])
             return farmState;
         },
 
@@ -121,7 +136,7 @@ const SystemState = new StateMachine({
         },
 
         addPlot() {
-            this.farm.plots.push({
+            this.farm.push({
                 exp:0,
                 planted:false,
                 harvest:false,
@@ -132,6 +147,16 @@ const SystemState = new StateMachine({
                 farmLevel:0,
                 irrigationLevel:0,
             });
+        },
+
+        getCurrentFountainState: function() {
+            const fountainState = this.fountain.map((value,idx)=>{
+                const spring = {...value};
+                Object.assign(spring, globalConfig.capacityLevels[value.capacityLevel]);
+                Object.assign(spring, globalConfig.rateLevels[value.rateLevel]);
+                return spring;
+            });
+            return fountainState;
         },
 
         // Transition handlers
