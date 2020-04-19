@@ -245,8 +245,7 @@ class MainScene extends Phaser.Scene {
             }
 
             // TODO: Make instruction much more complex
-            displayInteractAction(this.nearest);
-            SystemState.currentInstruction = 'plant a seed';
+            this.displayInteractAction(this.nearest);
         } else {
             this.nearest = null;
             if (this.target) {
