@@ -102,10 +102,10 @@ class MainScene extends Phaser.Scene {
             pause: Phaser.Input.Keyboard.KeyCodes.ESC,
         });
 
-        this.debugKey = this.input.keyboard.addKeys(
-            {feed:Phaser.Input.Keyboard.KeyCodes.F,
-            plant:Phaser.Input.Keyboard.KeyCodes.P}
-            );
+        // this.debugKey = this.input.keyboard.addKeys(
+        //     {feed:Phaser.Input.Keyboard.KeyCodes.F,
+        //     plant:Phaser.Input.Keyboard.KeyCodes.P}
+        //     );
 
         this.previousPadState = {
             pause: false,
@@ -270,15 +270,15 @@ class MainScene extends Phaser.Scene {
         }
 
         //TODO remove when done debugging
-        if (this.debugKey.feed.isDown)
-        {
-            SystemState.god.hunger = Math.max(0, SystemState.god.hunger - 1);
-            SystemState.god.exp += .5;
-        }
-        if (this.debugKey.plant.isDown)
-        {
-            SystemState.farm[0].planted = true;
-        }
+        // if (this.debugKey.feed.isDown)
+        // {
+        //     SystemState.god.hunger = Math.max(0, SystemState.god.hunger - 1);
+        //     SystemState.god.exp += .5;
+        // }
+        // if (this.debugKey.plant.isDown)
+        // {
+        //     SystemState.farm[0].planted = true;
+        // }
     }
 
     displayInteractAction(focus) {
@@ -329,7 +329,7 @@ class MainScene extends Phaser.Scene {
             SystemState.farm[idx].harvestable = false;
             plot.setFrame(0);
 
-        } else if(SystemState.inventory.fuel > 1) {
+        } else if(SystemState.inventory.fuel > 0) {
             SystemState.farm[idx].farmExp++;
             SystemState.inventory.fuel--;
         }
@@ -357,7 +357,7 @@ class MainScene extends Phaser.Scene {
             SystemState.inventory.fuel += SystemState.fountain[idx].currentUnits;
             SystemState.fountain[idx].currentUnits = 0;
             spring.setFrame(1);
-        } else if(SystemState.inventory.fuel > 1) {
+        } else if(SystemState.inventory.fuel > 0) {
             SystemState.inventory.fuel--;
             SystemState.fountain[idx].rateExp++;
         }
