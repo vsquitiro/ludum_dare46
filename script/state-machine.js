@@ -65,14 +65,14 @@ const SystemState = new StateMachine({
         ],
         fountain: [
             //{rateExp:0,planted:false,progress:0,currentUnits:0,capacityLevel:0,rateLevel:0}
-            {
-                rateExp: 0,
-                rateLevel: 0,
-                planted: false,
-                progress: 0,
-                currentUnits: 0,
-                capacityLevel: 0,
-            }  
+            // {
+            //     rateExp: 0,
+            //     rateLevel: 0,
+            //     planted: false,
+            //     progress: 0,
+            //     currentUnits: 0,
+            //     capacityLevel: 0,
+            // }  
         ],
         tools: {
             level:0,
@@ -80,7 +80,7 @@ const SystemState = new StateMachine({
         inventory: {
             level: 0,
             food: 3,
-            fuel: 0,
+            fuel: 4,
             building: 0,
         },
         message: {
@@ -147,6 +147,17 @@ const SystemState = new StateMachine({
                 fertTimeRemain:0,
                 farmLevel:0,
                 irrigationLevel:0,
+            });
+        },
+
+        addSpring() {
+            this.fountain.push({
+                rateExp: 0,
+                rateLevel: 0,
+                planted: false,
+                progress: 0,
+                currentUnits: 0,
+                capacityLevel: 0,
             });
         },
 

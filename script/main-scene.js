@@ -24,26 +24,32 @@ class MainScene extends Phaser.Scene {
         const vatLevel0 = map.createStaticLayer('Vat Level 0', sprites, 0, 0);
         vatLevel0.setCollisionByExclusion([-1]);
 
-        this.anims.create({
-            key:'blop',
-            frames:this.anims.generateFrameNumbers('player', {start:2, end:3}),
-            frameRate: 16,
-            repeat: -1
-        });
+        // this.anims.create({
+        //     key:'blop',
+        //     frames:this.anims.generateFrameNumbers('player', {start:2, end:3}),
+        //     frameRate: 16,
+        //     repeat: -1
+        // });
 
         this.plots = map.createFromObjects('Plots', 63, {key: 'sprites', frame: 2});
         this.physics.world.enable(this.plots);
         this.plots.forEach((plot, index) => {
             SystemState.addPlot();
             plot.plotIndex = index;
+            plot.type = "plot";
         });
 
-        // this.this.physics.add.group({
-            
-        // })
+        this.springs = map.createFromObjects('Springs', 65, {key: 'sprites', frame: 4});
+        this.physics.world.enable(this.springs);
+        this.springs.forEach((spring, index) => {
+            SystemState.addSpring();
+            spring.springIndex = index;
+            spring.type = "spring";
+        })
 
         this.interactTests = [
             ...this.plots,
+            ...this.springs,
         ];
 
         this.target = this.add.rectangle(0, 0, 32, 32);
@@ -64,6 +70,7 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, walls);
         this.physics.add.collider(this.player, vatLevel0);
         this.physics.add.overlap(this.player, this.plots);
+        this.physics.add.overlap(this.player, this.springs);
 
         this.createInput();
     }
@@ -106,6 +113,7 @@ class MainScene extends Phaser.Scene {
         this.detectOverlap();
         this.chaos.checkForMessage(time);
         this.checkGrowthSprite();
+        this.checkFillSprite();
     }
 
     handleMovementInput() {
@@ -193,7 +201,11 @@ class MainScene extends Phaser.Scene {
                     }
                 }
                 else if (this.nearest) {
-                    this.interactWithPlot(this.nearest);
+                    if(this.nearest.type == "plot") {
+                        this.interactWithPlot(this.nearest);
+                    } else if(this.nearest.type == "spring") {
+                        this.interactWithSpring(this.nearest);
+                    }
                 }
             }
 
@@ -241,7 +253,6 @@ class MainScene extends Phaser.Scene {
         if (this.debugKey.plant.isDown)
         {
             SystemState.farm[0].planted = true;
-            SystemState.fountain[0].planted = true;
         }
     }
 
@@ -249,16 +260,16 @@ class MainScene extends Phaser.Scene {
         var idx = plot.plotIndex;
         if(!SystemState.farm[idx].planted) {
             if (SystemState.inventory.food < 1) {
-                SystemState.displayMessage("You don't have a seed, dipshit")
+                SystemState.displayMessage("You don't have a seed, dipshit");
             } else {
-                SystemState.farm[this.nearest.plotIndex].planted = true;
-                SystemState.farm[this.nearest.plotIndex].growing = true;
+                SystemState.farm[idx].planted = true;
+                SystemState.farm[idx].growing = true;
                 SystemState.inventory.food--;
                 plot.setFrame(13);
             }
         } else if(SystemState.farm[idx].harvestable) {
-            var farmYield = globalConfig.farmLevels[SystemState.farm[idx].farmLevel].produce;
-            SystemState.inventory.food += farmYield;
+            SystemState.inventory.food += SystemState.farm[idx].currentUnits;
+            SystemState.farm[idx].currentUnits = 0;
             SystemState.farm[idx].planted = false;
             SystemState.farm[idx].harvestable = false;
             plot.setFrame(2);
@@ -272,6 +283,41 @@ class MainScene extends Phaser.Scene {
                 plot.setFrame(9);
             }
         });        
+    }
+
+    interactWithSpring(spring) {
+        var idx = spring.springIndex;
+        if(!SystemState.fountain[idx].planted) {
+            if (SystemState.inventory.fuel < 1) {
+                SystemState.displayMessage("Are you out of brains, as well as fuel?");
+            } else {
+                SystemState.fountain[idx].planted = true;
+                SystemState.inventory.fuel--;
+                spring.setFrame(1);
+            }
+        } else if(SystemState.fountain[idx].currentUnits > 0) {
+            SystemState.inventory.fuel += SystemState.fountain[idx].currentUnits;
+            SystemState.fountain[idx].currentUnits = 0;
+            spring.setFrame(1);
+        } else if(SystemState.inventory.fuel > 1) {
+            SystemState.inventory.fuel--;
+            SystemState.fountain[idx].rateExp++;
+        }
+    }
+
+    checkFillSprite() {
+        this.springs.forEach((spring, index)=> {
+            var unitCount = SystemState.fountain[spring.springIndex].currentUnits;
+            var capacityLevel = SystemState.fountain[spring.springIndex].capacityLevel;
+            var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
+            if(unitCount > 0) {
+                if(unitCount == fuelCapacity) {
+                    spring.setFrame(5);
+                } else {
+                    spring.setFrame(0);
+                }
+            }
+        })
     }
 }
 

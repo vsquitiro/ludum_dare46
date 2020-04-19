@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="14">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="19">
  <editorsettings>
   <export target="testMap.json" format="json"/>
  </editorsettings>
@@ -581,5 +581,11 @@
   <object id="9" gid="63" x="96" y="320" width="32" height="32"/>
   <object id="10" gid="63" x="128" y="320" width="32" height="32"/>
   <object id="11" gid="63" x="160" y="320" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="9" name="Springs">
+  <object id="14" gid="65" x="322" y="320" width="32" height="32"/>
+  <object id="15" gid="65" x="355" y="321" width="32" height="32"/>
+  <object id="16" gid="65" x="390" y="320" width="32" height="32"/>
+  <object id="17" gid="65" x="291" y="320" width="32" height="32"/>
  </objectgroup>
 </map>
