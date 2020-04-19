@@ -88,6 +88,7 @@ const SystemState = new StateMachine({
             shown: 0,
             playing: false,
         },
+        currentInstruction: null,
         simulation: new Simulation(),
     },
     methods: {

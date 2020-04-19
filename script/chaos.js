@@ -17,6 +17,8 @@ const vatMessages = [
 
 export class Chaos {
     checkForMessage(time) {
+        if (SystemState.isPaused) return;
+        
         if (time - SystemState.lastMessageCheckTime > messageOpportunityTime) {
             SystemState.lastMessageCheckTime = time;
 
