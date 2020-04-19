@@ -64,9 +64,11 @@ const SystemState = new StateMachine({
         inventory: {
             showFood: false,
             showFuel: false,
+            showFert: false,
             showBuilding: false,
             food: 1,
             fuel: 0,
+            fert: 0,
             building: 0,
         },
         message: {

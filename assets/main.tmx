@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="25" height="37" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="25">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="25" height="37" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="29">
  <editorsettings>
   <export target="main.json" format="json"/>
  </editorsettings>
@@ -793,6 +793,19 @@
   <object id="15" x="32" y="736" width="256" height="256">
    <properties>
     <property name="forObject" value="10"/>
+    <property name="objectType" value="interactor"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="Fert">
+  <object id="26" gid="1154" x="274" y="1187" width="279" height="89">
+   <properties>
+    <property name="objectType" value="fert"/>
+   </properties>
+  </object>
+  <object id="27" x="279" y="1043" width="275" height="141">
+   <properties>
+    <property name="forObject" value="26"/>
     <property name="objectType" value="interactor"/>
    </properties>
   </object>

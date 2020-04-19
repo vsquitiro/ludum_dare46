@@ -334,6 +334,57 @@
         }, 
         {
          "draworder":"topdown",
+         "id":11,
+         "name":"Fert",
+         "objects":[
+                {
+                 "gid":1154,
+                 "height":89,
+                 "id":26,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"objectType",
+                         "type":"string",
+                         "value":"fert"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":279,
+                 "x":274,
+                 "y":1187
+                }, 
+                {
+                 "height":141,
+                 "id":27,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"forObject",
+                         "type":"string",
+                         "value":"26"
+                        }, 
+                        {
+                         "name":"objectType",
+                         "type":"string",
+                         "value":"interactor"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":275,
+                 "x":279,
+                 "y":1043
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":10,
          "name":"GodControls",
          "objects":[
@@ -396,8 +447,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":460.242504996669,
-                 "y":235.43237841439
+                 "x":460.243,
+                 "y":235.432
                 }, 
                 {
                  "gid":1161,
@@ -414,8 +465,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":349.80946035976,
-                 "y":235.43237841439
+                 "x":349.809,
+                 "y":235.432
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -423,8 +474,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":11,
- "nextobjectid":25,
+ "nextlayerid":12,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.4",

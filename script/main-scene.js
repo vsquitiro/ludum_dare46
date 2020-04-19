@@ -123,16 +123,28 @@ class MainScene extends Phaser.Scene {
             .filter((obj) => obj.get('objectType') == 'interactor')
             .map(createZone);
 
+
+        const fertLayer = map.getObjectLayer('Fert');
+        const fertObjects = fertLayer.objects.map(transformObject);
+        this.ferts = fertObjects
+            .filter((obj) => obj.get('objectType') == 'fert')
+            .map(createSprite('placeholder', 2));        
+        this.fertInteractions = fertObjects
+            .filter((obj) => obj.get('objectType') == 'interactor')
+            .map(createZone);
+
         this.interactables = [
             ...this.plots,
             ...this.springs,
             ...this.fuelTerminal,
             ...this.foodTerminal,
+            ...this.ferts,
         ];
         this.targetZones = [
             ...this.plotInteractions,
             ...this.springInteractions,
             ...this.godControlInteractions,
+            ...this.fertInteractions,
         ];
 
         this.target = null;
@@ -293,6 +305,8 @@ class MainScene extends Phaser.Scene {
                         this.interactWithFoodTerminal(); break;
                     case 'fuelTerminal':
                         this.interactWithFuelTerminal(); break;
+                    case 'fert':
+                        this.interactWithFert(); break;
                     }
                 }
             }
@@ -371,8 +385,8 @@ class MainScene extends Phaser.Scene {
                 SystemState.currentInstruction = 'plant a piece of food';
             } else if (SystemState.farm[idx].harvestable) {
                 SystemState.currentInstruction = 'harvest food';
-            } else {
-                SystemState.currentInstruction = 'upgrade plot with fuel';
+            } else if (!SystemState.farm[idx].fert) {
+                SystemState.currentInstruction = 'use fertilizer';
             }
         } else if(type === 'spring') {
             var idx = focus.get('springIndex');
@@ -387,6 +401,8 @@ class MainScene extends Phaser.Scene {
             SystemState.currentInstruction = 'feed god';
         } else if(type === 'fuelTerminal') {
             SystemState.currentInstruction = 'fill vat';
+        } else if(type === 'fert') {
+            SystemState.currentInstruction = 'spend 5 food and fuel each to make fertilizer';
         }
     }
 
@@ -405,16 +421,30 @@ class MainScene extends Phaser.Scene {
                 SystemState.displayMessage("Farm later, feed now!");        
             }
         } else if(farm.harvestable) {
-            SystemState.inventory.food += farm.currentUnits;
+            if(farm.fert) { 
+                SystemState.inventory.food += farm.currentUnits*3;
+            } else {
+                SystemState.inventory.food += farm.currentUnits;
+            }
             farm.currentUnits = 0;
             farm.planted = false;
             farm.harvestable = false;
             plot.setFrame(0);
-
-        } else if(SystemState.inventory.fuel > 0) {
-            farm.farmExp++;
-            SystemState.inventory.fuel--;
+        } else if(!farm.fert) {
+            if(SystemState.inventory.fert > 0) {
+                SystemState.inventory.fert--;
+                farm.fert = true;
+                farm.fertTimeRemain = 100;
+            } else {
+                SystemState.displayMessage("You need fertilizer to do that...");
+            }
         }
+
+        // } else if(SystemState.inventory.fuel > 0) {
+            //Add back in if we reimplement farm levels
+            //farm.farmExp++;
+            //SystemState.inventory.fuel--;
+        // }
     }
 
     checkGrowthSprite() {
@@ -423,15 +453,17 @@ class MainScene extends Phaser.Scene {
             if(farm.harvestable) {
                 plot.setFrame(2);
             }
-            var farmLevel = farm.farmLevel;
-            if(farmLevel == 1) {
-                plot.tint = 0xf9e79f;
-            } else if(farmLevel == 2) {
-                plot.tint = 0xf7dc6f;
-            } else if(farmLevel == 3) {
-                plot.tint = 0xf4d03f;
-            } else if(farmLevel == 4) {
+            var fertLevel = farm.fertTimeRemain;
+            if(fertLevel > 75) {
                 plot.tint = 0xf1c40f;
+            } else if(fertLevel > 50) {
+                plot.tint = 0xf4d03f;
+            } else if(fertLevel > 25) {
+                plot.tint = 0xf7dc6f;
+            } else if(fertLevel > 0) {
+                plot.tint = 0xf9e79f;
+            } else {
+                plot.clearTint();
             }
         });
     }
@@ -505,13 +537,13 @@ class MainScene extends Phaser.Scene {
         } else {
             if(!SystemState.god.teaching) {
                 SystemState.inventory.fuel--;
-                SystemState.vat.currentUnits += 10;
+                SystemState.vat.currentUnits += 20;
             } else {
                 SystemState.inventory.fuel--;
-                SystemState.vat.currentUnits += 10;
+                SystemState.vat.currentUnits += 20;
                 SystemState.displayMessage("No, put the fuel in the fountain!");
                 SystemState.inventory.fuel++;
-                SystemState.vat.currentUnits -= 10;
+                SystemState.vat.currentUnits -= 20;
                 SystemState.god.teaching = false;
             }
         } 
@@ -524,6 +556,16 @@ class MainScene extends Phaser.Scene {
         } else if (SystemState.god.level == 3) {
             this.vatLevel1.visible = false;
             this.vatLevel2.visible = true;
+        }
+    }
+
+    interactWithFert() {
+        if (SystemState.inventory.food >= 5 && SystemState.inventory.fuel >= 5) {
+            SystemState.inventory.fert++;
+            SystemState.inventory.food -= 5;
+            SystemState.inventory.fuel -= 5;           
+        } else {
+            SystemState.displayMessage("You need materials and a brain...");
         }
     }
 

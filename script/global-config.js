@@ -56,11 +56,11 @@ const godLevels = [
 
 const farmLevels = [
     {
-        produce: 3,
+        produce: 5,
         farmUpgradeCost: 10,
 
         //return to irrigation when implemented
-        harvestAt: 30,
+        harvestAt: 15,
     },
     {
         produce: 5,
@@ -143,35 +143,35 @@ const farmLevels = [
 const rateLevels = [
     {
         //integrating capacity levels until building is implemented
-        rate: 10,
-        rateUpgradeCost: 10,
+        rate: 8,
+        rateUpgradeCost: 5,
 
         //return to capacity when implemented
         capacity: 5,
     },
     {
-        rate: 7.5,
-        rateUpgradeCost: 30,
+        rate: 6,
+        rateUpgradeCost: 10,
 
         //return to capacity when implemented
         capacity: 8,
     },
     {
-        rate: 5,
-        rateUpgradeCost: 90,
+        rate: 3,
+        rateUpgradeCost: 20,
 
         //return to capacity when implemented
         capacity: 12,  
     },
     {
-        rate: 2.5,
-        rateUpgradeCost: 270,
+        rate: .8,
+        rateUpgradeCost: 40,
 
         //return to capacity when implemented
         capacity: 18,
     },
         {
-        rate: 0.5,
+        rate: 0.2,
         rateUpgradeCost: Infinity,
 
         //return to capacity when implemented

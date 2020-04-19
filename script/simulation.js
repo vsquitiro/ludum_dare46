@@ -79,7 +79,7 @@ export class Simulation {
         farmState.forEach((value,idx)=>{
             if (value.growing) {
                 if (value.fert) {
-                    SystemState.farm[idx].progress += delta*2;
+                    SystemState.farm[idx].progress += delta*3;
                     SystemState.farm[idx].fertTimeRemain -= delta;
                     if (SystemState.farm[idx].fertTimeRemain <= 0) {
                         SystemState.farm[idx].fertTimeRemain = 0;

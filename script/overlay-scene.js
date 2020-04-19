@@ -83,11 +83,18 @@ class OverlayScene extends Phaser.Scene {
         this.invFuelText = this.add.text(rightAlignPos, border + 24, 'Fuel', this.inventoryStyle);
         this.invFuelText.setOrigin(1, 0);
         this.invFuelText.visible = false;
+        this.invFertText = this.add.text(rightAlignPos, border + 48, 'Fertilizer', this.inventoryStyle);
+        this.invFertText.setOrigin(1, 0);
+        this.invFertText.visible = false;
+        // Reimpliment if building is added
+        // this.invBuildingText = this.add.text(rightAlignPos, border + 72, 'Uranium', this.inventoryStyle);
+        // this.invBuildingText.setOrigin(1, 0);
+        // this.invBuildingText.visible = false;
+        
         //TODO revert when done debugging
-        this.invBuildingText = this.add.text(rightAlignPos, border + 48, 'Hunger', this.inventoryStyle);
-        // this.invBuildingText = this.add.text(rightAlignPos, border + 48, 'Uranium', this.inventoryStyle);
-        this.invBuildingText.setOrigin(1, 0);
-        this.invBuildingText.visible = false;
+        this.invHungerText = this.add.text(rightAlignPos, border + 72, 'Hunger', this.inventoryStyle);
+        this.invHungerText.setOrigin(1, 0);
+        this.invHungerText.visible = false;
 
         this.invFoodCount = this.add.text(rightAlignPos + 30, border, '', this.inventoryStyle);
         this.invFoodCount.setOrigin(1, 0);
@@ -95,9 +102,15 @@ class OverlayScene extends Phaser.Scene {
         this.invFuelCount = this.add.text(rightAlignPos + 30, border + 24, '', this.inventoryStyle);
         this.invFuelCount.setOrigin(1, 0);
         this.invFuelCount.visible = false;
-        this.invBuildingCount = this.add.text(rightAlignPos + 30, border + 48, '', this.inventoryStyle);
-        this.invBuildingCount.setOrigin(1, 0);
-        this.invBuildingCount.visible = false;
+        // this.invBuildingCount = this.add.text(rightAlignPos + 30, border + 72, '', this.inventoryStyle);
+        // this.invBuildingCount.setOrigin(1, 0);
+        // this.invBuildingCount.visible = false;
+        this.invFertCount = this.add.text(rightAlignPos + 30, border + 48, '', this.inventoryStyle);
+        this.invFertCount.setOrigin(1, 0);
+        this.invFertCount.visible = false;
+        this.invHungerCount = this.add.text(rightAlignPos + 30, border + 72, '', this.inventoryStyle);
+        this.invHungerCount.setOrigin(1, 0);
+        this.invHungerCount.visible = false;
     }
 
     update(time, delta) {
@@ -134,7 +147,8 @@ class OverlayScene extends Phaser.Scene {
 
         if (!inv.showFood && inv.food) inv.showFood = true;
         if (!inv.showFuel && inv.fuel) inv.showFuel = true;
-        if (!inv.showBuilding && inv.building) inv.showBuilding = true;
+        // if (!inv.showBuilding && inv.building) inv.showBuilding = true;
+        if (!inv.showFert && inv.fert) inv.showFert = true;
 
         if (inv.showFood) {
             this.invFoodText.visible = true;
@@ -145,16 +159,25 @@ class OverlayScene extends Phaser.Scene {
             this.invFuelCount.visible = true;
         }
         // TODO revert after debugging
-        if (!inv.showBuilding) {
         // if (inv.showBuilding) {
-            this.invBuildingText.visible = true;
-            this.invBuildingCount.visible = true;
+        //     this.invBuildingText.visible = true;
+        //     this.invBuildingCount.visible = true;
+        // }
+
+        if (inv.showFert) {
+            this.invFertText.visible = true;
+            this.invFertCount.visible = true;
         }
+
+        //Todo turn off when done with debugging
+        this.invHungerText.visible = true;
+        this.invHungerCount.visible = true;
 
         this.invFoodCount.text = inv.food;
         this.invFuelCount.text = inv.fuel;
+        this.invFertCount.text = inv.fert;
         // TODO revert after debugging
-        this.invBuildingCount.text = Math.floor(SystemState.god.hunger);
+        this.invHungerCount.text = Math.floor(SystemState.god.hunger);
         // this.invBuildingCount.text = inv.building;
     }
 
