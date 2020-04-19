@@ -38,6 +38,14 @@ class OverlayScene extends Phaser.Scene {
         this.message.setColor('black');
         this.message.width = 550;
         this.message.height = 150;
+
+        this.instruction = this.add.text(border, 70, null);
+        this.instruction.setFontFamily('Helvetica, Verdana, Sans');
+        this.instruction.setFontSize(20);
+        this.instruction.setColor('white');
+        this.instruction.setStroke('black', 2);
+        this.instruction.setShadow(1, 1, '#222222', 1, true, false);
+        this.instruction.visible = false;
     }
 
     update(time, delta) {
@@ -56,6 +64,7 @@ class OverlayScene extends Phaser.Scene {
         this.vatBarInner.width = (this.vatBarBG.width - 4) * vatState.percentage;
 
         this.showMessage(delta);
+        this.showInstruction();
     }
 
     showMessage(delta) {
@@ -81,6 +90,15 @@ class OverlayScene extends Phaser.Scene {
             this.timeSinceLastLetter = 0;
             this.messageBox.visible = false;
             this.message.visible = false;
+        }
+    }
+
+    showInstruction() {
+        if (SystemState.currentInstruction) {
+            this.instruction.text = "Interact to " + SystemState.currentInstruction;
+            this.instruction.visible = true;
+        } else {
+            this.instruction.visible = false;
         }
     }
 }

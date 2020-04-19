@@ -46,11 +46,11 @@ export class Simulation {
             }
         }
 
-        console.log("God Hunger: " + SystemState.god.hunger);
-        console.log("Tantrum: " + SystemState.god.tantrum);
-        console.log("winState: win: " + SystemState.winState.win);
-        console.log("winState lose: " + SystemState.winState.lose);
-        console.log("God Level: " + SystemState.god.level);
+        // console.log("God Hunger: " + SystemState.god.hunger);
+        // console.log("Tantrum: " + SystemState.god.tantrum);
+        // console.log("winState: win: " + SystemState.winState.win);
+        // console.log("winState lose: " + SystemState.winState.lose);
+        // console.log("God Level: " + SystemState.god.level);
     }
 
     updateFarm(delta) {
@@ -71,9 +71,9 @@ export class Simulation {
                 }
             }
         })
-        console.log("Planted: " + SystemState.farm.plots[0].planted);
-        console.log("Progress: " + SystemState.farm.plots[0].progress);
-        console.log("Harvest: " + SystemState.farm.plots[0].harvest);
-        console.log("CurrentUnits: " + SystemState.farm.plots[0].currentUnits);
+        // console.log("Planted: " + SystemState.farm.plots[0].planted);
+        // console.log("Progress: " + SystemState.farm.plots[0].progress);
+        // console.log("Harvest: " + SystemState.farm.plots[0].harvest);
+        // console.log("CurrentUnits: " + SystemState.farm.plots[0].currentUnits);
     }
 }

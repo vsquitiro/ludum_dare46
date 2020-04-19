@@ -38,6 +38,14 @@ class MainScene extends Phaser.Scene {
             plot.plotIndex = index;
         });
 
+        // this.this.physics.add.group({
+            
+        // })
+
+        this.interactTests = [
+            ...this.plots,
+        ];
+
         this.target = this.add.rectangle(0, 0, 32, 32);
         this.target.setStrokeStyle(4, 0xffffff);
         this.target.visible = false;
@@ -210,12 +218,18 @@ class MainScene extends Phaser.Scene {
 
     detectOverlap() {
         if (!this.player.body.touching.none || this.player.body.embedded) {
-            this.nearest = this.physics.closest(this.player, this.plots);
+            this.nearest = this.physics.closest(this.player, this.interactTests);
+            
             this.target.visible = true;
             this.target.setPosition(this.nearest.x, this.nearest.y);
+            this.target.setSize(this.nearest.width, this.nearest.height);
+
+            // TODO: Make instruction much more complex
+            SystemState.currentInstruction = 'plant a seed';
         } else {
             this.nearest = null;
             this.target.visible = false;
+            SystemState.currentInstruction = null;
         }
 
         if (this.debugKey.feed.isDown)

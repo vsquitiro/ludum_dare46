@@ -27,6 +27,20 @@ class MenuScene extends Phaser.Scene {
                 SystemState.gameStart();
             }
         }, this);
+
+        this.input.keyboard.addKey('SPACE,ENTER', () => {
+            if (SystemState.state == "menu") {
+                SystemState.gameStart();
+            }
+        })
+    }
+
+    update() {
+        const gamepad = this.input.gamepad.getPad(0);
+
+        if (gamepad && (gamepad.A || gamepad.buttons[9].val === 1) && SystemState.state === "menu") {
+            SystemState.gameStart();
+        }
     }
 }
 
