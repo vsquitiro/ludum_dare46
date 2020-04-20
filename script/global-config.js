@@ -5,6 +5,8 @@ const playerVelocity = 240;
 const messageOpportunityTime = 5000;
 const messageChance = 0.05;
 const tantrumMessageChance = 0.2;
+const fuelTimeout = 10*1000;
+const crackTimeout = 20*1000;
 
 const vatLevels = [
     {
@@ -219,6 +221,8 @@ export default {
     screenWidth,
     screenHeight,
     playerVelocity,
+    fuelTimeout,
+    crackTimeout,
     messageOpportunityTime,
     messageChance,
     tantrumMessageChance,
@@ -237,6 +241,8 @@ export {
     screenWidth,
     screenHeight,
     playerVelocity,
+    fuelTimeout,
+    crackTimeout,
     messageOpportunityTime,
     messageChance,
     tantrumMessageChance,

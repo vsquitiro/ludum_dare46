@@ -16,6 +16,8 @@ export class Simulation {
 
     updateVatLevel(delta) {
         const vatState = SystemState.getCurrentVatState();
+        if (!vatState.draining) return;
+        
         const updatedUnits = vatState.currentUnits - (vatState.drainRate * delta);
         SystemState.vat.currentUnits = Math.max(0, updatedUnits);
         if(SystemState.vat.currentUnits <= 0) {
@@ -51,12 +53,12 @@ export class Simulation {
             SystemState.god.exp = 0;
             if(SystemState.god.level < 3) {
                 SystemState.god.level++;
-                if (SystemState.god.level == 1) {
-                    SystemState.displayMessage("YOU CRACKED THE VAT!");
-                    SystemState.inventory.fuel++;
-                    SystemState.showBar = true;
-                    SystemState.god.teaching = true;
-                }
+                // if (SystemState.god.level == 1) {
+                //     SystemState.displayMessage("YOU CRACKED THE VAT!");
+                //     SystemState.inventory.fuel++;
+                //     SystemState.showBar = true;
+                //     SystemState.god.teaching = true;
+                // }
             } else {
                 // console.log("The game is won!")
                 if (SystemState.winState.win == false) {

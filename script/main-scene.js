@@ -292,7 +292,7 @@ class MainScene extends Phaser.Scene {
                 const stickPos = gamepad.leftStick;
                 if (Math.abs(stickPos.x) > .2) {
                     this.player.body.setVelocityX(stickPos.x * playerVelocity);
-                    if(stickPox.x > 0) {
+                    if(stickPos.x > 0) {
                         horizontalMove++;
                     } else {
                         horizontalMove--;
@@ -300,7 +300,7 @@ class MainScene extends Phaser.Scene {
                 }
                 if (Math.abs(stickPos.y) > .2) {
                     this.player.body.setVelocityY(stickPos.y * playerVelocity);
-                    if(stickPox.y > 0) {
+                    if(stickPos.y > 0) {
                         verticalMove++;
                     } else {
                         verticalMove--;
@@ -457,29 +457,29 @@ class MainScene extends Phaser.Scene {
         if (type === 'plot') {
             var idx = focus.get('plotIndex');
             if(!SystemState.farm[idx].planted) {
-                SystemState.currentInstruction = 'plant a piece of food';
+                SystemState.currentInstruction = 'plant a piece of Embroja';
             } else if (SystemState.farm[idx].harvestable) {
-                SystemState.currentInstruction = 'harvest food';
+                SystemState.currentInstruction = 'harvest Embroja';
             } else if (!SystemState.farm[idx].fert) {
                 SystemState.currentInstruction = 'use fertilizer';
             }
         } else if(type === 'spring') {
             var idx = focus.get('springIndex');
             if(!SystemState.fountain[idx].planted) {
-                SystemState.currentInstruction = 'plant a unit of fuel';
+                SystemState.currentInstruction = 'prime the spring with 1 Nektare';
             } else if (SystemState.fountain[idx].currentUnits > 0) {
-                SystemState.currentInstruction = 'harvest fuel';
+                SystemState.currentInstruction = 'harvest Nektare';
             } else {
                 if(SystemState.fountain[idx].rateLevel !=4) {
-                    SystemState.currentInstruction = 'upgrade spring with fuel';
+                    SystemState.currentInstruction = 'upgrade spring with 1 Nektare';
                 }
             }
         } else if(type === 'foodTerminal') {
-            SystemState.currentInstruction = 'feed god';
+            SystemState.currentInstruction = 'feed Serpens';
         } else if(type === 'fuelTerminal') {
-            SystemState.currentInstruction = 'fill vat';
+            SystemState.currentInstruction = 'refill vat';
         } else if(type === 'fert') {
-            SystemState.currentInstruction = 'spend 5 food and fuel each to make fertilizer';
+            SystemState.currentInstruction = 'spend 5 Embroja and Nektare each to make fertilizer';
         }
     }
 
@@ -554,7 +554,7 @@ class MainScene extends Phaser.Scene {
         var frameMod = this.spriteIdx[fountain.rateLevel];
         if(!fountain.planted) {
             if (SystemState.inventory.fuel < 1) {
-                SystemState.displayMessage("Where's the fuel, moron?");
+                SystemState.displayMessage("Where's the Nektare, moron?");
             } else {
                 fountain.planted = true;
                 SystemState.inventory.fuel--;
@@ -628,7 +628,7 @@ class MainScene extends Phaser.Scene {
             } else {
                 SystemState.inventory.fuel--;
                 SystemState.vat.currentUnits += 35;
-                SystemState.displayMessage("No, put the fuel in the fountain!");
+                SystemState.displayMessage("No, put the Nektare in the spring!");
                 SystemState.inventory.fuel++;
                 SystemState.vat.currentUnits -= 35;
                 SystemState.god.teaching = false;
