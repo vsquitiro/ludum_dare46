@@ -530,7 +530,9 @@ class MainScene extends Phaser.Scene {
         } else {
             if(!SystemState.god.teaching || SystemState.god.level > 0) {
                 SystemState.inventory.food--;
-                SystemState.god.hunger -= 10;
+
+                currentHunger = SystemState.god.hunger;
+                SystemState.god.hunger = Math.max(currentHunger-10,0);
                 SystemState.god.exp++;
             } else {
                 SystemState.displayMessage("You can't plant it if I eat it!");
