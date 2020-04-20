@@ -40,6 +40,8 @@ const SystemState = new StateMachine({
         enableChaos: false,
         eventsComplete: [],
         currentEvent: null,
+        enableSprings: false,
+        enabelFilling: false,
         winState: {
             win: false,
             lose: false,
@@ -55,6 +57,7 @@ const SystemState = new StateMachine({
         vat: {
             currentUnits: 1000,
             taped: false,
+            draining: false,
         },
         god: {
             level: 0,

@@ -1,4 +1,5 @@
 import SystemState from './state-machine.js';
+import globalConfig from './global-config.js';
 
 export const scripts = [
     {
@@ -62,6 +63,11 @@ export const scripts = [
                     SystemState.inventory.food = 1;
                     SystemState.allowInteraction = true;
                     SystemState.allowMovement = true;
+
+                    //Hack to make crack work
+                    SystemState.feedings = 0;
+                    SystemState.eventsComplete = SystemState.eventsComplete.filter((item) => item !== 'firstFeed');
+                    
                     return "complete";
                 },
             },
@@ -72,15 +78,19 @@ export const scripts = [
         conditions: ['startScript', 'firstPlant'],
         script: [
             {
-                message: 'Text 1',
+                message: 'I cannot believe your\nincompetence.',
                 onComplete: 'next',
             },
             {
-                message: 'Text 2',
+                message: 'When I get out of this vat\nyou will be punished',
                 onComplete: 'next',
             },
             {
-                message: 'Text 3',
+                message: 'And if you do not help me\nI will use the last of my\nstrength to end you',
+                onComplete: 'next',
+            },
+            {
+                message: 'And it will hurt the whole time',
                 onComplete: 'next',
             },
             {
@@ -92,6 +102,89 @@ export const scripts = [
                     thePlot.currentUnits = 5;
                     SystemState.runSimulation = true;
                     return "complete";
+                },
+            },
+        ],
+    },
+    {
+        name: 'firstGoodFeed',
+        conditions: ['startScript', 'onFirstPlant', 'firstFeed'],
+        script: [
+            {
+                message: "I feel my strength returning\nalready. But don't rest yet.",
+                onComplete: 'next',
+            },
+            {
+                message: "I need more, MUCH MORE",
+                onComplete: () => {
+                    setTimeout(() => SystemState.eventsComplete.push('impatient'), globalConfig.fuelTimeout);
+                    return "complete";
+                },
+            },
+        ],
+    },
+    {
+        name: 'fuelGiven',
+        conditions: ['startScript', 'firstGoodFeed', 'impatient'],
+        script: [
+            {
+                message: "This is taking too long!\nI'll sacrifice some of my\nNektare so you can make\nfertilizer",
+                onComplete: 'next',
+            },
+            {
+                message: "Prime these Nektare fountains\nto produce more",
+                onComplete: () => {
+                    SystemState.enableSprings = true;
+                    SystemState.inventory.fuel = 1;
+                    setTimeout(() => SystemState.eventsComplete.push('restless'), globalConfig.crackTimeout);
+                    return "complete";
+                },
+            },
+        ],
+    },
+    {
+        name: 'glassCracked',
+        conditions: ['startScript', 'fuelGiven', 'restless'],
+        script: [
+            {
+                message: "*struggles*",
+                onComplete: 'next',
+            },
+            {
+                message: "I can do nothing in this minimal form!\n*struggles*",
+                onComplete: 'next',
+            },
+            {
+                // Premessage with crack sound would be nice
+                message: '*struggles*\n...\n*CRACK*',
+                onComplete: () => {
+                    SystemState.showBar = true;
+                    SystemState.vat.draining = true;
+                    SystemState.enableFilling = true;
+                    return 'next';
+                },
+            },
+            {
+                message: 'GAH! And now I’ve cracked my vat!',
+                onComplete: 'next',
+            },
+            {
+                message: 'My Nektare is draining!\nIf it gets too low I will die',
+                onComplete: 'next',
+            },
+            {
+                message: 'Harvest more Nektare and refill\nmy vat.',
+                onComplete: "next",
+            },
+            {
+                message: 'There is a port on the springs\nthat accepts Nektare and improves\ntheir performance',
+                onComplete: 'next'
+            },
+            {
+                message: 'But you would know that if you\nwere any good at your job',
+                onComplete: () => {
+                    SystemState.enableChaos = true;
+                    return 'complete';
                 },
             },
         ],
