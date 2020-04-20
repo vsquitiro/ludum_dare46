@@ -2,6 +2,9 @@
 
 import globalConfig from './global-config.js';
 import SystemState from './state-machine.js';
+import {
+    scripts
+} from './scripts.js';
 
 import { Chaos } from './chaos.js';
 
@@ -209,6 +212,7 @@ class MainScene extends Phaser.Scene {
         this.checkGrowthSprite();
         this.checkFillSprite();
         this.checkGodLevel();
+        this.checkScripts();
     }
 
     handleMovementInput() {
@@ -278,7 +282,7 @@ class MainScene extends Phaser.Scene {
     }
 
     handleInteractionInput() {
-        if (SystemState.allowInteraction) {
+        if (SystemState.allowInteraction || SystemState.allowMessageInteraction) {
             const gamepad = this.input.gamepad.getPad(0);
             const curPadState = {
                 accept: gamepad && gamepad.buttons[0].value === 1,
@@ -288,14 +292,15 @@ class MainScene extends Phaser.Scene {
             };
 
             if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {
-                if (SystemState.message.current) {
+                if (SystemState.message.current && SystemState.allowMessageInteraction) {
                     if (SystemState.message.playing) {
                         SystemState.skipMessage();
                     } else {
                         SystemState.dismissMessage();
+                        this.completeScriptStep();
                     }
                 }
-                else if (this.nearest) {
+                else if (this.nearest && SystemState.allowInteraction) {
                     const type = this.nearest.get && this.nearest.get('objectType');
                     switch (type) {
                     case 'plot':
@@ -577,6 +582,66 @@ class MainScene extends Phaser.Scene {
         }
     }
 
+    checkScripts() {
+        if (!SystemState.currentEvent) {
+            const eventsComplete = SystemState.eventsComplete;
+            scripts.find((script) => {
+                if (eventsComplete.includes(script.name)) return false;
+
+                const shouldNotRun = script.conditions.find((condition) => {
+                    if (condition.startsWith('!')) {
+                        return eventsComplete.includes(condition.slice(1));
+                    } else {
+                        return !eventsComplete.includes(condition);
+                    }
+                });
+
+                if (!shouldNotRun) {
+                    this.runScript(script);
+                    return true;
+                }
+                return false;
+            });
+        }
+    }
+
+    runScript(script) {
+        SystemState.currentEvent = script;
+        
+        script.onStep = 0;
+        this.runScriptStep();
+    }
+
+    runScriptStep() {
+        const script = SystemState.currentEvent;
+        const currentStep = script.script[script.onStep];
+
+        if (currentStep.preMessage) {
+            currentStep.preMessage();
+        }
+        if (currentStep.message) {
+            SystemState.displayMessage(currentStep.message);
+        }
+    }
+
+    completeScriptStep() {
+        if (!SystemState.currentEvent) return;
+        const script = SystemState.currentEvent;
+        const currentStep = script.script[script.onStep];
+
+        let onComplete = currentStep.onComplete;
+        if (currentStep.onComplete instanceof Function) {
+            onComplete = onComplete();
+        }
+
+        if (onComplete === 'next') {
+            script.onStep += 1;
+            this.runScriptStep();
+        } else {
+            SystemState.curentEvent = null;
+            SystemState.eventsComplete.push(script.name);
+        }
+    }
 }
 
 export default MainScene;

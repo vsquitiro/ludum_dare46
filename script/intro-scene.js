@@ -10,19 +10,24 @@ const Actions = {
     SHOWN: 'shown',
 };
 
-const FadeTime = 3000;
+const FadeTime = 500;
 
 class IntroScene extends Phaser.Scene {
     create() {
         this.screens = [
             {
                 image: null,
-                text: "Lorem Ipsum",
+                text: "*CRASH* *SPLASH*",
                 audio: null,
             },
             {
                 image: null,
-                text: "Text 2",
+                text: "WHAT HAVE YOU DONE YOU CLUMSY MORTAL?!?!\nWHAT HAVE YOU DONE TO THE ALL-POWERFUL SERPENS?!",
+                audio: null,
+            },
+            {
+                image: null,
+                text: "HELP ME INTO THIS VAT!",
                 audio: null,
             },
         ];

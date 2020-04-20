@@ -36,14 +36,22 @@ const SystemState = new StateMachine({
         game: null,
         showBar: false,
         isPaused: false,
-        runSimulation: true,
+        runSimulation: false,
+        enableChaos: false,
+        eventsComplete: [],
+        currentEvent: null,
         winState: {
             win: false,
             lose: false,
         },
-        allowMovement: true,
-        allowInteraction: true,
+        allowMovement: false,
+        allowInteraction: false,
+        allowMessageInteraction: true,
         lastMessageCheckTime: 0,
+        plantings: 0,
+        feedings: 0,
+        fills: 0,
+        primings: 0,
         vat: {
             currentUnits: 1000,
             taped: false,
@@ -69,7 +77,7 @@ const SystemState = new StateMachine({
             showFuel: false,
             showFert: false,
             showBuilding: false,
-            food: 1,
+            food: 0,
             fuel: 0,
             fert: 0,
             building: 0,
@@ -180,6 +188,7 @@ const SystemState = new StateMachine({
             this.isPaused = true;
             this.runSimulation = false;
             this.allowInteraction = false;
+            this.allowMessageInteraction = false;
             this.allowMovement = false;
             this.game.scene.add('pauseScene', PauseScene, true);
         },
@@ -189,6 +198,7 @@ const SystemState = new StateMachine({
             this.isPaused = false;
             this.runSimulation = true;
             this.allowInteraction = true;
+            this.allowMessageInteraction = true;
             this.allowMovement = true;
             this.game.scene.remove('pauseScene');
         },
