@@ -77,38 +77,43 @@ class OverlayScene extends Phaser.Scene {
         this.invBackground.visible = false;
 
         const rightAlignPos = screenWidth - border - 30;
-        this.invFoodText = this.add.text(rightAlignPos, border, 'Food', this.inventoryStyle);
-        this.invFoodText.setOrigin(1, 0);
-        this.invFoodText.visible = false;
-        this.invFuelText = this.add.text(rightAlignPos, border + 24, 'Fuel', this.inventoryStyle);
-        this.invFuelText.setOrigin(1, 0);
-        this.invFuelText.visible = false;
-        this.invFertText = this.add.text(rightAlignPos, border + 48, 'Fertilizer', this.inventoryStyle);
-        this.invFertText.setOrigin(1, 0);
-        this.invFertText.visible = false;
+        //this.invFoodText = this.add.text(rightAlignPos, border, 'Food', this.inventoryStyle);
+        this.invFoodIcon = this.add.sprite(rightAlignPos - 42, border + 10, 'objects',7);
+        this.invFoodIcon.visible = false;
+        //this.invFoodText.setOrigin(1, 0);
+        //this.invFoodText.visible = false;
+        //this.invFuelText = this.add.text(rightAlignPos, border + 24, 'Fuel', this.inventoryStyle);
+        this.invFuelIcon = this.add.sprite(rightAlignPos + 22, border + 12, 'objects',5);
+        this.invFuelIcon.visible = false;
+        //this.invFuelText.setOrigin(1, 0);
+        //this.invFuelText.visible = false;
+        //this.invFertText = this.add.text(rightAlignPos, border + 48, 'Fertilizer', this.inventoryStyle);
+        this.invFertIcon = this.add.sprite(rightAlignPos + 22, border + 74, 'objects',3);
+        //this.invFertText.setOrigin(1, 0);
+        //this.invFertText.visible = false;
         // Reimpliment if building is added
         // this.invBuildingText = this.add.text(rightAlignPos, border + 72, 'Uranium', this.inventoryStyle);
         // this.invBuildingText.setOrigin(1, 0);
         // this.invBuildingText.visible = false;
         
         //TODO revert when done debugging
-        this.invHungerText = this.add.text(rightAlignPos, border + 72, 'Hunger', this.inventoryStyle);
+        this.invHungerText = this.add.text(rightAlignPos, border + 150, 'Hunger', this.inventoryStyle);
         this.invHungerText.setOrigin(1, 0);
         this.invHungerText.visible = false;
 
-        this.invFoodCount = this.add.text(rightAlignPos + 30, border, '', this.inventoryStyle);
+        this.invFoodCount = this.add.text(rightAlignPos - 35, border, '', this.inventoryStyle);
         this.invFoodCount.setOrigin(1, 0);
         this.invFoodCount.visible = false;
-        this.invFuelCount = this.add.text(rightAlignPos + 30, border + 24, '', this.inventoryStyle);
+        this.invFuelCount = this.add.text(rightAlignPos + 29, border, '', this.inventoryStyle);
         this.invFuelCount.setOrigin(1, 0);
         this.invFuelCount.visible = false;
         // this.invBuildingCount = this.add.text(rightAlignPos + 30, border + 72, '', this.inventoryStyle);
         // this.invBuildingCount.setOrigin(1, 0);
         // this.invBuildingCount.visible = false;
-        this.invFertCount = this.add.text(rightAlignPos + 30, border + 48, '', this.inventoryStyle);
+        this.invFertCount = this.add.text(rightAlignPos + 29, border + 66, '', this.inventoryStyle);
         this.invFertCount.setOrigin(1, 0);
         this.invFertCount.visible = false;
-        this.invHungerCount = this.add.text(rightAlignPos + 30, border + 72, '', this.inventoryStyle);
+        this.invHungerCount = this.add.text(rightAlignPos + 30, border + 150, '', this.inventoryStyle);
         this.invHungerCount.setOrigin(1, 0);
         this.invHungerCount.visible = false;
     }
@@ -151,11 +156,11 @@ class OverlayScene extends Phaser.Scene {
         if (!inv.showFert && inv.fert) inv.showFert = true;
 
         if (inv.showFood) {
-            this.invFoodText.visible = true;
+           // this.invFoodText.visible = true;
             this.invFoodCount.visible = true;
         }
         if (inv.showFuel) {
-            this.invFuelText.visible = true;
+           // this.invFuelText.visible = true;
             this.invFuelCount.visible = true;
         }
         // TODO revert after debugging
@@ -165,7 +170,7 @@ class OverlayScene extends Phaser.Scene {
         // }
 
         if (inv.showFert) {
-            this.invFertText.visible = true;
+          //  this.invFertText.visible = true;
             this.invFertCount.visible = true;
         }
 

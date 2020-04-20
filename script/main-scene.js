@@ -100,7 +100,7 @@ class MainScene extends Phaser.Scene {
         const springObjects = springLayer.objects.map(transformObject);
         this.springs = springObjects
             .filter((obj) => obj.get('objectType') == 'spring')
-            .map(createSprite('plots', 3))
+            .map(createSprite('springs', 0))
             .map((spring, index) => {
                 spring.set('springIndex', index);
                 SystemState.addSpring(spring.get('id'));
@@ -115,10 +115,10 @@ class MainScene extends Phaser.Scene {
         const godControlObjects = godControlLayer.objects.map(transformObject);
         this.foodTerminal = godControlObjects
             .filter((obj) => obj.get('objectType') == 'foodTerminal')
-            .map(createSprite('placeholder', 9));
+            .map(createSprite('objects', 0));
         this.fuelTerminal = godControlObjects
             .filter((obj) => obj.get('objectType') == 'fuelTerminal')
-            .map(createSprite('placeholder', 4));
+            .map(createSprite('objects', 1));
         this.godControlInteractions = godControlObjects
             .filter((obj) => obj.get('objectType') == 'interactor')
             .map(createZone);
@@ -128,7 +128,7 @@ class MainScene extends Phaser.Scene {
         const fertObjects = fertLayer.objects.map(transformObject);
         this.ferts = fertObjects
             .filter((obj) => obj.get('objectType') == 'fert')
-            .map(createSprite('placeholder', 2));        
+            .map(createSprite('objects', 2));        
         this.fertInteractions = fertObjects
             .filter((obj) => obj.get('objectType') == 'interactor')
             .map(createZone);
@@ -395,7 +395,9 @@ class MainScene extends Phaser.Scene {
             } else if (SystemState.fountain[idx].currentUnits > 0) {
                 SystemState.currentInstruction = 'harvest fuel';
             } else {
-                SystemState.currentInstruction = 'upgrade spring with fuel';
+                if(SystemState.fountain[idx].rateLevel !=4) {
+                    SystemState.currentInstruction = 'upgrade spring with fuel';
+                }
             }
         } else if(type === 'foodTerminal') {
             SystemState.currentInstruction = 'feed god';
@@ -483,8 +485,11 @@ class MainScene extends Phaser.Scene {
             fountain.currentUnits = 0;
             spring.setFrame(1);
         } else if(SystemState.inventory.fuel > 0) {
-            SystemState.inventory.fuel--;
-            fountain.rateExp++;
+            SystemState.god.teaching = false;
+            if(fountain.rateLevel != 4) {
+                SystemState.inventory.fuel--;
+                fountain.rateExp++;
+            }
         }
     }
 
@@ -499,9 +504,9 @@ class MainScene extends Phaser.Scene {
             // var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
             if(unitCount > 0) {
                 if(unitCount == fuelCapacity) {
-                    spring.setFrame(5);
+                    spring.setFrame(3);
                 } else {
-                    spring.setFrame(0);
+                    spring.setFrame(2);
                 }
             }
             var rateLevel = fountain.rateLevel;
@@ -537,7 +542,9 @@ class MainScene extends Phaser.Scene {
         } else {
             if(!SystemState.god.teaching) {
                 SystemState.inventory.fuel--;
-                SystemState.vat.currentUnits += 20;
+                var currentUnits = SystemState.vat.currentUnits;
+                var currentMax = globalConfig.vatLevels[SystemState.god.level].maxUnits;
+                SystemState.vat.currentUnits = Math.min(currentUnits+20,currentMax);
             } else {
                 SystemState.inventory.fuel--;
                 SystemState.vat.currentUnits += 20;

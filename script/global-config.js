@@ -164,14 +164,14 @@ const rateLevels = [
         capacity: 12,  
     },
     {
-        rate: .8,
+        rate: 1,
         rateUpgradeCost: 40,
 
         //return to capacity when implemented
         capacity: 18,
     },
         {
-        rate: 0.2,
+        rate: 0.5,
         rateUpgradeCost: Infinity,
 
         //return to capacity when implemented

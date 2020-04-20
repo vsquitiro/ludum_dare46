@@ -38,6 +38,8 @@ class Loader extends Phaser.Scene {
         this.load.spritesheet('plots', 'assets/map800.png', {frameWidth: 192, frameHeight: 192, margin: 64});
         //remove when real sprites are added
         this.load.spritesheet('placeholder','assets/placeholdersprite.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('springs','assets/fountain.png', {frameWidth: 192, frameHeight: 192});
+        this.load.spritesheet('objects','assets/objects.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('basin', 'assets/basin.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('vat', 'assets/trex.png', {frameWidth: 128, frameHeight: 224, spacing: 32});
         this.load.spritesheet('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
