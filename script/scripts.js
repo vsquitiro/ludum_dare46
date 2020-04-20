@@ -49,15 +49,15 @@ export const scripts = [
         ],
     },
     {
-        name: 'onFirstFeed',
-        conditions: ['startScript', '!onFirstPlant'],
+        name: 'badFeed',
+        conditions: ['startScript', 'firstFeed', '!firstPlant'],
         script: [
             {
                 preMessage: () => {
                     SystemState.allowInteraction = false;
                     SystemState.allowMovement = false;
                 },
-                message: "ONE WILL NOT BE ENOUGH IMBECILE!\nYOU MUST PLANT IT! Here's\nmy last one. PLANT IT!",
+                message: "ONE WILL NOT BE ENOUGH IMBECILE!\nYOU MUST GROW MORE! Here's\nmy last one. PLANT IT!",
                 onComplete: () => {
                     SystemState.inventory.food = 1;
                     SystemState.allowInteraction = true;
@@ -69,11 +69,30 @@ export const scripts = [
     },
     {
         name: 'onFirstPlant',
-        conditions: ['startScript'],
+        conditions: ['startScript', 'firstPlant'],
         script: [
             {
-                message: 'SOME MORE TEXT',
-                onComplete: 'complete',
+                message: 'Text 1',
+                onComplete: 'next',
+            },
+            {
+                message: 'Text 2',
+                onComplete: 'next',
+            },
+            {
+                message: 'Text 3',
+                onComplete: 'next',
+            },
+            {
+                message: 'Good it looks like the Embroja\nhas matured. Harvest it\nand feed your God',
+                onComplete: () => {
+                    const thePlot = SystemState.farm.find((plot) => plot.planted);
+                    thePlot.growing = false;
+                    thePlot.harvestable = true;
+                    thePlot.currentUnits = 5;
+                    SystemState.runSimulation = true;
+                    return "complete";
+                },
             },
         ],
     },

@@ -424,9 +424,13 @@ class MainScene extends Phaser.Scene {
                 farm.planted = true;
                 farm.growing = true;
                 SystemState.inventory.food--;
+                SystemState.plantings += 1;
+                if (SystemState.plantings === 1) {
+                    SystemState.eventsComplete.push('firstPlant');
+                }
                 plot.setFrame(1);
             } else {
-                SystemState.displayMessage("Farm later, feed now!");        
+                SystemState.displayMessage("Farm later, feed now!");
             }
         } else if(farm.harvestable) {
             if(farm.fert) { 
@@ -484,6 +488,10 @@ class MainScene extends Phaser.Scene {
             } else {
                 fountain.planted = true;
                 SystemState.inventory.fuel--;
+                SystemState.primings += 1;
+                if (SystemState.primings == 1) {
+                    SystemState.eventsComplete.push('firstPrime');
+                }
                 spring.setFrame(1);
             }
         } else if(fountain.currentUnits > 0) {
@@ -532,12 +540,13 @@ class MainScene extends Phaser.Scene {
         if(SystemState.inventory.food < 1) {
             SystemState.displayMessage("Are YOU the food!?");
         } else {
-            if(!SystemState.god.teaching) {
-                SystemState.inventory.food--;
-                SystemState.god.hunger -= 10;
-                SystemState.god.exp++;
-            } else {
-                SystemState.displayMessage("You can't plant it if I eat it!");
+            SystemState.inventory.food--;
+            SystemState.god.hunger -= 10;
+            SystemState.god.exp++;
+
+            SystemState.feedings += 1;
+            if (SystemState.feedings == 1) {
+                SystemState.eventsComplete.push('firstFeed');
             }
         }
     }
@@ -551,6 +560,7 @@ class MainScene extends Phaser.Scene {
                 var currentUnits = SystemState.vat.currentUnits;
                 var currentMax = globalConfig.vatLevels[SystemState.god.level].maxUnits;
                 SystemState.vat.currentUnits = Math.min(currentUnits+20,currentMax);
+                SystemState.fills += 1;
             } else {
                 SystemState.inventory.fuel--;
                 SystemState.vat.currentUnits += 20;
@@ -558,6 +568,11 @@ class MainScene extends Phaser.Scene {
                 SystemState.inventory.fuel++;
                 SystemState.vat.currentUnits -= 20;
                 SystemState.god.teaching = false;
+
+                SystemState.fills += 1;
+                if (SystemState.fills == 1) {
+                    SystemState.eventsComplete.push('firstFill');
+                }
             }
         } 
     }
@@ -638,7 +653,7 @@ class MainScene extends Phaser.Scene {
             script.onStep += 1;
             this.runScriptStep();
         } else {
-            SystemState.curentEvent = null;
+            SystemState.currentEvent = null;
             SystemState.eventsComplete.push(script.name);
         }
     }
