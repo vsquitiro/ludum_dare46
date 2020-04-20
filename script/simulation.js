@@ -80,11 +80,6 @@ export class Simulation {
             if (value.growing) {
                 if (value.fert) {
                     SystemState.farm[idx].progress += delta*3;
-                    SystemState.farm[idx].fertTimeRemain -= delta;
-                    if (SystemState.farm[idx].fertTimeRemain <= 0) {
-                        SystemState.farm[idx].fertTimeRemain = 0;
-                        SystemState.farm[idx].fert = false;
-                    }
                  } else {   
                     SystemState.farm[idx].progress += delta;
                 }
@@ -95,7 +90,13 @@ export class Simulation {
                     SystemState.farm[idx].progress = 0;
                 }
             }
-
+            if (value.fert) {
+                SystemState.farm[idx].fertTimeRemain -= delta;
+                if (SystemState.farm[idx].fertTimeRemain <= 0) {
+                    SystemState.farm[idx].fertTimeRemain = 0;
+                    SystemState.farm[idx].fert = false;
+                }
+            }
             if(value.farmExp>=value.farmUpgradeCost) {
                 SystemState.farm[idx].farmLevel++;
                 SystemState.farm[idx].farmExp = 0;

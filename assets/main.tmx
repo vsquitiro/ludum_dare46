@@ -516,16 +516,16 @@
    </animation>
   </tile>
  </tileset>
- <tileset firstgid="1148" name="basin" tilewidth="192" tileheight="192" tilecount="4" columns="2">
-  <image source="basin.png" width="384" height="384"/>
+ <tileset firstgid="1148" name="basin" tilewidth="192" tileheight="192" tilecount="6" columns="3">
+  <image source="basin.png" width="576" height="544"/>
  </tileset>
- <tileset firstgid="1152" name="placeholdersprite" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+ <tileset firstgid="1154" name="placeholdersprite" tilewidth="32" tileheight="32" tilecount="15" columns="5">
   <image source="placeholdersprite.png" width="160" height="96"/>
  </tileset>
- <tileset firstgid="1167" name="fountain" tilewidth="192" tileheight="192" tilecount="6" columns="3">
-  <image source="fountain.png" width="576" height="384"/>
+ <tileset firstgid="1169" name="fountain" tilewidth="192" tileheight="192" tilecount="36" columns="6">
+  <image source="fountain.png" width="1152" height="1152"/>
  </tileset>
- <tileset firstgid="1173" name="objects" tilewidth="64" tileheight="64" tilecount="30" columns="5">
+ <tileset firstgid="1205" name="objects" tilewidth="64" tileheight="64" tilecount="30" columns="5">
   <image source="objects.png" width="320" height="384"/>
  </tileset>
  <layer id="1" name="Floor Layer" width="25" height="37">
@@ -752,24 +752,24 @@
     <property name="objectType" value="interactor"/>
    </properties>
   </object>
-  <object id="25" gid="1167" x="576" y="703" width="192" height="192">
+  <object id="25" gid="1169" x="577" y="703" width="192" height="192">
    <properties>
     <property name="objectType" value="spring"/>
    </properties>
   </object>
-  <object id="26" gid="1167" x="577" y="449" width="192" height="192">
+  <object id="26" gid="1169" x="577" y="449" width="192" height="192">
    <properties>
     <property name="objectType" value="spring"/>
    </properties>
   </object>
-  <object id="27" gid="1167" x="575" y="959" width="192" height="192">
+  <object id="27" gid="1169" x="577" y="959" width="192" height="192">
    <properties>
     <property name="objectType" value="spring"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="11" name="Fert">
-  <object id="30" gid="1175" x="250" y="1095" width="64" height="64">
+  <object id="30" gid="1207" x="250" y="1095" width="64" height="64">
    <properties>
     <property name="objectType" value="fert"/>
    </properties>
@@ -829,12 +829,12 @@
     <property name="objectType" value="interactor"/>
    </properties>
   </object>
-  <object id="28" gid="1173" x="319" y="244" width="64" height="64">
+  <object id="28" gid="1205" x="319" y="242" width="64" height="64">
    <properties>
     <property name="objectType" value="foodTerminal"/>
    </properties>
   </object>
-  <object id="29" gid="1174" x="448" y="242" width="64" height="64">
+  <object id="29" gid="1206" x="448" y="242" width="64" height="64">
    <properties>
     <property name="objectType" value="fuelTerminal"/>
    </properties>

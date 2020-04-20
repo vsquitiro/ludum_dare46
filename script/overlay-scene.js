@@ -188,8 +188,8 @@ class OverlayScene extends Phaser.Scene {
         }
 
         //Todo turn off when done with debugging
-        this.invHungerText.visible = true;
-        this.invHungerCount.visible = true;
+        //this.invHungerText.visible = true;
+        //this.invHungerCount.visible = true;
 
         this.invFoodCount.text = inv.food;
         this.invFuelCount.text = inv.fuel;
@@ -235,9 +235,8 @@ class OverlayScene extends Phaser.Scene {
     }
 
     updateAlert() {
-        if(SystemState.god.tantrum) {
-            var tantrumThreshold = godLevels[SystemState.god.level].tantrumThreshold;
-            var tantrumPercent = ((SystemState.god.hunger)-tantrumThreshold)/tantrumThreshold;
+        if(SystemState.god.hunger>500) {
+            var tantrumPercent = ((SystemState.god.hunger)-500)/500;
             this.alertTint.setAlpha(tantrumPercent);
         } else {
             this.alertTint.setAlpha(0);

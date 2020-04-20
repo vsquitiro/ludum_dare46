@@ -142,7 +142,7 @@
                  "y":736
                 }, 
                 {
-                 "gid":1167,
+                 "gid":1169,
                  "height":192,
                  "id":25,
                  "name":"",
@@ -156,11 +156,11 @@
                  "type":"",
                  "visible":true,
                  "width":192,
-                 "x":576,
+                 "x":577,
                  "y":703
                 }, 
                 {
-                 "gid":1167,
+                 "gid":1169,
                  "height":192,
                  "id":26,
                  "name":"",
@@ -178,7 +178,7 @@
                  "y":449
                 }, 
                 {
-                 "gid":1167,
+                 "gid":1169,
                  "height":192,
                  "id":27,
                  "name":"",
@@ -192,7 +192,7 @@
                  "type":"",
                  "visible":true,
                  "width":192,
-                 "x":575,
+                 "x":577,
                  "y":959
                 }],
          "opacity":1,
@@ -207,7 +207,7 @@
          "name":"Fert",
          "objects":[
                 {
-                 "gid":1175,
+                 "gid":1207,
                  "height":64,
                  "id":30,
                  "name":"",
@@ -243,8 +243,8 @@
                  "type":"",
                  "visible":true,
                  "width":188,
-                 "x":187.666666666667,
-                 "y":1006.66666666667
+                 "x":187.667,
+                 "y":1006.67
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -433,7 +433,7 @@
                  "y":175
                 }, 
                 {
-                 "gid":1173,
+                 "gid":1205,
                  "height":64,
                  "id":28,
                  "name":"",
@@ -448,10 +448,10 @@
                  "visible":true,
                  "width":64,
                  "x":319,
-                 "y":244
+                 "y":242
                 }, 
                 {
-                 "gid":1174,
+                 "gid":1206,
                  "height":64,
                  "id":29,
                  "name":"",
@@ -1530,21 +1530,21 @@
          "tilewidth":32
         }, 
         {
-         "columns":2,
+         "columns":3,
          "firstgid":1148,
          "image":"basin.png",
-         "imageheight":384,
-         "imagewidth":384,
+         "imageheight":544,
+         "imagewidth":576,
          "margin":0,
          "name":"basin",
          "spacing":0,
-         "tilecount":4,
+         "tilecount":6,
          "tileheight":192,
          "tilewidth":192
         }, 
         {
          "columns":5,
-         "firstgid":1152,
+         "firstgid":1154,
          "image":"placeholdersprite.png",
          "imageheight":96,
          "imagewidth":160,
@@ -1556,21 +1556,21 @@
          "tilewidth":32
         }, 
         {
-         "columns":3,
-         "firstgid":1167,
+         "columns":6,
+         "firstgid":1169,
          "image":"fountain.png",
-         "imageheight":384,
-         "imagewidth":576,
+         "imageheight":1152,
+         "imagewidth":1152,
          "margin":0,
          "name":"fountain",
          "spacing":0,
-         "tilecount":6,
+         "tilecount":36,
          "tileheight":192,
          "tilewidth":192
         }, 
         {
          "columns":5,
-         "firstgid":1173,
+         "firstgid":1205,
          "image":"objects.png",
          "imageheight":384,
          "imagewidth":320,

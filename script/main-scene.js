@@ -191,9 +191,9 @@ class MainScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(400,300, 'player', 0);
         this.player.setDepth(100);
-        this.player.body.setSize(54,40);
+        this.player.body.setSize(34,40);
         this.player.body.offset.y=78;
-        this.player.body.offset.x=5;
+        this.player.body.offset.x=15;
 
         this.physics.world.bounds.width = map.widthInPixels;
         this.physics.world.bounds.height = map.heightInPixels;
@@ -623,14 +623,14 @@ class MainScene extends Phaser.Scene {
                 SystemState.inventory.fuel--;
                 var currentUnits = SystemState.vat.currentUnits;
                 var currentMax = globalConfig.vatLevels[SystemState.god.level].maxUnits;
-                SystemState.vat.currentUnits = Math.min(currentUnits+25,currentMax);
+                SystemState.vat.currentUnits = Math.min(currentUnits+35,currentMax);
                 SystemState.fills += 1;
             } else {
                 SystemState.inventory.fuel--;
-                SystemState.vat.currentUnits += 25;
+                SystemState.vat.currentUnits += 35;
                 SystemState.displayMessage("No, put the fuel in the fountain!");
                 SystemState.inventory.fuel++;
-                SystemState.vat.currentUnits -= 25;
+                SystemState.vat.currentUnits -= 35;
                 SystemState.god.teaching = false;
 
                 SystemState.fills += 1;

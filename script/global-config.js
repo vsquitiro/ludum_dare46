@@ -14,15 +14,15 @@ const vatLevels = [
     },
     {
         maxUnits: 1000,
-        drainRate: 10,
+        drainRate: 9,
     },
     {
         maxUnits: 1500,
-        drainRate: 15,
+        drainRate: 13,
     },
     {
         maxUnits: 2000,
-        drainRate: 25,
+        drainRate: 22,
     }
 ];
 
@@ -34,20 +34,20 @@ const godLevels = [
         tantrumThreshold: 1000,
     },
     {   
-        tnl: 45,
+        tnl: 50,
         maxHunger: 1000,
         hungerRate: 5,
         tantrumThreshold: 750,
     },
     {   
-        tnl: 150,
+        tnl: 100,
         maxHunger: 1000,
         hungerRate: 10,
         tantrumThreshold: 500,
     },
     {   
         //TODO change back
-        tnl: 500,
+        tnl: 200,
         maxHunger: 1000,
         hungerRate: 20,
         tantrumThreshold: 250,
