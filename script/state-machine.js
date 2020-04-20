@@ -8,13 +8,15 @@ import { Simulation } from './simulation.js';
 import PauseScene from './pause-scene.js';
 import WinScene from './win-scene.js';
 import LoseScene from './lose-scene.js';
+import IntroScene from './intro-scene.js';
 
 //States
 const menu = "menu",
       main = "main",
       pause = "pause",
       win = "win",
-      lose = "lose";
+      lose = "lose",
+      intro = "intro";
 
 /**
  * @property {Phaser.Game} game
@@ -22,7 +24,8 @@ const menu = "menu",
 const SystemState = new StateMachine({
     init: menu,
     transitions: [
-        { name: 'gameStart', from: menu, to: main },
+        { name: 'gameStart', from: menu, to: intro },
+        { name: 'introComplete', from: intro, to: main },
         { name: 'pause', from: main, to: pause },
         { name: 'unpause', from: pause, to: main },
         { name: 'winGame', from: main, to: win},
@@ -168,6 +171,10 @@ const SystemState = new StateMachine({
             this.game.scene.remove('menu');
         },
 
+        onLeaveIntro: function() {
+            this.game.scene.remove('intro');
+        },
+
         onEnterPause: function() {
             console.log("Paused");
             this.isPaused = true;
@@ -187,6 +194,10 @@ const SystemState = new StateMachine({
         },
 
         onGameStart: function() {
+            this.game.scene.add('intro', IntroScene, true);
+        },
+
+        onIntroComplete: function() {
             this.game.scene.add('mainScene', MainScene, true);
             this.game.scene.add('overlayScene', OverlayScene, true);
         },

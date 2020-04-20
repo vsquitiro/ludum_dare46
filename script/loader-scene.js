@@ -28,6 +28,7 @@ class Loader extends Phaser.Scene {
     preload() {
         console.log("Loader Preload");
         // Add all assets to be loaded here.
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
         this.load.scenePlugin({
             key: 'AnimatedTiles',
             url: 'lib/AnimatedTiles.js',
@@ -47,7 +48,7 @@ class Loader extends Phaser.Scene {
         this.load.image('invBG', 'assets/Inv BG.png');
 
         //Sounds
-        this.load.audio('error1', 'assets/Error1.mp3');
+        this.load.audio('mainLoop', 'assets/ALIENFARM.mp3');
     }
 
     create() {
@@ -63,6 +64,7 @@ class Loader extends Phaser.Scene {
 
         // Transition to start scene
         this.scene.start('menu');
+        this.scene.start('audio');
         this.scene.switch('loader', 'menu');
     }
 }
