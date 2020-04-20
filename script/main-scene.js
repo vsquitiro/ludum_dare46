@@ -176,6 +176,7 @@ class MainScene extends Phaser.Scene {
             );
         this.interaction = this.input.keyboard.addKeys({
             accept: Phaser.Input.Keyboard.KeyCodes.E,
+            accept2: Phaser.Input.Keyboard.KeyCodes.SPACE,
         });
         this.ui = this.input.keyboard.addKeys({
             pause: Phaser.Input.Keyboard.KeyCodes.ESC,
@@ -283,7 +284,7 @@ class MainScene extends Phaser.Scene {
                 accept: gamepad && gamepad.buttons[0].value === 1,
             };
             const curKeyState = {
-                accept: this.interaction.accept.isDown
+                accept: this.interaction.accept.isDown || this.interaction.accept2.isDown,
             };
 
             if ((!this.previousKeyState.accept && curKeyState.accept) || (!this.previousPadState.accept && curPadState.accept)) {

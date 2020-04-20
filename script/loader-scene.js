@@ -48,7 +48,7 @@ class Loader extends Phaser.Scene {
         this.load.image('invBG', 'assets/Inv BG.png');
 
         //Sounds
-        this.load.audio('error1', 'assets/Error1.mp3');
+        this.load.audio('mainLoop', 'assets/ALIENFARM.mp3');
     }
 
     create() {
@@ -64,6 +64,7 @@ class Loader extends Phaser.Scene {
 
         // Transition to start scene
         this.scene.start('menu');
+        this.scene.start('audio');
         this.scene.switch('loader', 'menu');
     }
 }

@@ -4,6 +4,7 @@ import SystemState from "./state-machine.js";
 import config from './global-config.js';
 import loader from './loader-scene.js';
 import Menu from './menu-scene.js';
+import AudioScene from "./audio-scene.js";
 
 const gameConfig = {
     type: Phaser.AUTO,
@@ -25,6 +26,7 @@ const gameConfig = {
 const game = new Phaser.Game(gameConfig);
 
 game.scene.add('loader', loader, true);
+game.scene.add('audio', AudioScene, false);
 game.scene.add('menu', Menu, false);
 
 SystemState.setGame(game);

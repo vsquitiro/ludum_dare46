@@ -21,34 +21,35 @@ class MenuScene extends Phaser.Scene {
             }
         });
 
-        this.shortcutZone = this.add.zone(24 * 32, 18 * 32, 1 * 32, 1 * 32).setOrigin(0).setName('shortcut');
-        this.shortcutZone.setInteractive({cursor: 'pointer'});
+        // this.shortcutZone = this.add.zone(24 * 32, 18 * 32, 1 * 32, 1 * 32).setOrigin(0).setName('shortcut');
+        // this.shortcutZone.setInteractive({cursor: 'pointer'});
 
-        this.input.on('gameobjectdown', function(pointer, gameObject) {
-            if (gameObject.name == "shortcut") {
-                SystemState.shortcut();
-            }
-        }, this);
+        // this.input.on('gameobjectdown', function(pointer, gameObject) {
+        //     if (gameObject.name == "shortcut") {
+        //         SystemState.shortcut();
+        //     }
+        // }, this);
         this.input.once('pointerdown', function() {
             console.log("Clicked, starting game");
-
-            if (SystemState.state == "menu") {
-                SystemState.gameStart();
-            }
+            this.startGame();
         }, this);
 
-        this.input.keyboard.addKey('SPACE,ENTER', () => {
-            if (SystemState.state == "menu") {
-                SystemState.gameStart();
-            }
-        })
+        const input = this.input.keyboard.addKeys('SPACE,ENTER');
+        input.ENTER.once('down', this.startGame);
+        input.SPACE.once('down', this.startGame);
+    }
+
+    startGame = () => {
+        if (SystemState.state == "menu") {
+            SystemState.gameStart();
+        }
     }
 
     update() {
         const gamepad = this.input.gamepad.getPad(0);
 
-        if (gamepad && (gamepad.A || gamepad.buttons[9].val === 1) && SystemState.state === "menu") {
-            SystemState.gameStart();
+        if (gamepad && (gamepad.A || gamepad.buttons[9].val === 1)) {
+            this.startGame();
         }
     }
 }
