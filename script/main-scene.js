@@ -11,6 +11,8 @@ class MainScene extends Phaser.Scene {
         this.chaos = new Chaos();
     }
     create() {
+        this.spriteIdx = [0,3,12,15,24];
+
         // What to create?
         const map = this.make.tilemap({key: 'map'});
 
@@ -67,7 +69,7 @@ class MainScene extends Phaser.Scene {
             zone.body.moves = false;
             return zone;
         };
-        const createSprite = (sheet, frame) => (obj) => {
+        const createSprite = (sheet, frame, animation) => (obj) => {
             const x = obj.x + (obj.width / 2);
             const y = obj.y - (obj.height / 2);
             const sprite = this.physics.add.sprite(x, y, sheet, frame);
@@ -100,7 +102,7 @@ class MainScene extends Phaser.Scene {
         const springObjects = springLayer.objects.map(transformObject);
         this.springs = springObjects
             .filter((obj) => obj.get('objectType') == 'spring')
-            .map(createSprite('springs', 0))
+            .map(createSprite('springs', 0, 'lvl00'))
             .map((spring, index) => {
                 spring.set('springIndex', index);
                 SystemState.addSpring(spring.get('id'));
@@ -472,18 +474,19 @@ class MainScene extends Phaser.Scene {
 
     interactWithSpring(spring) {
         const fountain = spring.getSpringDef();
+        var frameMod = this.spriteIdx[fountain.rateLevel];
         if(!fountain.planted) {
             if (SystemState.inventory.fuel < 1) {
                 SystemState.displayMessage("Where's the fuel, moron?");
             } else {
                 fountain.planted = true;
                 SystemState.inventory.fuel--;
-                spring.setFrame(1);
+                spring.setFrame(1+frameMod);
             }
         } else if(fountain.currentUnits > 0) {
             SystemState.inventory.fuel += fountain.currentUnits;
             fountain.currentUnits = 0;
-            spring.setFrame(1);
+            spring.setFrame(1+frameMod);
         } else if(SystemState.inventory.fuel > 0) {
             SystemState.god.teaching = false;
             if(fountain.rateLevel != 4) {
@@ -496,28 +499,21 @@ class MainScene extends Phaser.Scene {
     checkFillSprite() {
         this.springs.forEach((spring, index)=> {
             const fountain = spring.getSpringDef();
+            var frameMod = this.spriteIdx[fountain.rateLevel];
             var unitCount = fountain.currentUnits;
             //TODO change back when building is implimented
             var capacityLevel = fountain.rateLevel;
             // var capacityLevel = fountain.capacityLevel;
             var fuelCapacity = globalConfig.rateLevels[capacityLevel].capacity;
             // var fuelCapacity = globalConfig.capacityLevels[capacityLevel].capacity;
-            if(unitCount > 0) {
-                if(unitCount == fuelCapacity) {
-                    spring.setFrame(3);
-                } else {
-                    spring.setFrame(2);
-                }
-            }
-            var rateLevel = fountain.rateLevel;
-            if(rateLevel == 1) {
-                spring.tint = 0xf9e79f;
-            } else if(rateLevel == 2) {
-                spring.tint = 0xf7dc6f;
-            } else if(rateLevel == 3) {
-                spring.tint = 0xf4d03f;
-            } else if(rateLevel == 4) {
-                spring.tint = 0xf1c40f;
+            if(unitCount == fuelCapacity) {
+                spring.setFrame(6+frameMod);
+            } else if (unitCount > 0) {
+                spring.setFrame(2+frameMod);
+            } else if (fountain.planted) {
+                spring.setFrame(1+frameMod);
+            } else {
+                spring.setFrame(frameMod);
             }
         });
     }
