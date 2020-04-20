@@ -522,7 +522,7 @@ class MainScene extends Phaser.Scene {
         if(SystemState.inventory.food < 1) {
             SystemState.displayMessage("Are YOU the food!?");
         } else {
-            if(!SystemState.god.teaching) {
+            if(!SystemState.god.teaching || SystemState.god.level > 0) {
                 SystemState.inventory.food--;
                 SystemState.god.hunger -= 10;
                 SystemState.god.exp++;
