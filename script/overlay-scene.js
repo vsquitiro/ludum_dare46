@@ -1,6 +1,6 @@
 /** @type {import("../typings/phaser")} */
 
-import { screenWidth, screenHeight, vatLevels } from './global-config.js';
+import { screenWidth, screenHeight, vatLevels, godLevels } from './global-config.js';
 import SystemState from './state-machine.js';
 
 const border = 20;
@@ -20,6 +20,7 @@ class OverlayScene extends Phaser.Scene {
         this.createMessageBox();
         this.createInstruction();
         this.createInventory();
+        this.createAlertTint();
     }
 
     createVatBar() {
@@ -33,6 +34,12 @@ class OverlayScene extends Phaser.Scene {
         this.vatBarInner.setOrigin(0, 0);
         this.vatBarInner.visible = false;
         this.vatBarInner.depth = 100;
+    }
+
+    createAlertTint() {
+        this.alertTint = this.add.rectangle(0, 0, screenWidth, screenHeight, 0xff0000);
+        this.alertTint.setOrigin(0, 0);
+        this.alertTint.setAlpha(0);
     }
 
     createMessageBox() {
@@ -125,6 +132,7 @@ class OverlayScene extends Phaser.Scene {
         this.updateInventory();
         this.showMessage(delta);
         this.showInstruction();
+        this.updateAlert();
     }
 
     updateVatBar() {
@@ -223,6 +231,16 @@ class OverlayScene extends Phaser.Scene {
             this.instruction.visible = true;
         } else {
             this.instruction.visible = false;
+        }
+    }
+
+    updateAlert() {
+        if(SystemState.god.tantrum) {
+            var tantrumThreshold = godLevels[SystemState.god.level].tantrumThreshold;
+            var tantrumPercent = ((SystemState.god.hunger)-tantrumThreshold)/tantrumThreshold;
+            this.alertTint.setAlpha(tantrumPercent);
+        } else {
+            this.alertTint.setAlpha(0);
         }
     }
 }

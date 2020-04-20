@@ -541,13 +541,13 @@ class MainScene extends Phaser.Scene {
                 SystemState.inventory.fuel--;
                 var currentUnits = SystemState.vat.currentUnits;
                 var currentMax = globalConfig.vatLevels[SystemState.god.level].maxUnits;
-                SystemState.vat.currentUnits = Math.min(currentUnits+20,currentMax);
+                SystemState.vat.currentUnits = Math.min(currentUnits+25,currentMax);
             } else {
                 SystemState.inventory.fuel--;
-                SystemState.vat.currentUnits += 20;
+                SystemState.vat.currentUnits += 25;
                 SystemState.displayMessage("No, put the fuel in the fountain!");
                 SystemState.inventory.fuel++;
-                SystemState.vat.currentUnits -= 20;
+                SystemState.vat.currentUnits -= 25;
                 SystemState.god.teaching = false;
             }
         } 

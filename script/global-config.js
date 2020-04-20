@@ -31,7 +31,7 @@ const godLevels = [
         tnl: 1,
         maxHunger: 1000,
         hungerRate: 1,
-        tantrumThreshold: 1000
+        tantrumThreshold: 1000,
     },
     {   
         tnl: 45,
