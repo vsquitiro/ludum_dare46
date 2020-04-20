@@ -79,12 +79,12 @@ class OverlayScene extends Phaser.Scene {
         const rightAlignPos = screenWidth - border - 30;
         //this.invFoodText = this.add.text(rightAlignPos, border, 'Food', this.inventoryStyle);
         this.invFoodIcon = this.add.sprite(rightAlignPos - 42, border + 10, 'objects',7);
-        this.invFoodIcon.visible = false;
+        //this.invFoodIcon.visible = false;
         //this.invFoodText.setOrigin(1, 0);
         //this.invFoodText.visible = false;
         //this.invFuelText = this.add.text(rightAlignPos, border + 24, 'Fuel', this.inventoryStyle);
         this.invFuelIcon = this.add.sprite(rightAlignPos + 22, border + 12, 'objects',5);
-        this.invFuelIcon.visible = false;
+        //this.invFuelIcon.visible = false;
         //this.invFuelText.setOrigin(1, 0);
         //this.invFuelText.visible = false;
         //this.invFertText = this.add.text(rightAlignPos, border + 48, 'Fertilizer', this.inventoryStyle);

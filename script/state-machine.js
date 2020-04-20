@@ -67,8 +67,8 @@ const SystemState = new StateMachine({
             showFert: false,
             showBuilding: false,
             food: 1,
-            fuel: 1,
-            fert: 1,
+            fuel: 0,
+            fert: 0,
             building: 0,
         },
         message: {
