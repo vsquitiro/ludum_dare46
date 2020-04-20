@@ -43,7 +43,7 @@ class Loader extends Phaser.Scene {
         this.load.spritesheet('objects','assets/objects.png', {frameWidth: 64, frameHeight: 64});
         this.load.spritesheet('basin', 'assets/basin.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('vat', 'assets/trex.png', {frameWidth: 128, frameHeight: 224, spacing: 32});
-        this.load.spritesheet('player', 'assets/Characterslimes.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('player', 'assets/astronoot.png', {frameWidth: 64, frameHeight: 128});
         this.load.image('textBox', 'assets/text-box.png');
         this.load.image('invBG', 'assets/Inv BG.png');
 

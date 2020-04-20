@@ -16,6 +16,41 @@ class MainScene extends Phaser.Scene {
     create() {
         this.spriteIdx = [0,3,12,15,24];
 
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('player', {start:8, end:11}),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('player', {start:12, end:15}),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'up',
+            frames: this.anims.generateFrameNumbers('player', {start:4, end:7}),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('player', {start:0, end:3}),
+            frameRate: 8,
+            repeat: -1
+        });        
+
+
+        this.anims.create({
+            key: 'rest',
+            frames: [{key: 'player', frame:0}],
+            frameRate: 20,
+        });
+
         // What to create?
         const map = this.make.tilemap({key: 'map'});
 
@@ -156,6 +191,9 @@ class MainScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(400,300, 'player', 0);
         this.player.setDepth(100);
+        this.player.body.setSize(54,40);
+        this.player.body.offset.y=78;
+        this.player.body.offset.x=5;
 
         this.physics.world.bounds.width = map.widthInPixels;
         this.physics.world.bounds.height = map.heightInPixels;
@@ -223,36 +261,65 @@ class MainScene extends Phaser.Scene {
         if (SystemState.allowMovement) {
             const { playerVelocity } = globalConfig;
             const gamepad = this.input.gamepad.getPad(0);
+            var horizontalMove = 0;
+            var verticalMove = 0;
 
             // Horizontal movement
             if (this.cursors.left.isDown || this.wasd.left.isDown || (gamepad && gamepad.left))
             {
                 this.player.body.setVelocityX(-playerVelocity);
+                horizontalMove--;
             }
             else if (this.cursors.right.isDown || this.wasd.right.isDown || (gamepad && gamepad.right))
             {
                 this.player.body.setVelocityX(playerVelocity);
+                horizontalMove++;
             }
 
             // Vertical movement
             if (this.cursors.up.isDown || this.wasd.up.isDown || (gamepad && gamepad.up))
             {
                 this.player.body.setVelocityY(-playerVelocity);
+                verticalMove--;
             }
             else if(this.cursors.down.isDown || this.wasd.down.isDown || (gamepad && gamepad.down))
             {
                 this.player.body.setVelocityY(playerVelocity);
+                verticalMove++;
             }
 
             if (gamepad) {
                 const stickPos = gamepad.leftStick;
                 if (Math.abs(stickPos.x) > .2) {
                     this.player.body.setVelocityX(stickPos.x * playerVelocity);
+                    if(stickPox.x > 0) {
+                        horizontalMove++;
+                    } else {
+                        horizontalMove--;
+                    }
                 }
                 if (Math.abs(stickPos.y) > .2) {
                     this.player.body.setVelocityY(stickPos.y * playerVelocity);
+                    if(stickPox.y > 0) {
+                        verticalMove++;
+                    } else {
+                        verticalMove--;
+                    }
                 }
             }
+
+            if(verticalMove>0) {
+                this.player.anims.play('down',true);
+            } else if(verticalMove<0) {
+                this.player.anims.play('up',true);
+            } else if(horizontalMove>0) {
+                this.player.anims.play('right',true);
+            } else if(horizontalMove<0) {
+                this.player.anims.play('left',true);
+            } else {
+                this.player.anims.play('rest');
+            }
+
         }
     }
 
@@ -426,9 +493,13 @@ class MainScene extends Phaser.Scene {
                 farm.planted = true;
                 farm.growing = true;
                 SystemState.inventory.food--;
+                SystemState.plantings += 1;
+                if (SystemState.plantings === 1) {
+                    SystemState.eventsComplete.push('firstPlant');
+                }
                 plot.setFrame(1);
             } else {
-                SystemState.displayMessage("Farm later, feed now!");        
+                SystemState.displayMessage("Farm later, feed now!");
             }
         } else if(farm.harvestable) {
             if(farm.fert) { 
@@ -488,6 +559,10 @@ class MainScene extends Phaser.Scene {
                 fountain.planted = true;
                 SystemState.inventory.fuel--;
                 spring.setFrame(1+frameMod);
+                SystemState.primings += 1;
+                if (SystemState.primings == 1) {
+                    SystemState.eventsComplete.push('firstPrime');
+                }
             }
         } else if(fountain.currentUnits > 0) {
             SystemState.inventory.fuel += fountain.currentUnits;
@@ -528,14 +603,14 @@ class MainScene extends Phaser.Scene {
         if(SystemState.inventory.food < 1) {
             SystemState.displayMessage("Are YOU the food!?");
         } else {
-            if(!SystemState.god.teaching || SystemState.god.level > 0) {
-                SystemState.inventory.food--;
+            SystemState.inventory.food--;               
+            var currentHunger = SystemState.god.hunger;
+            SystemState.god.hunger = Math.max(currentHunger-10,0);
+            SystemState.god.exp++;
 
-                currentHunger = SystemState.god.hunger;
-                SystemState.god.hunger = Math.max(currentHunger-10,0);
-                SystemState.god.exp++;
-            } else {
-                SystemState.displayMessage("You can't plant it if I eat it!");
+            SystemState.feedings += 1;
+            if (SystemState.feedings == 1) {
+                SystemState.eventsComplete.push('firstFeed');
             }
         }
     }
@@ -549,6 +624,7 @@ class MainScene extends Phaser.Scene {
                 var currentUnits = SystemState.vat.currentUnits;
                 var currentMax = globalConfig.vatLevels[SystemState.god.level].maxUnits;
                 SystemState.vat.currentUnits = Math.min(currentUnits+25,currentMax);
+                SystemState.fills += 1;
             } else {
                 SystemState.inventory.fuel--;
                 SystemState.vat.currentUnits += 25;
@@ -556,6 +632,11 @@ class MainScene extends Phaser.Scene {
                 SystemState.inventory.fuel++;
                 SystemState.vat.currentUnits -= 25;
                 SystemState.god.teaching = false;
+
+                SystemState.fills += 1;
+                if (SystemState.fills == 1) {
+                    SystemState.eventsComplete.push('firstFill');
+                }
             }
         } 
     }
@@ -636,7 +717,7 @@ class MainScene extends Phaser.Scene {
             script.onStep += 1;
             this.runScriptStep();
         } else {
-            SystemState.curentEvent = null;
+            SystemState.currentEvent = null;
             SystemState.eventsComplete.push(script.name);
         }
     }
