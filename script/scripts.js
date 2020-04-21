@@ -203,4 +203,42 @@ export const scripts = [
             },
         ],
     },
+    {
+        name: 'upgrade1',
+        conditions: ['startScript', 'secondForm'],
+        script: [
+            {
+                message: "STRONGER! I feel STRONGER! MORE!",
+                onComplete: 'next',
+            },
+            {
+                preMessage: (scene) => {
+                    scene.crackAudio.play();
+                },
+                message: "*CRACK* *SPLASH*",
+                onComplete: "complete"
+            },
+        ],
+    },
+    {
+        name: 'upgrade2',
+        conditions: ['startScript', 'thirdForm'],
+        script: [
+            {
+                message: "I can feel my strength returning! Yes!",
+                onComplete: 'next',
+            },
+            {
+                preMessage: (scene) => {
+                    scene.crackAudio.play();
+                },
+                message: "*CRACK* *SPLASH*",
+                onComplete: "next"
+            },
+            {
+                message: "Argh! Even more ??? is spilling.\nQuit standing around you fool.",
+                onComplete: 'complete',
+            },
+        ],
+    },
 ];
