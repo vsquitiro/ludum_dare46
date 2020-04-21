@@ -245,6 +245,10 @@ class MainScene extends Phaser.Scene {
             pause: Phaser.Input.Keyboard.KeyCodes.ESC,
         });
 
+        this.debug = this.input.keyboard.addKeys('B,N');
+        this.debug.B.on('down', () => SystemState.displayMessage(this.chaos.getHungerMessage()));
+        this.debug.N.on('down', () => SystemState.displayMessage(this.chaos.getVatMessage()));
+
         // this.debugKey = this.input.keyboard.addKeys(
         //     {feed:Phaser.Input.Keyboard.KeyCodes.F,
         //     plant:Phaser.Input.Keyboard.KeyCodes.P}
