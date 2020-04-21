@@ -49,7 +49,11 @@ class OverlayScene extends Phaser.Scene {
         // .22 below is the ratio of the image, needs to change if we change the image
         this.messageBox.displayHeight = this.messageBox.displayWidth * .22;
         this.messageBox.visible = false;
-        
+     
+        this.messageIcon = this.add.sprite(border+15,360,'dinoFace',0);
+        this.messageIcon.setOrigin(0, 0);
+        this.messageIcon.visible = false;
+
         this.message = this.add.text(250, 425, '');
         this.message.setOrigin(0, 0);
         this.message.setFontSize(25);
@@ -200,8 +204,11 @@ class OverlayScene extends Phaser.Scene {
     }
 
     showMessage(delta) {
+        var godLevel = Math.max(SystemState.god.level-1,0);
         if (SystemState.message.current) {
             this.messageBox.visible = true;
+            this.messageIcon.setFrame(godLevel);
+            this.messageIcon.visible = true;
             this.message.visible = true;
 
             this.message.text = SystemState.message.current.slice(0, SystemState.message.shown);
@@ -221,6 +228,7 @@ class OverlayScene extends Phaser.Scene {
         } else {
             this.timeSinceLastLetter = 0;
             this.messageBox.visible = false;
+            this.messageIcon.visible = false;
             this.message.visible = false;
         }
     }
