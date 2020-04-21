@@ -4,16 +4,28 @@ import { messageChance, tantrumMessageChance, messageOpportunityTime } from './g
 import SystemState from './state-machine.js';
 
 const hungerMessages = [
-    "I'm hungry!",
-    "I'm still hungry!",
-    "Feed me now!",
+    "Quit your loafing and feed me.",
+    "If your species treats your\noffspring like this, how have\nyou survived?\nI need food now!",
+    "If you fail to feed me soon,\nthe next pathetic being I\nsee will be my meal.",
 ];
 
+const level2Hunger = [
+    "I, SERPENS, MUST EAT!!!!!",
+    "Did I misunderstand your language\ncapabilities??? What part of\n“FEED ME” escapes your grasp??",
+    "That growl you hear is my\nstomach. The next one you hear\nwill signal your death.",
+]
+
 const vatMessages = [
-    "The fluid is getting low!",
-    "Asshole! Fluids!",
-    "Need more liquid in here",
+    "Let me spell this out for you:\nthe Nektare is draining fast.",
+    "Remember, you pitiful wretch,\nI need more Nektare\nto survive.",
+    "Drip, drip, drip…\nthis torture you’ve inflicted…\ndrip, drip, drip…",
 ];
+
+const level2Vat = [
+    "How many times must I tell you:\nthe Nektare does not replenish\nitself!",
+    "My last act will not be to flounder\nhere as I suffocate without\nNektare. My last action will be\nto snuff your pathetic life.",
+    "You have seen but a fraction\nof my irritation, you feeble worm.",
+]
 
 export class Chaos {
     checkForMessage(time) {
@@ -31,7 +43,7 @@ export class Chaos {
                 vatMessageChance = .75;
             }
 
-            if(SystemState.god.level == 0) {
+            if(!SystemState.vat.draining) {
                 vatMessageChance = 0;
             }
 
@@ -52,7 +64,7 @@ export class Chaos {
 
     getVatMessage(percentage) {
         // Check percentage, get from different list
-        const list = percentage < .25 ? vatMessages : vatMessages;
+        const list = percentage < .25 ? level2Vat : vatMessages;
 
         const idx = Math.floor(Math.random() * list.length);
 
@@ -61,7 +73,7 @@ export class Chaos {
 
     getHungerMessage(tantrum) {
         // Check tantrum, get from different list
-        const list = tantrum ? hungerMessages : hungerMessages;
+        const list = tantrum ? level2Hunger : hungerMessages;
 
         const idx = Math.floor(Math.random() * list.length);
 
