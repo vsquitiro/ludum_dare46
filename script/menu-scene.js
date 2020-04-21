@@ -14,6 +14,8 @@ class MenuScene extends Phaser.Scene {
                 families: ['Audiowide'],
             },
             active: () => {
+                if (!this) return;
+                
                 var text = this.add.text(screenWidth/2, screenHeight/2, 'WHY BABY?');
                 text.setFontSize(80);
                 text.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
@@ -34,9 +36,10 @@ class MenuScene extends Phaser.Scene {
             this.startGame();
         }, this);
 
-        const input = this.input.keyboard.addKeys('SPACE,ENTER');
+        const input = this.input.keyboard.addKeys('SPACE,ENTER,E');
         input.ENTER.once('down', this.startGame);
         input.SPACE.once('down', this.startGame);
+        input.E.once('down', this.startGame);
     }
 
     startGame = () => {

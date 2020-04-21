@@ -50,9 +50,10 @@ class IntroScene extends Phaser.Scene {
             active: () => {
                 this.input.on('pointerdown', this.advance);
 
-                const input = this.input.keyboard.addKeys('SPACE,ENTER');
+                const input = this.input.keyboard.addKeys('SPACE,ENTER,E');
                 input.ENTER.on('down', this.advance);
                 input.SPACE.on('down', this.advance);
+                input.E.on('down', this.advance);
 
                 this.advance();
             }

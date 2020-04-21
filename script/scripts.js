@@ -7,7 +7,7 @@ export const scripts = [
         conditions: [],
         script: [
             {
-                message: "WHAT ARE YOU DOING IN HERE? WHY\nHAVE YOU DISTURBED MY INNER\nSANCTUM??",
+                message: "WHAT ARE YOU DOING IN HERE?\nWHY HAVE YOU DISTURBED MY\nINNER SANCTUM??",
                 onComplete: "next",
             },
             {
@@ -58,7 +58,7 @@ export const scripts = [
                     SystemState.allowInteraction = false;
                     SystemState.allowMovement = false;
                 },
-                message: "ONE WILL NOT BE ENOUGH IMBECILE!\nYOU MUST GROW MORE! Here's\nmy last one. PLANT IT!",
+                message: "ONE WILL NOT BE ENOUGH\nIMBECILE! YOU MUST GROW MORE!\nHere is my last one. PLANT IT!",
                 onComplete: () => {
                     SystemState.inventory.food = 1;
                     SystemState.allowInteraction = true;
@@ -94,12 +94,14 @@ export const scripts = [
                 onComplete: 'next',
             },
             {
-                message: 'Good it looks like the Embroja\nhas matured. Harvest it\nand feed your God',
-                onComplete: () => {
+                preMessage: () => {
                     const thePlot = SystemState.farm.find((plot) => plot.planted);
                     thePlot.growing = false;
                     thePlot.harvestable = true;
                     thePlot.currentUnits = 5;
+                },
+                message: 'Good, it looks like the Embroja\nhas matured. Harvest it\nand feed your God',
+                onComplete: () => {
                     SystemState.runSimulation = true;
                     return "complete";
                 },
@@ -147,17 +149,29 @@ export const scripts = [
         conditions: ['startScript', 'fuelGiven', 'restless'],
         script: [
             {
+                preMessage: (scene) => {
+                    scene.cameras.main.shake(250);
+                },
                 message: "*struggles*",
                 onComplete: 'next',
             },
             {
-                message: "I can do nothing in this minimal form!\n*struggles*",
+                message: "I can do nothing in this minimal\nform!",
                 onComplete: 'next',
             },
             {
-                // Premessage with crack sound would be nice
-                message: '*struggles*\n...\n*CRACK*',
-                onComplete: () => {
+                preMessage: (scene) => {
+                    scene.cameras.main.shake(250);
+                },
+                message: "*struggles*",
+                onComplete: 'next',
+            },
+            {
+                preMessage: (scene) => {
+                    scene.crackAudio.play();
+                },
+                message: '*CRACK*',
+                onComplete: (scene) => {
                     SystemState.showBar = true;
                     SystemState.vat.draining = true;
                     SystemState.enableFilling = true;

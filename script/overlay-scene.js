@@ -57,9 +57,12 @@ class OverlayScene extends Phaser.Scene {
         this.message = this.add.text(250, 425, '');
         this.message.setOrigin(0, 0);
         this.message.setFontSize(25);
+        this.message.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
         this.message.setColor('black');
         this.message.width = 550;
         this.message.height = 150;
+
+        this.messageBlip = this.sound.add('speechBeep', {volume: 0.7});
     }
 
     createInstruction() {
@@ -214,7 +217,7 @@ class OverlayScene extends Phaser.Scene {
             this.message.text = SystemState.message.current.slice(0, SystemState.message.shown);
 
             if (SystemState.message.playing && !SystemState.isPaused) {
-                // make sure beeps are playing
+                if (!this.messageBlip.isPlaying) this.messageBlip.play();
                 this.timeSinceLastLetter += delta;
                 if (this.timeSinceLastLetter >= this.timePerLetter) {
                     this.timeSinceLastLetter -= this.timePerLetter;
@@ -230,6 +233,7 @@ class OverlayScene extends Phaser.Scene {
             this.messageBox.visible = false;
             this.messageIcon.visible = false;
             this.message.visible = false;
+            this.messageBlip.stop();
         }
     }
 

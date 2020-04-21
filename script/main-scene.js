@@ -68,6 +68,8 @@ class MainScene extends Phaser.Scene {
         this.sys.animatedTiles.init(map);
         this.sys.animatedTiles.setRate(0.5);
 
+        this.crackAudio = this.sound.add('crack', {loop: false});
+
         // this.anims.create({
         //     key:'blop',
         //     frames:this.anims.generateFrameNumbers('player', {start:2, end:3}),
@@ -696,7 +698,7 @@ class MainScene extends Phaser.Scene {
         const currentStep = script.script[script.onStep];
 
         if (currentStep.preMessage) {
-            currentStep.preMessage();
+            currentStep.preMessage(this);
         }
         if (currentStep.message) {
             SystemState.displayMessage(currentStep.message);
@@ -710,7 +712,7 @@ class MainScene extends Phaser.Scene {
 
         let onComplete = currentStep.onComplete;
         if (currentStep.onComplete instanceof Function) {
-            onComplete = onComplete();
+            onComplete = onComplete(this);
         }
 
         if (onComplete === 'next') {
