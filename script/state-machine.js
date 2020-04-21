@@ -29,7 +29,7 @@ const SystemState = new StateMachine({
         { name: 'pause', from: main, to: pause },
         { name: 'unpause', from: pause, to: main },
         { name: 'winGame', from: main, to: win},
-        { name: 'loseGame', from: main, to: win},
+        { name: 'loseGame', from: main, to: lose},
     ],
     data: {
         /** @type {Phaser.Game} */
