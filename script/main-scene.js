@@ -14,6 +14,7 @@ class MainScene extends Phaser.Scene {
         this.chaos = new Chaos();
     }
     create() {
+        this.nextRest = 'restDown';
         this.spriteIdx = [0,3,12,15,24];
 
         this.anims.create({
@@ -44,9 +45,26 @@ class MainScene extends Phaser.Scene {
             repeat: -1
         });        
 
+        this.anims.create({
+            key: 'restLeft',
+            frames: [{key: 'player', frame:8}],
+            frameRate: 20,
+        });
 
         this.anims.create({
-            key: 'rest',
+            key: 'restRight',
+            frames: [{key: 'player', frame:13}],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'restUp',
+            frames: [{key: 'player', frame:4}],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'restDown',
             frames: [{key: 'player', frame:0}],
             frameRate: 20,
         });
@@ -312,14 +330,18 @@ class MainScene extends Phaser.Scene {
 
             if(verticalMove>0) {
                 this.player.anims.play('down',true);
+                this.nextRest = 'restDown';
             } else if(verticalMove<0) {
                 this.player.anims.play('up',true);
+                this.nextRest = 'restUp';
             } else if(horizontalMove>0) {
                 this.player.anims.play('right',true);
+                this.nextRest = 'restRight';
             } else if(horizontalMove<0) {
                 this.player.anims.play('left',true);
+                this.nextRest = 'restLeft';
             } else {
-                this.player.anims.play('rest');
+                this.player.anims.play(this.nextRest);
             }
 
         }
