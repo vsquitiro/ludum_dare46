@@ -20,9 +20,10 @@ class Loader extends Phaser.Scene {
     }
     init() {
         console.log("Loader Init");
-        var image = this.add.image(0, 0, 'loading');
-        image.setOrigin(0.5, 0.5);
-        image.setPosition(screenWidth / 2, screenHeight / 2);
+        const text = this.add.text(screenWidth/2, screenHeight/2, 'Loading...');
+        text.setFontFamily('Helvetica, Verdana, Sans');
+        text.setFontSize(100);
+        text.setOrigin(0.5, 0.5);
     }
 
     preload() {
@@ -49,6 +50,8 @@ class Loader extends Phaser.Scene {
 
         //Sounds
         this.load.audio('mainLoop', 'assets/ALIENFARM.mp3');
+        this.load.audio('speechBeep', 'assets/Blipspeech.wav');
+        this.load.audio('crack', 'assets/crack.wav');
     }
 
     create() {

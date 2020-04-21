@@ -11,7 +11,7 @@ class PauseScene extends Phaser.Scene {
         background.setOrigin(0, 0);
 
         const text = this.add.text(screenWidth/2, screenHeight/2, 'Paused');
-        text.setFontFamily('Helvetica, Verdana, Sans');
+        text.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
         text.setFontSize(100);
         text.setOrigin(0.5, 0.5);
     }
