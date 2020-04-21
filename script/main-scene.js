@@ -188,7 +188,7 @@ class MainScene extends Phaser.Scene {
         const fertObjects = fertLayer.objects.map(transformObject);
         this.ferts = fertObjects
             .filter((obj) => obj.get('objectType') == 'fert')
-            .map(createSprite('objects', 2));        
+            .map(createSprite('objects', 2));  
         this.fertInteractions = fertObjects
             .filter((obj) => obj.get('objectType') == 'interactor')
             .map(createZone);
@@ -211,9 +211,9 @@ class MainScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(400,300, 'player', 0);
         this.player.setDepth(100);
-        this.player.body.setSize(34,40);
-        this.player.body.offset.y=78;
-        this.player.body.offset.x=15;
+        this.player.body.setSize(24,20);
+        this.player.body.offset.y=98;
+        this.player.body.offset.x=20;
 
         this.physics.world.bounds.width = map.widthInPixels;
         this.physics.world.bounds.height = map.heightInPixels;
