@@ -4,7 +4,7 @@
   "description": "Ludum Dare 46 Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,41 @@
   "bugs": {
     "url": "https://github.com/vsquitiro/ludum_dare46/issues"
   },
-  "homepage": "https://github.com/vsquitiro/ludum_dare46#readme"
+  "homepage": "https://github.com/vsquitiro/ludum_dare46#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@ts-typings/javascript-state-machine": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.20.2",
+    "file-loader": "^6.0.0",
+    "javascript-state-machine": "^3.1.0",
+    "phaser": "^3.23.0",
+    "prettier": "^2.0.5",
+    "raw-loader": "^4.0.1",
+    "ts-loader": "^7.0.1",
+    "typescript": "^3.8.3",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.7",
+    "@types/webfontloader": "^1.6.29",
+    "webfontloader": "^1.6.28"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 120
+  }
 }

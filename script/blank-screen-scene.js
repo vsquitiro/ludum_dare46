@@ -1,7 +1,7 @@
 /** @type {import("../typings/phaser")} */
 
-import globalConfig from './global-config.js';
-import SystemState from './state-machine.js';
+import globalConfig from './global-config';
+import SystemState from './state-machine';
 
 class BlankScreenScene extends Phaser.Scene {
     bootingText = "Booting";
