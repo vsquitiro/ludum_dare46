@@ -1,5 +1,3 @@
-/** @type {import("../typings/phaser")} */
-
 import { messageChance, tantrumMessageChance, messageOpportunityTime } from './global-config';
 import SystemState from './state-machine';
 

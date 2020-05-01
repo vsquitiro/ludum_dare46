@@ -3,7 +3,6 @@ import globalConfig from './global-config';
 import SystemState from './state-machine';
 import {
     scripts,
-    ScriptStep,
     Script,
 } from './scripts';
 

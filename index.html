@@ -4,22 +4,169 @@
     <meta charset="UTF-8" />
     <title>Why Baby? - LD46</title>
     <style type="text/css">
-        body {
-            margin: 0;
-        }
         @font-face {
             font-family: 'Audiowide';
             src: url('assets/Audiowide-Regular.ttf') format('truetype') /* Safari, Android, iOS */
         }
+        body {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #EEE;
+        }
+        .gray-block {
+            height: 300px;
+            background-color: #2E2B2D;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 0;
+        }
+        #header {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-family: Audiowide, Helvetica, sans-serif;
+            color: #EEE;
+            height: 4em;
+            z-index: 1;
+        }
+        #explainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            text-align: right;
+            font-size: 1em;
+            font-family: Audiowide, Helvetica, sans-serif;
+            color: #333;
+            padding: 0.5em;
+            flex: 0 0 250px;
+        }
+        #explainer span, #explainer a, #explainer img {
+            vertical-align: middle;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            font-size: .85em;
+            font-family: Audiowide, Helvetica, sans-serif;
+            color: #333;
+            padding: 0.5em;
+            flex: 0 0 250px;
+        }
+        .controls h4 {
+            font-size: 1em;
+        }
+        #creators {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: stretch;
+            padding: 10px;
+        }
+        .body-container {
+            display: flex;
+            flex-direction: row;
+            max-width: 1375px;
+            z-index: 1;
+        }
+        .creator {
+            font-family: Audiowide, Helvetica, sans-serif;
+            font-size: 0.8em;
+            border-radius: 5px;
+            padding: 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 4px 2px rgb(27, 27, 27);
+            background-color:rgb(146, 146, 146);
+            margin: 0 10px;
+        }
+        .creator .name {
+            font-weight: bolder;
+        }
+        .creator .duty {
+            font-style: italic;
+            font-size: 0.8em;
+        }
+        .creator span, .creator a {
+            margin: 3px 0;
+        }
+        .creator .site, .creator .site:visited {
+            color:rgb(221, 221, 221);
+        }
         .container {
             width: 800px;
             height: 600px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="game-container" class="container">
-        <script src="dist/bundle.js"></script>
+    <div class="gray-block"></div>
+    <div id="header">
+        <span>Why Baby?</span>
+    </div>
+    <div class="body-container">
+        <div id="explainer">
+            <span>This project was created for Ludum Dare 46 with the theme "Keep it Alive"</span>
+            <br/>
+            <span>Find the code at GitHub</span>
+            <span><a href="https://github.com/vsquitiro/ludum_dare46"><img src="assets/GitHub-Mark-32px.png"/></a></span>
+        </div>
+        <div id="game-container" class="container"></div>
+        <div class="controls">
+            <h4>Keyboard:</h4>
+            <span>Interact: E or Space</span>
+            <span>Move: WASD or Arrow Keys</span>
+            <span>Pause: Escape</span>
+            <h4>Controller:</h4>
+            <span>Interact: Bottom Face</span>
+            <span>Move: Left Stick or D-Pad</span>
+            <span>Pause: Start/Menu</span>
+        </div>
+    </div>
+    <div id="creators">
+        <div class="creator">
+            <span class="name">Vinnie Squitiro</span>
+            <span class="duty">Design</span>
+            <span class="duty">Development</span>
+            <a href="https://twitter.com/blueberrybark?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @blueberrybark</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="creator">
+            <span class="name">Lisa Richards</span>
+            <span class="duty">Design</span>
+            <span class="duty">Art</span>
+            <a href="https://twitter.com/cotton_wisp?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @cotton_wisp</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <a class="site" href="http://cottonwisp.com">cottonwisp.com</a>
+        </div>
+        <div class="creator">
+            <span class="name">Chris Rock</span>
+            <span class="duty">Development</span>
+            <span class="duty">Design</span>
+            <a href="https://twitter.com/mooglemoogle?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @mooglemoogle</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="creator">
+            <span class="name">Erin Rock</span>
+            <span class="duty">Design</span>
+            <span class="duty">Writing</span>
+            <span class="duty">Baby Wrangling</span>
+            <a href="https://twitter.com/araema?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @araema</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="creator">
+            <span class="name">Ashton Grimes</span>
+            <span class="duty">Music</span>
+            <a href="https://twitter.com/rixevr?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @rixevr</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
     </div>
 </body>
 </html>

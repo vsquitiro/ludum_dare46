@@ -21,9 +21,7 @@
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "baseUrl": ".",
-        "paths": {
-            "*": ["typings/*"]
-        }
+        "typeRoots": ["./node_modules/@types", "./node_modules/@ts-typings", "./typings"]
     },
     "include": ["./script/**/*.ts", "./script/**/*.tsx"],
     "exclude": ["node_modules/**"]

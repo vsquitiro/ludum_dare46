@@ -3,6 +3,9 @@ import WebFont from 'webfontloader';
 import {screenHeight} from './global-config';
 import SystemState from './state-machine';
 
+// @ts-ignore
+import AudioWide from '../assets/AudioWide-Regular.ttf'
+
 enum Actions {
     IDLE = 'idle',
     FADING_IN = 'fading_in',
@@ -69,7 +72,7 @@ class IntroScene extends Phaser.Scene {
         this.gamepadWasDown = false;
 
         WebFont.load({
-            custom: { families: ['Audiowide'] },
+            custom: { families: ['Audiowide'], urls: [AudioWide] },
             active: () => {
                 this.input.on('pointerdown', this.advance);
 

@@ -3,6 +3,9 @@ import WebFont from 'webfontloader';
 import {screenHeight, screenWidth} from './global-config';
 import SystemState from './state-machine';
 
+// @ts-ignore
+import AudioWide from '../assets/AudioWide-Regular.ttf'
+
 type InputMap = {
     E: Phaser.Input.Keyboard.Key;
     SPACE: Phaser.Input.Keyboard.Key;
@@ -18,6 +21,7 @@ class MenuScene extends Phaser.Scene {
         WebFont.load({
             custom: {
                 families: ['Audiowide'],
+                urls: [AudioWide]
             },
             active: () => {
                 if (!this) return;

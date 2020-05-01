@@ -12,7 +12,7 @@ class WinScene extends Phaser.Scene {
         text.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
         text.setFontSize(35);
         text.setAlign('center');
-        text.setOrigin(0.5, 0,5);
+        text.setOrigin(0.5, 0.5);
     }
 }
 

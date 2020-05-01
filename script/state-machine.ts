@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Phaser from 'phaser';
 import StateMachine from 'javascript-state-machine';
 import MainScene from './main-scene';

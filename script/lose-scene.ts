@@ -1,7 +1,5 @@
-/** @type {import("../typings/phaser")} */
-
+import Phaser from 'phaser';
 import globalConfig from './global-config';
-import SystemState from './state-machine';
 
 class LoseScene extends Phaser.Scene {
     create() {
@@ -14,7 +12,7 @@ class LoseScene extends Phaser.Scene {
         text.setFontFamily('Audiowide, Helvetica, Verdana, Sans');
         text.setFontSize(30);
         text.setAlign('center');
-        text.setOrigin(0.5, 0,5);
+        text.setOrigin(0.5, 0.5);
     }
 }
 

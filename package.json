@@ -2,10 +2,10 @@
   "name": "ludum_dare46",
   "version": "1.0.0",
   "description": "Ludum Dare 46 Project",
-  "main": "index.js",
+  "main": "script/main.ts",
   "scripts": {
-    "build": "webpack & webpack --config webpack.config.itchio.js",
-    "dev": "webpack --mode=development --watch"
+    "build": "webpack --mode=production --devtool=source-map & webpack --config webpack.config.itchio.js",
+    "dev": "webpack-dev-server --config webpack.config.js --open"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "@typescript-eslint/parser": "^2.30.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^5.1.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-loader": "^4.0.2",
@@ -40,7 +41,8 @@
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",

@@ -1,6 +1,5 @@
-/** @type {import("../typings/phaser")} */
-
-import { screenWidth, screenHeight, vatLevels, godLevels } from './global-config';
+import Phaser from 'phaser';
+import { screenWidth, screenHeight, vatLevels } from './global-config';
 import SystemState from './state-machine';
 
 const border = 20;

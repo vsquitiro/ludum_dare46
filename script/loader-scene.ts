@@ -50,6 +50,7 @@ class Loader extends Phaser.Scene {
             url: animatedTiles,
             sceneKey: 'animatedTiles'
         });
+        // @ts-ignore
         this.load.tilemapTiledJSON('map', mainTilemap);
         this.load.spritesheet('mainRoom', mapImg, {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('plots', mapImg, {frameWidth: 192, frameHeight: 192, margin: 64});

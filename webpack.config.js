@@ -1,11 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, 'script/main.ts'),
+    devtool: "eval-source-map",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: './dist/',
         filename: 'bundle.js'
     },
     resolve: {
@@ -16,7 +18,14 @@ module.exports = {
         new webpack.DefinePlugin({
             CANVAS_RENDERER: JSON.stringify(true),
             WEBGL_RENDERER: JSON.stringify(true)
-        })
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html',
+        }),
+        new CopyWebpackPlugin([
+            { from: 'assets/GitHub*' }
+        ]),
     ],
     module: {
         rules: [
@@ -50,8 +59,15 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(gif|png|jpe?g|svg|xml|wav|mp3)$/i,
-                use: "file-loader"
+                test: /\.(gif|png|jpe?g|svg|xml|wav|mp3|ttf)$/i,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: 'assets/[name].[ext]?[contenthash]'
+                        }
+                    }
+                ]
             },
             {
                 type: 'javascript/auto',

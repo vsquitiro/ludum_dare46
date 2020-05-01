@@ -1,7 +1,5 @@
-/** @type {import("../typings/phaser")} */
-
+import Phaser from 'phaser';
 import globalConfig from './global-config';
-import SystemState from './state-machine';
 
 class PauseScene extends Phaser.Scene {
     create() {
