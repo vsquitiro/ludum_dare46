@@ -3,9 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: path.resolve(__dirname, 'script/main.ts'),
-    mode: 'development',
     output: {
-        pathinfo: true,
         path: path.resolve(__dirname, 'dist'),
         publicPath: './dist/',
         filename: 'bundle.js'
@@ -14,7 +12,6 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         modules: ['node_modules'],
     },
-    watch: true,
     plugins: [
         new webpack.DefinePlugin({
             CANVAS_RENDERER: JSON.stringify(true),

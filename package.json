@@ -4,7 +4,8 @@
   "description": "Ludum Dare 46 Project",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack & webpack --config webpack.config.itchio.js",
+    "dev": "webpack --mode=development --watch"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.20.2",
     "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
     "javascript-state-machine": "^3.1.0",
     "phaser": "^3.23.0",
     "prettier": "^2.0.5",
