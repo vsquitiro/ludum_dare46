@@ -1,36 +1,36 @@
 import Phaser from 'phaser';
-import {screenHeight, screenWidth} from './global-config';
+import {screenHeight, screenWidth} from '../helpers/global-config';
 
 // @ts-ignore
-import mapImg from '../assets/map800.png';
+import mapImg from '../../assets/map800.png';
 // @ts-ignore
-import fountainImg from '../assets/fountain.png';
+import fountainImg from '../../assets/fountain.png';
 // @ts-ignore
-import objectsImg from '../assets/objects.png';
+import objectsImg from '../../assets/objects.png';
 // @ts-ignore
-import basinImg from '../assets/basin.png';
+import basinImg from '../../assets/basin.png';
 // @ts-ignore
-import trexImg from '../assets/trex.png';
+import trexImg from '../../assets/trex.png';
 // @ts-ignore
-import astronootImg from '../assets/astronoot.png';
+import astronootImg from '../../assets/astronoot.png';
 // @ts-ignore
-import rexgodImg from '../assets/rexgod.png';
+import rexgodImg from '../../assets/rexgod.png';
 // @ts-ignore
-import messageImg from '../assets/message.png';
+import messageImg from '../../assets/message.png';
 // @ts-ignore
-import invBgImg from '../assets/Inv BG.png';
+import invBgImg from '../../assets/Inv BG.png';
 
 // @ts-ignore
-import animatedTiles from 'file-loader!../lib/AnimatedTiles.js';
+import animatedTiles from 'file-loader!../../lib/AnimatedTiles.js';
 // @ts-ignore
-import mainTilemap from '../assets/main.json';
+import mainTilemap from '../../assets/main.json';
 
 // @ts-ignore
-import mainLoop from '../assets/ALIENFARM.mp3';
+import mainLoop from '../../assets/ALIENFARM.mp3';
 // @ts-ignore
-import blip from '../assets/Blipspeech.wav';
+import blip from '../../assets/Blipspeech.wav';
 // @ts-ignore
-import crack from '../assets/crack.wav';
+import crack from '../../assets/crack.wav';
 
 class Loader extends Phaser.Scene {
     static key = 'loader';

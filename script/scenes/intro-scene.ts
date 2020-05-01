@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import WebFont from 'webfontloader';
-import {screenHeight} from './global-config';
-import SystemState from './state-machine';
+import {screenHeight} from '../helpers/global-config';
+import SystemState from '../helpers/state-machine';
 
 // @ts-ignore
-import AudioWide from '../assets/AudioWide-Regular.ttf'
+import AudioWide from '../../assets/AudioWide-Regular.ttf'
 
 enum Actions {
     IDLE = 'idle',

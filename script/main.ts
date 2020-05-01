@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import SystemState from "./state-machine";
-import config from './global-config';
-import loader from './loader-scene';
-import Menu from './menu-scene';
-import AudioScene from "./audio-scene";
+import SystemState from "./helpers/state-machine";
+import config from './helpers/global-config';
+import loader from './scenes/loader-scene';
+import Menu from './scenes/menu-scene';
+import AudioScene from "./scenes/audio-scene";
 
 const gameConfig = {
     type: Phaser.AUTO,

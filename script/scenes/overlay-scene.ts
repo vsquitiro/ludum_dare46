@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import { screenWidth, screenHeight, vatLevels } from './global-config';
-import SystemState from './state-machine';
+import { screenWidth, screenHeight, vatLevels } from '../helpers/global-config';
+import SystemState from '../helpers/state-machine';
 
 const border = 20;
 const center = screenWidth*1/50;

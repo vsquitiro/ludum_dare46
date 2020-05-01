@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import globalConfig from './global-config';
+import globalConfig from '../helpers/global-config';
 
 class LoseScene extends Phaser.Scene {
     create() {

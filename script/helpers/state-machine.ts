@@ -2,14 +2,14 @@
 
 import Phaser from 'phaser';
 import StateMachine from 'javascript-state-machine';
-import MainScene from './main-scene';
-import OverlayScene from './overlay-scene';
+import MainScene from '../scenes/main-scene';
+import OverlayScene from '../scenes/overlay-scene';
 import globalConfig from './global-config';
 import { Simulation } from './simulation';
-import PauseScene from './pause-scene';
-import WinScene from './win-scene';
-import LoseScene from './lose-scene';
-import IntroScene from './intro-scene';
+import PauseScene from '../scenes/pause-scene';
+import WinScene from '../scenes/win-scene';
+import LoseScene from '../scenes/lose-scene';
+import IntroScene from '../scenes/intro-scene';
 
 //States
 const menu = "menu",

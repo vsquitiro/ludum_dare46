@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
-import globalConfig from './global-config';
-import SystemState from './state-machine';
+import globalConfig from '../helpers/global-config';
+import SystemState from '../helpers/state-machine';
 import {
     scripts,
     Script,
-} from './scripts';
+} from '../helpers/scripts';
 
-import { Chaos } from './chaos';
+import { Chaos } from '../helpers/chaos';
 
 export interface AugmentedSprite extends Phaser.Physics.Arcade.Sprite {
     customProperties?: any;

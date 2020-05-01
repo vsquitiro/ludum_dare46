@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import MainScene from './main-scene';
+import MainScene from '../scenes/main-scene';
 import SystemState from './state-machine';
 import globalConfig from './global-config';
 

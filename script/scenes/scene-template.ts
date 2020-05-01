@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
-import globalConfig from './global-config';
-import SystemState from './state-machine';
+import globalConfig from '../helpers/global-config';
+import SystemState from '../helpers/state-machine';
 
 class MenuScene extends Phaser.Scene {
     create() {
